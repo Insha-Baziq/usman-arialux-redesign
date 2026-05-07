@@ -1,8 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   output: "standalone",
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "sobharealty.com",
+      },
+    ],
+  },
+  turbopack: {
+    root: process.cwd(),
+  },
 };
 
 export default nextConfig;

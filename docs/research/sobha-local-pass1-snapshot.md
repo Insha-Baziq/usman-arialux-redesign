@@ -1,0 +1,141 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e4]:
+      - navigation [ref=e5]:
+        - link "ABOUT" [ref=e6] [cursor=pointer]:
+          - /url: https://sobharealty.com/about
+        - link "COMMUNITIES" [ref=e7] [cursor=pointer]:
+          - /url: https://sobharealty.com/sobha-communities
+        - link "PROPERTIES" [ref=e8] [cursor=pointer]:
+          - /url: https://sobharealty.com/properties-in-dubai
+      - link "Sobha Realty" [ref=e9] [cursor=pointer]:
+        - /url: https://sobharealty.com/
+        - img [ref=e10]
+        - generic [ref=e16]: Sobha Realty
+      - generic [ref=e17]:
+        - link "MEDIA CENTER" [ref=e18] [cursor=pointer]:
+          - /url: https://sobharealty.com/media-center/press-releases
+        - link "CAREERS" [ref=e19] [cursor=pointer]:
+          - /url: https://sobharealty.com/career-opportunity
+        - link "CONTACT US" [ref=e20] [cursor=pointer]:
+          - /url: https://sobharealty.com/contact-us
+        - link "Wishlist" [ref=e21] [cursor=pointer]:
+          - /url: https://sobharealty.com/wishlist/
+          - img [ref=e22]
+        - button "Search" [ref=e24]:
+          - img [ref=e25]
+        - button "EN" [ref=e28]:
+          - generic [ref=e29]: EN
+          - img [ref=e30]
+    - generic [ref=e32]:
+      - img "Tranquil Beach Residences" [ref=e35]
+      - generic [ref=e38]:
+        - heading "Tranquil Beach Residences" [level=1] [ref=e39]
+        - paragraph [ref=e40]: Where the Tide Sets the Tone
+        - link "DISCOVER" [ref=e42] [cursor=pointer]:
+          - /url: https://sobharealty.com/properties-in-dubai/sobha-siniya-island/beach-residences/tranquil-beach-residences
+          - generic [ref=e43]: DISCOVER
+          - generic [ref=e44]: ↗
+    - generic [ref=e47]:
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - img "Sobha craftsmanship mark" [ref=e50]
+          - generic [ref=e51]
+          - paragraph [ref=e54]: At Sobha Realty, we understand that true excellence lies in the meticulous attention to detail and the artistry of craftsmanship. Guided by a commitment to perfection, we believe in crafting not just homes but immersive experiences where every nuance is thoughtfully considered.
+        - link "Discover More" [ref=e55] [cursor=pointer]:
+          - /url: https://sobharealty.com/about
+          - generic [ref=e56]: Discover More
+          - generic [ref=e57]: ↗
+      - img "Art of the detail" [ref=e59]
+    - generic [ref=e61]:
+      - 'heading "From Concept to Completion: Defining Our Pillars" [level=2] [ref=e62]'
+      - generic [ref=e63]:
+        - article [ref=e64]:
+          - img "Craftsmanship" [ref=e65]
+          - generic [ref=e66]
+        - article [ref=e69]:
+          - img "Thoughtful Design" [ref=e70]
+          - generic [ref=e71]
+        - article [ref=e74]:
+          - img "Signature Quality" [ref=e75]
+          - generic [ref=e76]
+    - generic [ref=e80]:
+      - heading "Explore our Luxury properties in the UAE" [level=2] [ref=e81]
+      - generic [ref=e82]:
+        - button "Dubai" [ref=e83]
+        - button "Abu Dhabi" [ref=e84]
+        - button "UAQ" [ref=e85]
+      - generic [ref=e86]:
+        - article [ref=e87]:
+          - img "The Pinnacle" [ref=e88]
+          - generic [ref=e89]
+        - article [ref=e102]:
+          - img "Skyvue Altier" [ref=e103]
+          - generic [ref=e104]
+        - article [ref=e117]:
+          - img "The Mirage" [ref=e118]
+          - generic [ref=e119]
+    - generic [ref=e133]:
+      - heading "Press Releases" [level=2] [ref=e134]
+      - generic [ref=e135]:
+        - article [ref=e136]:
+          - img "Emirates NBD and Sobha Realty partner to offer integrated home financing solutions for off-plan projects in Dubai" [ref=e137]
+          - generic [ref=e138]
+        - article [ref=e143]:
+          - 'img "‘Sobha City’: Abu Dhabi’s New Nature-Led Waterfront Living Community" [ref=e144]'
+          - generic [ref=e145]
+        - article [ref=e150]:
+          - img "Sobha Realty’s Crest Grande Receives Building Completion Certificate; Handover to Commence Within RERA Timeline" [ref=e151]
+          - generic [ref=e152]
+      - link "View all" [ref=e158] [cursor=pointer]:
+        - /url: https://sobharealty.com/media-center/press-releases
+        - generic [ref=e159]: View all
+        - generic [ref=e160]: ↗
+    - generic [ref=e162]:
+      - img "Sobha Logo" [ref=e164]
+      - generic [ref=e165]:
+        - generic [ref=e166]:
+          - heading "APARTMENTS" [level=2] [ref=e167]
+          - list [ref=e168]
+        - generic [ref=e189]:
+          - heading "VILLAS" [level=2] [ref=e190]
+          - list [ref=e191]
+        - generic [ref=e212]:
+          - heading "COMMUNITIES" [level=2] [ref=e213]
+          - list [ref=e214]
+        - generic [ref=e231]:
+          - heading "MEDIA CENTER" [level=2] [ref=e232]
+          - list [ref=e233]
+        - generic [ref=e246]:
+          - heading "ABOUT US" [level=2] [ref=e247]
+          - list [ref=e248]
+        - generic [ref=e263]:
+          - heading "CONTACT US" [level=2] [ref=e264]
+          - list [ref=e265]
+      - generic [ref=e278]:
+        - generic [ref=e279]:
+          - img "Sobha one app logo" [ref=e280]
+          - generic [ref=e281]
+        - generic [ref=e284]:
+          - link "Instagram" [ref=e285] [cursor=pointer]:
+            - /url: https://www.instagram.com/sobharealty/?hl=en
+          - link "Facebook" [ref=e286] [cursor=pointer]:
+            - /url: https://www.facebook.com/SobhaRealty/
+          - link "TikTok" [ref=e287] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@sobharealty
+          - link "LinkedIn" [ref=e288] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/sobharealty
+          - link "YouTube" [ref=e289] [cursor=pointer]:
+            - /url: https://www.youtube.com/channel/UCKIR9isiNyYq1T0GSnIUyHQ
+          - link "Twitter" [ref=e290] [cursor=pointer]:
+            - /url: https://twitter.com/SobhaRealtyDXB
+          - link "Threads" [ref=e291] [cursor=pointer]:
+            - /url: https://www.threads.net/@sobharealty?igshid=MzRlODBiNWFlZA==
+      - generic [ref=e292]:
+        - paragraph [ref=e293]: © 2026. Sobha Realty, All rights reserved.
+        - generic [ref=e294]:
+          - link "Privacy Policy" [ref=e296] [cursor=pointer]:
+            - /url: https://sobharealty.com/privacy-policy
+          - generic [ref=e297]
+  - button "Open Next.js Dev Tools" [ref=e305] [cursor=pointer]:
+    - img [ref=e306]

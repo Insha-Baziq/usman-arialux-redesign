@@ -1,15 +1,186 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "swiper/css";
+@import "swiper/css/autoplay";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+@import "aos/dist/aos.css";
+
+/* Sobha "Art of the Detail" — iris/circular clip-path reveal.
+   The section is positioned absolutely over the pinned hero and its
+   visibility is "unfolded" by expanding a circle clip-path from the
+   bottom-center outward. */
+
+/* Outer stage that holds Hero + the iris overlay. Provides scroll runway. */
+.sobha-iris-stage {
+  position: relative;
+  /* 200vh = 100vh hero pin + 100vh of iris-reveal scroll runway. */
+  height: 200vh;
+}
+
+.sobha-iris-hero-pin {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* The white "Art of Detail" panel that masks open over the hero. */
+.sobha-iris-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  background-color: #fff;
+  /* Initial pinhole state — radius 0 from bottom-center origin. */
+  clip-path: circle(0% at 50% 100%);
+  -webkit-clip-path: circle(0% at 50% 100%);
+  will-change: clip-path, -webkit-clip-path;
+  pointer-events: none;
+}
+
+/* Once the reveal finishes, allow interaction with internal links/buttons. */
+.sobha-iris-panel.is-open {
+  pointer-events: auto;
+}
+
+.sobha-art-of-detail {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+}
+
+.sobha-art-reveal {
+  /* Internal parallax — content rises while the iris expands. */
+  transform: translateY(100px);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Background helper to replace inline backgroundImage style on Art of Detail.
+   Live: man image right-aligned, contained, no-repeat. */
+.sobha-art-of-detail-bg {
+  background-image: url("https://sobharealty.com/sites/default/files/styles/webp/public/2025-04/art-of-the-detail-bg.png.webp?itok=Vopr8g6b");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: auto 100%;
+}
+
+/* Art of Detail title — replaces wordmark image. Two-line display lockup. */
+.sobha-art-title {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display, "Cormorant Garamond", "Times New Roman", serif);
+  font-weight: 300;
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #151515;
+}
+.sobha-art-title__alt {
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #b08e54;
+  margin-top: 0.15em;
+}
+
+/* Gold "S" emblem layered behind the right-side image; subtle parallax. */
+.sobha-iris-emblem {
+  position: absolute;
+  right: 6%;
+  bottom: 8%;
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sobha-iris-panel {
+    clip-path: circle(150% at 50% 100%);
+    -webkit-clip-path: circle(150% at 50% 100%);
+  }
+  .sobha-art-reveal {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* Swiper visual tweaks to match Sobha look. */
+.swiper-pagination-bullet {
+  background: rgba(0, 0, 0, 0.25);
+  opacity: 1;
+}
+.swiper-pagination-bullet-active {
+  background: rgba(0, 0, 0, 0.85);
+}
+.sobha-hero-swiper .swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.5);
+}
+.sobha-hero-swiper .swiper-pagination-bullet-active {
+  background: rgba(255, 255, 255, 1);
+}
+
+@font-face {
+  font-family: "Chronicle Display";
+  src:
+    url("https://sobharealty.com/themes/sobha_uplift/fonts/ChronicleDisplay-Light.woff2") format("woff2"),
+    url("https://sobharealty.com/themes/sobha_uplift/fonts/ChronicleDisplay-Light.woff") format("woff");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Chronicle Display";
+  src:
+    url("https://sobharealty.com/themes/sobha_uplift/fonts/ChronicleDisplay-Roman.woff2") format("woff2"),
+    url("https://sobharealty.com/themes/sobha_uplift/fonts/ChronicleDisplay-Roman.woff") format("woff");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ringside";
+  src:
+    url("https://sobharealty.com/themes/sobha_uplift/fonts/RingsideRegular-Light.woff2") format("woff2"),
+    url("https://sobharealty.com/themes/sobha_uplift/fonts/RingsideRegular-Light.woff") format("woff");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ringside";
+  src:
+    url("https://sobharealty.com/themes/sobha_uplift/fonts/RingsideRegular-Book.woff2") format("woff2"),
+    url("https://sobharealty.com/themes/sobha_uplift/fonts/RingsideRegular-Book.woff") format("woff");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ringside";
+  src:
+    url("https://sobharealty.com/themes/sobha_uplift/fonts/RingsideRegular-Med.woff2") format("woff2"),
+    url("https://sobharealty.com/themes/sobha_uplift/fonts/RingsideRegular-Med.woff") format("woff");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
-  --font-heading: var(--font-sans);
+  --font-sans: "Ringside", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+  --font-heading: "Chronicle Display", Georgia, serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -49,38 +220,38 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: rgb(255 255 255);
+  --foreground: rgb(0 0 0);
+  --card: rgb(255 255 255);
+  --card-foreground: rgb(0 0 0);
+  --popover: rgb(255 255 255);
+  --popover-foreground: rgb(0 0 0);
+  --primary: rgb(0 0 0);
+  --primary-foreground: rgb(255 255 255);
+  --secondary: rgb(239 239 239);
+  --secondary-foreground: rgb(0 0 0);
+  --muted: rgb(243 243 243);
+  --muted-foreground: rgb(88 88 88);
+  --accent: rgb(249 249 249);
+  --accent-foreground: rgb(0 0 0);
+  --destructive: rgb(199 33 39);
+  --border: rgb(228 228 228);
+  --input: rgb(228 228 228);
+  --ring: rgb(140 140 140);
+  --chart-1: rgb(199 33 39);
+  --chart-2: rgb(3 132 67);
+  --chart-3: rgb(24 24 24);
+  --chart-4: rgb(82 82 82);
+  --chart-5: rgb(239 239 239);
+  --radius: 2rem;
+  --sidebar: rgb(249 249 249);
+  --sidebar-foreground: rgb(0 0 0);
+  --sidebar-primary: rgb(0 0 0);
+  --sidebar-primary-foreground: rgb(255 255 255);
+  --sidebar-accent: rgb(239 239 239);
+  --sidebar-accent-foreground: rgb(0 0 0);
+  --sidebar-border: rgb(228 228 228);
+  --sidebar-ring: rgb(140 140 140);
 }
 
 .dark {
@@ -123,8 +294,873 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "liga" 1, "kern" 1;
+    letter-spacing: 0.01em;
   }
   html {
     @apply font-sans;
   }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+/* ========================================================================
+   Live-mirror section hooks (sobha-homepage clone).
+   Class names mirror sobharealty.com so structural CSS lines up 1:1.
+   ======================================================================== */
+
+/* Hero overlay gradient — live: linear-gradient(0deg, rgba(0,0,0,0.6) 0%,
+   rgba(66,98,118,0) 100%) on `.explore-more-arrow`. */
+.sobha-hero-overlay {
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(66, 98, 118, 0) 100%);
+  pointer-events: none;
+}
+
+.sobha-header {
+  position: fixed;
+  --sobha-mega-panel-left: calc(50vw - 6rem);
+  --sobha-mega-panel-width: 12rem;
+  background-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: background-color 0.28s ease, backdrop-filter 0.28s ease, -webkit-backdrop-filter 0.28s ease;
+}
+
+.sobha-header::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 84px;
+  z-index: -1;
+  background-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: background-color 0.28s ease, backdrop-filter 0.28s ease, -webkit-backdrop-filter 0.28s ease;
+  pointer-events: none;
+}
+
+.sobha-header.is-scrolled {
+  background-color: transparent;
+}
+
+.sobha-header.is-scrolled::after {
+  background-color: rgba(21, 21, 21, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.sobha-lang-flag {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, transparent 42%, #fff 42% 58%, transparent 58%),
+    linear-gradient(0deg, transparent 42%, #fff 42% 58%, transparent 58%),
+    linear-gradient(90deg, transparent 46%, #c8102e 46% 54%, transparent 54%),
+    linear-gradient(0deg, transparent 46%, #c8102e 46% 54%, transparent 54%),
+    linear-gradient(135deg, transparent 46%, #fff 46% 54%, transparent 54%),
+    linear-gradient(45deg, transparent 46%, #fff 46% 54%, transparent 54%),
+    #012169;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+/* UAE flag — for AR option */
+.sobha-lang-flag--ae {
+  background:
+    linear-gradient(90deg, #ce1126 0 25%, transparent 25%),
+    linear-gradient(180deg, #009739 0 33.333%, transparent 33.333%),
+    linear-gradient(180deg, transparent 33.333%, #ffffff 33.333% 66.666%, transparent 66.666%),
+    linear-gradient(180deg, transparent 66.666%, #000000 66.666% 100%);
+  background-repeat: no-repeat;
+}
+
+/* Russia flag — for RU option (white/blue/red horizontal) */
+.sobha-lang-flag--ru {
+  background:
+    linear-gradient(180deg, #ffffff 0 33.333%, transparent 33.333%),
+    linear-gradient(180deg, transparent 33.333%, #0039a6 33.333% 66.666%, transparent 66.666%),
+    linear-gradient(180deg, transparent 66.666%, #d52b1e 66.666% 100%);
+  background-repeat: no-repeat;
+}
+
+/* China flag — for CH option (solid red with simplified yellow star) */
+.sobha-lang-flag--cn {
+  background: #de2910;
+  position: relative;
+}
+.sobha-lang-flag--cn::after {
+  content: "★";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  color: #ffde00;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.sobha-lang-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+.sobha-lang-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 41;
+  display: flex;
+  flex-direction: column;
+  min-width: 88px;
+  padding: 6px 0;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s linear 0.18s;
+  font-family: "Ringside", ui-sans-serif, system-ui, sans-serif;
+}
+
+.sobha-lang-group:hover .sobha-lang-panel,
+.sobha-lang-group:focus-within .sobha-lang-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s;
+}
+
+.sobha-lang-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: #fff;
+  transition: background 0.16s ease;
+}
+
+.sobha-lang-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sobha-mega-group {
+  display: inline-block;
+  height: 14px;
+  line-height: 0;
+}
+
+@media (min-width: 1280px) {
+  .sobha-header-row {
+    display: grid;
+    width: min(100vw - 5rem, 118rem);
+    max-width: none;
+    height: 46px;
+    margin: 12px auto;
+    padding: 0;
+    grid-template-columns: minmax(0, 1fr) clamp(11.25rem, 12vw, 13.5rem) minmax(0, 1fr);
+  }
+
+  .sobha-header-row > nav,
+  .sobha-header-row > div:nth-of-type(2) {
+    height: auto;
+    min-width: 0;
+    padding: 0;
+  }
+
+  .sobha-header-row > nav {
+    align-items: center;
+  }
+
+  .sobha-nav-left {
+    grid-column: 1;
+    justify-content: flex-start !important;
+    gap: clamp(1rem, 1.55vw, 2rem);
+    padding-right: clamp(1.25rem, 2.3vw, 2.8rem) !important;
+  }
+
+  .sobha-nav-right {
+    grid-column: 3;
+    justify-content: flex-end !important;
+    gap: clamp(1rem, 1.55vw, 2rem);
+    padding-left: clamp(1.25rem, 2.3vw, 2.8rem) !important;
+  }
+}
+
+.sobha-mega-panel {
+  position: fixed;
+  top: 84px;
+  left: var(--sobha-mega-panel-left);
+  z-index: 39;
+  width: var(--sobha-mega-panel-width);
+  max-height: 0;
+  overflow: hidden;
+  background: rgb(255, 255, 255);
+  color: #000;
+  font-family: "Ringside";
+  border-radius: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: max-height 0.6s ease-in-out, opacity 0.2s ease 0.08s, visibility 0s linear 0.6s;
+  box-shadow: rgba(0, 0, 0, 0.173) 14px 15px 52px 0;
+}
+
+.sobha-mega-group:hover .sobha-mega-panel,
+.sobha-mega-group:focus-within .sobha-mega-panel,
+.sobha-mega-panel.is-open {
+  max-height: 522px;
+  opacity: 1;
+  visibility: visible;
+  transition: max-height 0.6s ease-in-out, opacity 0.16s ease, visibility 0s;
+}
+
+.sobha-mega-inner {
+  display: flex;
+  width: 100%;
+  height: 521.906px;
+  margin: 0;
+  padding: 0;
+  font-family: "Ringside";
+}
+
+.sobha-mega-category-list {
+  display: flex;
+  flex-direction: column;
+  width: 225.516px;
+  flex: 0 0 225.516px;
+  margin-left: 25px;
+  padding-top: 20px;
+  font-family: "Ringside";
+}
+
+.sobha-mega-category-link {
+  display: block;
+  width: 225.516px;
+  min-height: 29px;
+  padding: 4px 6px;
+  font-family: "Ringside";
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: normal;
+  color: rgb(0, 0, 0);
+}
+
+.sobha-mega-trigger {
+  display: inline-block !important;
+  padding: 15px 0 27px !important;
+  white-space: nowrap !important;
+  font-family: "Ringside" !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 15px !important;
+  letter-spacing: 0.07em !important;
+  text-transform: uppercase !important;
+}
+
+@media (min-width: 1440px) {
+  .sobha-mega-trigger {
+    font-size: 14px !important;
+    letter-spacing: 0.08em !important;
+  }
+}
+
+@media (min-width: 1680px) {
+  .sobha-mega-trigger {
+    font-size: 13px !important;
+    letter-spacing: 0.09em !important;
+  }
+
+  .sobha-nav-left,
+  .sobha-nav-right {
+    position: absolute;
+    top: calc(50% - 7px);
+    grid-column: auto;
+    width: max-content;
+    gap: 20px;
+    transform: none;
+  }
+
+  .sobha-nav-left {
+    right: calc(50% + clamp(18.5rem, 18.75vw, 22.5rem));
+    padding-right: 0 !important;
+  }
+
+  .sobha-nav-right {
+    left: calc(50% + clamp(18.5rem, 18.75vw, 22.5rem));
+    justify-content: flex-start !important;
+    padding-left: 0 !important;
+  }
+}
+
+.sobha-mega-trigger--icon {
+  display: inline-block !important;
+  padding: 14px 7px 26px !important;
+  line-height: 14px !important;
+  vertical-align: baseline !important;
+}
+
+.sobha-mega-trigger--icon > svg {
+  display: inline-block;
+  vertical-align: -3px;
+}
+
+.sobha-mega-copy {
+  padding-top: 74px;
+  font-family: "Ringside";
+}
+
+.sobha-mega-heading {
+  margin-bottom: 32px;
+  font-family: "Ringside";
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.52);
+}
+
+.sobha-mega-columns {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  column-gap: 38px;
+  align-items: start;
+  font-family: "Ringside";
+}
+
+.sobha-mega-column {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: "Ringside";
+}
+
+.sobha-mega-link {
+  display: inline-block;
+  font-family: "Ringside";
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.18;
+  letter-spacing: 0.005em;
+  color: rgba(0, 0, 0, 0.78);
+  transition: color 0.18s ease;
+}
+
+.sobha-mega-link:hover {
+  color: #000;
+}
+
+.sobha-mega-column li:first-child .sobha-mega-link {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.sobha-mega-image-wrap {
+  width: auto;
+  flex: 1 1 auto;
+  max-width: 100%;
+  height: 497.906px;
+  margin-top: 12px;
+  margin-right: 12px;
+  margin-left: 12px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.sobha-mega-image {
+  display: block;
+  width: 100%;
+  height: 497.906px;
+  max-width: 100%;
+  object-fit: fill;
+  border-radius: inherit;
+}
+
+.sobha-mega-trigger::after {
+  content: none;
+}
+
+.sobha-mega-group:hover .sobha-mega-trigger::after,
+.sobha-mega-group:focus-within .sobha-mega-trigger::after {
+  width: 0;
+}
+
+/* `latest-launch-slider` initial transform — GSAP animates scale 0.7 → 1
+   as section enters viewport (mirrors live inline `transform: scale(0.7)`).
+   `overflow: hidden` clips Swiper loop clones (positioned at huge -X offsets)
+   so they don't push body width past the viewport. */
+.sobha-launch-init {
+  transform: scale(0.7);
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+.latest-launch-slider {
+  overflow: hidden;
+  background: #efefef;
+  padding: 40px 0;
+}
+.latest-launch-slider .swiper {
+  overflow: hidden;
+}
+
+/* Stories (press) slider — peek with negative spaceBetween already handles
+   the layout; cap section overflow so the negative-margin slides don't
+   leak past the body and cause horizontal scroll. */
+.sobha-stories-sec {
+  overflow: hidden;
+}
+.stories-slider {
+  overflow: visible;
+}
+
+/* Pillars `mySwiper` — clip loop clones so they don't overflow body width;
+   the 3 visible cards already fit within the section's max-width. */
+.home-slider {
+  overflow: hidden;
+}
+
+/* Iris stage holds the pinned hero + clip-path overlay; keep overflow clean
+   so the expanding circle never bleeds outside the viewport. */
+.sobha-iris-stage,
+.sobha-iris-hero-pin {
+  overflow: hidden;
+}
+
+/* ===========================================================
+   Mega-menu — tabbed (COMMUNITIES) and category (PROPERTIES)
+   variants. Reuses the existing .sobha-mega-panel envelope.
+   =========================================================== */
+
+.sobha-mega-inner--tabs {
+  align-items: stretch;
+}
+
+.sobha-mega-category-list--tabs {
+  width: 240px;
+  flex: 0 0 240px;
+  padding-top: 14px;
+}
+
+.sobha-mega-tabs {
+  display: flex;
+  gap: 4px;
+  margin: 0 6px 14px;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 999px;
+}
+
+.sobha-mega-tab {
+  flex: 1 1 auto;
+  padding: 7px 10px;
+  font-family: "Ringside";
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.62);
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.sobha-mega-tab:hover {
+  color: #000;
+}
+
+.sobha-mega-tab.is-active {
+  background: #fff;
+  color: #000;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.sobha-mega-tab-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.sobha-mega-category-link.is-active {
+  color: #000;
+}
+
+.sobha-mega-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  width: 930.469px;
+  flex: 0 0 930.469px;
+  max-width: 100%;
+  margin-top: 12px;
+  margin-left: 12px;
+  padding: 0 6px;
+}
+
+.sobha-mega-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.sobha-mega-card-image-wrap {
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.06);
+  aspect-ratio: 4 / 3;
+}
+
+.sobha-mega-card-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.sobha-mega-card:hover .sobha-mega-card-image {
+  transform: scale(1.05);
+}
+
+.sobha-mega-card-title {
+  font-family: "Ringside";
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+/* ===========================================================
+   Global smooth scroll
+   =========================================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===========================================================
+   PILLARS — image hover zoom (1.0 → 1.1 over 0.8s)
+   =========================================================== */
+.sobha-pillar-image-wrap {
+  overflow: hidden;
+}
+
+.sobha-pillar-image {
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform;
+}
+
+.sobha-pillar-card:hover .sobha-pillar-image,
+.sobha-pillar-card:focus-within .sobha-pillar-image {
+  transform: scale(1.1);
+}
+
+/* ===========================================================
+   LUXURY PROPERTIES carousel — full-bleed banner + amenity panel
+   per slide. Mirrors live `.latest-launch-slider` (single visible
+   slide, looped, with logo column + 4 amenity icons row).
+   =========================================================== */
+.sobha-luxury-swiper .sobha-luxury-slide {
+  background: #efefef;
+}
+
+.sobha-luxury-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.launch-amenitites-container {
+  background: #efefef;
+}
+
+.amenities-box img {
+  max-width: 48px;
+  max-height: 48px;
+}
+
+/* Inline arrow buttons under the luxury carousel (live uses prev/next
+   beside dots). Sobha-style: bare chevron glyphs, no border or fill. */
+.sobha-arrow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: rgba(0, 0, 0, 0.65);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.sobha-arrow-btn > svg {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+.sobha-arrow-btn:hover {
+  color: #000;
+  transform: scale(1.1);
+}
+
+.sobha-luxury-pagination .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.25);
+  opacity: 1;
+  border-radius: 999px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.sobha-luxury-pagination .swiper-pagination-bullet-active {
+  background: #000;
+  transform: scale(1.2);
+}
+
+/* ===========================================================
+   PRESS RELEASES — Cover-Flow style center-focused carousel.
+   The active slide scales to 1.0 / opacity 1; all other visible
+   slides scale to 0.85 / opacity 0.6. Side cards remain clickable
+   (Swiper `slideToClickedSlide`) and slide into center on click.
+   =========================================================== */
+.sobha-press-slide {
+  width: 773px;
+  max-width: 92vw;
+  height: auto;
+}
+
+.sobha-press-coverflow {
+  overflow: visible !important;
+  padding: 24px 0 32px !important;
+}
+
+.sobha-press-card {
+  transform: scale(0.85);
+  opacity: 0.6;
+  transform-origin: center center;
+  transition: transform 0.5s ease-in-out,
+    opacity 0.5s ease-in-out,
+    box-shadow 0.5s ease-in-out;
+  will-change: transform, opacity;
+  cursor: pointer;
+}
+
+.sobha-press-coverflow .swiper-slide-active .sobha-press-card {
+  transform: scale(1);
+  opacity: 1;
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.18);
+}
+
+.sobha-press-card:hover,
+.sobha-press-card:focus-within {
+  opacity: 0.85;
+}
+
+.sobha-press-coverflow .swiper-slide-active .sobha-press-card:hover,
+.sobha-press-coverflow .swiper-slide-active .sobha-press-card:focus-within {
+  opacity: 1;
+  box-shadow: 0 32px 70px rgba(0, 0, 0, 0.22);
+}
+
+.sobha-press-pagination .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.25);
+  opacity: 1;
+  border-radius: 999px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.sobha-press-pagination .swiper-pagination-bullet-active {
+  background: #000;
+  transform: scale(1.2);
+}
+
+/* Edge-mounted prev/next arrows for the press carousel (live places
+   them flush to the left/right edge of the section). Sobha-style:
+   bare white chevron glyphs with a soft drop-shadow for legibility on
+   imagery — no circular background, no border, no fill. */
+.sobha-edge-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+  transition: color 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+}
+
+.sobha-edge-arrow > svg {
+  width: 48px;
+  height: 48px;
+  display: block;
+}
+
+.sobha-edge-arrow:hover {
+  color: #fff;
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.6));
+  transform: translateY(-50%) scale(1.1);
+}
+
+.sobha-edge-arrow--left {
+  left: 16px;
+}
+
+.sobha-edge-arrow--right {
+  right: 16px;
+}
+
+/* ===========================================================
+   PILL CTA — left-to-right fill on hover (Discover More etc.)
+   =========================================================== */
+.sobha-pill-link {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: color 0.45s cubic-bezier(0.25, 0.1, 0.25, 1),
+    border-color 0.45s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.sobha-pill-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.sobha-pill-link:hover::before,
+.sobha-pill-link:focus-visible::before {
+  transform: scaleX(1);
+}
+
+/* Light variant: black border + black text → fills black, text flips to white */
+.sobha-pill-link--light {
+  border-color: rgba(0, 0, 0, 1);
+  color: rgba(0, 0, 0, 1);
+  background: transparent;
+}
+
+.sobha-pill-link--light::before {
+  background: rgba(0, 0, 0, 1);
+}
+
+.sobha-pill-link--light:hover,
+.sobha-pill-link--light:focus-visible {
+  color: #fff;
+}
+
+/* Dark variant (used in Hero on dark imagery): white-tinted border → fills white, text flips to black */
+.sobha-pill-link--dark {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sobha-pill-link--dark::before {
+  background: rgba(255, 255, 255, 1);
+}
+
+.sobha-pill-link--dark:hover,
+.sobha-pill-link--dark:focus-visible {
+  color: #000;
+  border-color: #fff;
+}
+
+.sobha-pill-link__label,
+.sobha-pill-link__icon {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===========================================================
+   Floor plan gallery — Sobha-style chevron arrows.
+   Strips Swiper's default circular button + replaces the
+   pseudo-element glyph with a hand-tuned chevron path so it
+   matches .sobha-edge-arrow visually.
+   =========================================================== */
+.plan-gallery-swiper {
+  position: relative;
+  padding: 0 64px;
+}
+
+.plan-gallery-swiper .swiper-button-prev,
+.plan-gallery-swiper .swiper-button-next {
+  width: 56px;
+  height: 56px;
+  margin-top: -28px;
+  color: #1a1a1a;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.18));
+  transition: color 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+}
+
+.plan-gallery-swiper .swiper-button-prev { left: 0; }
+.plan-gallery-swiper .swiper-button-next { right: 0; }
+
+.plan-gallery-swiper .swiper-button-prev:hover,
+.plan-gallery-swiper .swiper-button-next:hover {
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.28));
+  transform: scale(1.1);
+}
+
+.plan-gallery-swiper .swiper-button-prev::after,
+.plan-gallery-swiper .swiper-button-next::after {
+  font-family: inherit;
+  font-size: 0;
+  width: 48px;
+  height: 48px;
+  display: block;
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.plan-gallery-swiper .swiper-button-prev::after {
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'><polyline points='15 18 9 12 15 6'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'><polyline points='15 18 9 12 15 6'/></svg>");
+}
+
+.plan-gallery-swiper .swiper-button-next::after {
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'><polyline points='9 18 15 12 9 6'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'><polyline points='9 18 15 12 9 6'/></svg>");
+}
+
+.plan-gallery-swiper .swiper-button-disabled {
+  opacity: 0.25;
+}
+
+.plan-gallery-swiper .swiper-pagination-bullet-active {
+  background: #1a1a1a;
 }

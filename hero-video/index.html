@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920" />
+  <title>AriaLux Homes — Hero</title>
+</head>
+<body style="margin:0;padding:0;overflow:hidden;background:#0a0a0a;">
+
+<div id="arialux-hero" data-composition-id="arialux-hero" data-start="0" data-duration="10" data-width="1920" data-height="1080">
+
+  <!-- ═══════════════════════════════════════
+       SCENE 1 — Brand + Property Reveal
+       ═══════════════════════════════════════ -->
+  <div class="scene scene-1">
+    <div class="s1-glow"></div>
+    <div class="s1-ghost">ARIALUX</div>
+    <div class="s1-grid" data-layout-ignore></div>
+    <div class="s1-rule-top"></div>
+    <div class="s1-rule-bottom"></div>
+
+    <div class="s1-brand">
+      <img class="s1-logo" src="public/images/arialux-logo-white.png" alt="AriaLux Homes" />
+      <div class="s1-bar"></div>
+      <div class="s1-tagline">CUSTOM HOME BUILDER</div>
+    </div>
+
+    <div class="s1-gallery">
+      <div class="s1-card s1-card-1" data-layout-allow-overflow><img src="public/images/facebook/hero-01.jpg" alt="" /></div>
+      <div class="s1-card s1-card-2" data-layout-allow-overflow><img src="public/images/facebook/hero-02.jpg" alt="" /></div>
+      <div class="s1-card s1-card-3" data-layout-allow-overflow><img src="public/images/facebook/hero-04.jpg" alt="" /></div>
+    </div>
+
+    <div class="s1-stats">
+      <div class="s1-stat">
+        <span class="s1-num">16</span>
+        <span class="s1-lbl">FLOOR PLANS</span>
+      </div>
+      <div class="s1-sep"></div>
+      <div class="s1-stat">
+        <span class="s1-num">6+</span>
+        <span class="s1-lbl">BEDROOMS</span>
+      </div>
+      <div class="s1-sep"></div>
+      <div class="s1-stat">
+        <span class="s1-num">4,000+</span>
+        <span class="s1-lbl">SQFT LIVING</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SCENE 2 — CTA Close
+       ═══════════════════════════════════════ -->
+  <div class="scene scene-2">
+    <div class="s2-glow"></div>
+    <div class="s2-ghost" data-layout-allow-overflow>HOMES</div>
+    <div class="s2-grid" data-layout-ignore></div>
+    <div class="s2-corner-tl"></div>
+    <div class="s2-corner-br"></div>
+    <div class="s2-mid-rule"></div>
+
+    <div class="s2-content">
+      <img class="s2-logo" src="public/images/arialux-logo-white.png" alt="AriaLux Homes" />
+      <div class="s2-cta">EXPLORE OUR HOMES</div>
+      <div class="s2-line"></div>
+      <div class="s2-url">ARIALUXHOMES.COM</div>
+    </div>
+  </div>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    #arialux-hero {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      background: #0a0a0a;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      color: #f5f0e8;
+    }
+
+    .scene {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .scene-2 { opacity: 0; }
+
+    /* ─────────────────── SCENE 1 ─────────────────── */
+
+    .s1-glow {
+      position: absolute;
+      width: 900px; height: 900px;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(191,161,92,0.14) 0%, rgba(191,161,92,0) 70%);
+      border-radius: 50%;
+    }
+    .s1-ghost {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 260px;
+      font-weight: 900;
+      color: rgba(191,161,92,0.05);
+      letter-spacing: 0.3em;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .s1-grid {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        linear-gradient(rgba(191,161,92,0.035) 1px, rgba(10,10,10,0) 1px),
+        linear-gradient(90deg, rgba(191,161,92,0.035) 1px, rgba(10,10,10,0) 1px);
+      background-size: 120px 120px;
+    }
+    .s1-rule-top {
+      position: absolute;
+      top: 60px; left: 120px; right: 120px;
+      height: 1px;
+      background: rgba(191,161,92,0.25);
+      transform-origin: left;
+    }
+    .s1-rule-bottom {
+      position: absolute;
+      bottom: 60px; left: 120px; right: 120px;
+      height: 1px;
+      background: rgba(191,161,92,0.25);
+      transform-origin: right;
+    }
+
+    .s1-brand {
+      position: absolute;
+      top: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      z-index: 5;
+    }
+    .s1-logo {
+      height: 90px;
+      width: auto;
+      filter: drop-shadow(0 4px 20px rgba(191,161,92,0.3));
+    }
+    .s1-bar {
+      width: 100px;
+      height: 2px;
+      background: #bfa15c;
+      transform-origin: center;
+    }
+    .s1-tagline {
+      font-size: 32px;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+    }
+
+    .s1-gallery {
+      position: absolute;
+      top: 290px;
+      left: 120px;
+      right: 120px;
+      height: 450px;
+    }
+    .s1-card {
+      position: absolute;
+      overflow: hidden;
+      border: 1.5px solid rgba(191,161,92,0.35);
+    }
+    .s1-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .s1-card-1 {
+      left: 0; top: 0;
+      width: 640px; height: 430px;
+      z-index: 3;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.7);
+    }
+    .s1-card-2 {
+      left: 580px; top: 40px;
+      width: 540px; height: 370px;
+      z-index: 2;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.55);
+    }
+    .s1-card-3 {
+      left: 1060px; top: 75px;
+      width: 460px; height: 330px;
+      z-index: 1;
+      box-shadow: 0 14px 35px rgba(0,0,0,0.45);
+    }
+
+    .s1-stats {
+      position: absolute;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 50px;
+      z-index: 5;
+    }
+    .s1-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .s1-num {
+      font-size: 52px;
+      font-weight: 200;
+      letter-spacing: 0.04em;
+      color: #bfa15c;
+      font-variant-numeric: tabular-nums;
+    }
+    .s1-lbl {
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      color: rgba(245,240,232,0.55);
+    }
+    .s1-sep {
+      width: 1px;
+      height: 50px;
+      background: rgba(191,161,92,0.3);
+    }
+
+    /* ─────────────────── SCENE 2 ─────────────────── */
+
+    .s2-glow {
+      position: absolute;
+      width: 800px; height: 800px;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(191,161,92,0.12) 0%, rgba(10,10,10,0) 60%);
+      border-radius: 50%;
+    }
+    .s2-ghost {
+      position: absolute;
+      bottom: -30px; right: -20px;
+      font-size: 260px;
+      font-weight: 900;
+      color: rgba(191,161,92,0.04);
+      letter-spacing: 0.2em;
+      pointer-events: none;
+    }
+    .s2-grid {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        linear-gradient(rgba(191,161,92,0.025) 1px, rgba(10,10,10,0) 1px),
+        linear-gradient(90deg, rgba(191,161,92,0.025) 1px, rgba(10,10,10,0) 1px);
+      background-size: 60px 60px;
+    }
+    .s2-corner-tl {
+      position: absolute;
+      top: 80px; left: 80px;
+      width: 60px; height: 60px;
+      border-top: 1.5px solid rgba(191,161,92,0.3);
+      border-left: 1.5px solid rgba(191,161,92,0.3);
+    }
+    .s2-corner-br {
+      position: absolute;
+      bottom: 80px; right: 80px;
+      width: 60px; height: 60px;
+      border-bottom: 1.5px solid rgba(191,161,92,0.3);
+      border-right: 1.5px solid rgba(191,161,92,0.3);
+    }
+    .s2-mid-rule {
+      position: absolute;
+      top: 50%; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(10,10,10,0), rgba(191,161,92,0.15), rgba(10,10,10,0));
+      transform: translateY(-50%);
+      transform-origin: center;
+    }
+    .s2-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      gap: 28px;
+    }
+    .s2-logo {
+      height: 100px;
+      width: auto;
+      filter: drop-shadow(0 4px 20px rgba(191,161,92,0.3));
+    }
+    .s2-cta {
+      font-size: 64px;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+    }
+    .s2-line {
+      width: 180px;
+      height: 2px;
+      background: #bfa15c;
+      transform-origin: center;
+    }
+    .s2-url {
+      font-size: 24px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      color: rgba(191,161,92,0.6);
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    window.__timelines = window.__timelines || {};
+    var tl = gsap.timeline({ paused: true });
+
+    /* ══════════════════════════════════════════════
+       SCENE 1 — Brand + Property Reveal  (0 – 5 s)
+       ══════════════════════════════════════════════ */
+
+    // BG: glow breathes in
+    tl.fromTo(".s1-glow",
+      { scale: 0.85, opacity: 0 },
+      { scale: 1.15, opacity: 1, duration: 5, ease: "sine.inOut" }, 0.1);
+
+    // BG: ghost text slow drift
+    tl.fromTo(".s1-ghost",
+      { x: 60, opacity: 0 },
+      { x: -40, opacity: 1, duration: 5, ease: "none" }, 0);
+
+    // FG: accent rules draw
+    tl.fromTo(".s1-rule-top",
+      { scaleX: 0 },
+      { scaleX: 1, duration: 1.0, ease: "power3.out" }, 0.3);
+    tl.fromTo(".s1-rule-bottom",
+      { scaleX: 0 },
+      { scaleX: 1, duration: 1.0, ease: "power3.out" }, 0.5);
+
+    // MG: logo — 3D perspective zoom
+    tl.fromTo(".s1-logo",
+      { scale: 1.4, opacity: 0, rotationX: -12, transformPerspective: 1200 },
+      { scale: 1, opacity: 1, rotationX: 0, transformPerspective: 1200, duration: 0.9, ease: "expo.out" }, 0.2);
+
+    // MG: gold bar draws
+    tl.fromTo(".s1-bar",
+      { scaleX: 0 },
+      { scaleX: 1, duration: 0.5, ease: "power2.out" }, 0.8);
+
+    // MG: tagline slides up
+    tl.fromTo(".s1-tagline",
+      { y: 18, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, 1.0);
+
+    // MG: property cards cascade with 3D perspective
+    // Card 1 — from left with rightward tilt
+    tl.fromTo(".s1-card-1",
+      { x: -100, opacity: 0, rotationY: 20, transformPerspective: 1200 },
+      { x: 0, opacity: 1, rotationY: 5, transformPerspective: 1200, duration: 0.8, ease: "expo.out" }, 1.5);
+    tl.to(".s1-card-1 img",
+      { scale: 1.05, duration: 3.5, ease: "none" }, 1.5);
+
+    // Card 2 — from below with forward tilt
+    tl.fromTo(".s1-card-2",
+      { y: 60, opacity: 0, rotationX: -10, transformPerspective: 1200 },
+      { y: 0, opacity: 1, rotationX: 2, transformPerspective: 1200, duration: 0.7, ease: "power3.out" }, 1.8);
+    tl.to(".s1-card-2 img",
+      { scale: 1.04, duration: 3.2, ease: "none" }, 1.8);
+
+    // Card 3 — from right with leftward tilt
+    tl.fromTo(".s1-card-3",
+      { x: 80, opacity: 0, rotationY: -18, transformPerspective: 1200 },
+      { x: 0, opacity: 1, rotationY: -8, transformPerspective: 1200, duration: 0.8, ease: "back.out(1.2)" }, 2.1);
+    tl.to(".s1-card-3 img",
+      { scale: 1.04, duration: 2.9, ease: "none" }, 2.1);
+
+    // MG: stats stagger in
+    var stats = document.querySelectorAll(".s1-stat");
+    var seps = document.querySelectorAll(".s1-sep");
+
+    tl.fromTo(stats[0],
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 3.0);
+    tl.fromTo(seps[0],
+      { scaleY: 0, opacity: 0 },
+      { scaleY: 1, opacity: 1, duration: 0.3, ease: "power2.out" }, 3.15);
+    tl.fromTo(stats[1],
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.45, ease: "expo.out" }, 3.2);
+    tl.fromTo(seps[1],
+      { scaleY: 0, opacity: 0 },
+      { scaleY: 1, opacity: 1, duration: 0.3, ease: "power2.out" }, 3.35);
+    tl.fromTo(stats[2],
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.45, ease: "sine.out" }, 3.4);
+
+    /* ══════════════════════════════════════════════
+       TRANSITION  1 → 2   (5.0 – 5.7 s)
+       ══════════════════════════════════════════════ */
+
+    tl.to(".scene-1", {
+      filter: "blur(18px)", opacity: 0,
+      duration: 0.7, ease: "power2.in"
+    }, 5.0);
+
+    tl.fromTo(".scene-2",
+      { filter: "blur(18px)", opacity: 0 },
+      { filter: "blur(0px)", opacity: 1, duration: 0.7, ease: "power2.out" }, 5.0);
+
+    /* ══════════════════════════════════════════════
+       SCENE 2 — CTA Close  (5.0 – 10 s)
+       ══════════════════════════════════════════════ */
+
+    // BG: glow breathes
+    tl.fromTo(".s2-glow",
+      { scale: 0.85 },
+      { scale: 1.2, duration: 5, ease: "sine.inOut" }, 5.0);
+
+    // BG: ghost text drift
+    tl.fromTo(".s2-ghost",
+      { x: 40, opacity: 0 },
+      { x: -20, opacity: 1, duration: 5, ease: "none" }, 5.0);
+
+    // FG: corner marks
+    tl.fromTo(".s2-corner-tl",
+      { opacity: 0, scale: 0.5 },
+      { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }, 5.4);
+    tl.fromTo(".s2-corner-br",
+      { opacity: 0, scale: 0.5 },
+      { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }, 5.5);
+
+    // FG: mid-rule draws
+    tl.fromTo(".s2-mid-rule",
+      { scaleX: 0 },
+      { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 5.3);
+
+    // MG: logo
+    tl.fromTo(".s2-logo",
+      { scale: 0.9, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.7, ease: "expo.out" }, 5.6);
+
+    // MG: CTA text
+    tl.fromTo(".s2-cta",
+      { y: 25, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, 6.0);
+
+    // FG: gold underline draws
+    tl.fromTo(".s2-line",
+      { scaleX: 0 },
+      { scaleX: 1, duration: 0.4, ease: "power2.out" }, 6.4);
+
+    // MG: URL fades in
+    tl.fromTo(".s2-url",
+      { opacity: 0 },
+      { opacity: 1, duration: 0.35, ease: "sine.out" }, 6.6);
+
+    // Final scene: fade to black
+    tl.to(".s2-content", { opacity: 0, duration: 0.8, ease: "power1.in" }, 9.0);
+    tl.to(".s2-glow", { opacity: 0, duration: 0.8, ease: "power1.in" }, 9.0);
+    tl.to(".s2-ghost", { opacity: 0, duration: 0.6, ease: "power1.in" }, 9.0);
+    tl.to(".s2-corner-tl, .s2-corner-br", { opacity: 0, duration: 0.6, ease: "power1.in" }, 9.1);
+    tl.to(".s2-mid-rule", { opacity: 0, duration: 0.6, ease: "power1.in" }, 9.2);
+
+    window.__timelines["arialux-hero"] = tl;
+  </script>
+
+</div>
+
+</body>
+</html>
