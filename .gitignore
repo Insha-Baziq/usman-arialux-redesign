@@ -47,6 +47,7 @@ next-env.d.ts
 
 # Local temp files
 temp/
+.worktrees/
 
 # Local agent/runtime artifacts
 .agents/
