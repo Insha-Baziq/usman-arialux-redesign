@@ -94,14 +94,14 @@ export const ARIA_BRAND = {
 } as const;
 
 export const ARIA_NAV: AriaLink[] = [
-  { label: "Home", href: "/" },
   { label: "Interior Finishes", href: "/interior-finishes" },
   { label: "Floor Plans", href: "/all-floor-plans" },
+  { label: "Contact", href: "/contact" },
+  { label: "Article", href: "/article" },
   { label: "Portfolio", href: "/portfolio" },
   { label: "Video", href: "/video" },
   { label: "Architectural Services", href: "/architectural-services" },
   { label: "Who We Are", href: "/who-we-are" },
-  { label: "Contact", href: "/contact" },
 ];
 
 export const ARIA_SOCIAL: AriaSocialLink[] = [
@@ -885,7 +885,6 @@ const planItem = (p: AriaPlan): AriaHeaderItem => ({
 // Real arialuxhomes.com nav (8 items, mostly direct anchors). Only FLOOR PLANS
 // keeps a panel because it actually has children on the live site.
 export const ARIA_HEADER_MENU: AriaHeaderMenu[] = [
-  { label: "HOME", href: "/", kind: "simple" },
   { label: "INTERIOR FINISHES", href: "/interior-finishes", kind: "simple" },
   {
     label: "FLOOR PLANS",
@@ -898,6 +897,7 @@ export const ARIA_HEADER_MENU: AriaHeaderMenu[] = [
     ],
   },
   { label: "CONTACT", href: "/contact", kind: "simple" },
+  { label: "ARTICLE", href: "/article", kind: "simple" },
   { label: "PORTFOLIO", href: "/portfolio", kind: "simple" },
   { label: "VIDEO", href: "/video", kind: "simple" },
   {

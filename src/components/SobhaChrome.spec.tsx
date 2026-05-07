@@ -24,7 +24,7 @@ describe("SobhaHeader", () => {
     expect(leftNav).toBeInTheDocument();
     expect(rightNav).toBeInTheDocument();
 
-    for (const label of ["HOME", "INTERIOR FINISHES", "FLOOR PLANS", "CONTACT"]) {
+    for (const label of ["INTERIOR FINISHES", "FLOOR PLANS", "CONTACT", "ARTICLE"]) {
       expect(within(leftNav as HTMLElement).getByRole("link", { name: label })).toBeInTheDocument();
     }
 
@@ -36,11 +36,11 @@ describe("SobhaHeader", () => {
   it("uses a desktop grid instead of fixed side padding that clips long labels", () => {
     const css = readFileSync(path.join(process.cwd(), "src/app/globals.css"), "utf8");
 
-    expect(css).toContain(
-      "grid-template-columns: minmax(0, 1fr) clamp(11.25rem, 12vw, 13.5rem) minmax(0, 1fr);",
+    expect(css).toMatch(
+      /grid-template-columns:\s*minmax\(0,\s*1fr\)\s*clamp\(14rem,\s*16vw,\s*17rem\)\s*minmax\(\s*0,\s*1fr\s*\);/,
     );
-    expect(css).toContain(".sobha-nav-left {\n    grid-column: 1;\n    justify-content: flex-start !important;");
-    expect(css).toContain(".sobha-nav-right {\n    grid-column: 3;\n    justify-content: flex-end !important;");
+    expect(css).toMatch(/\.sobha-nav-left\s*{\s*grid-column:\s*1;\s*justify-content:\s*flex-start\s*!important;/);
+    expect(css).toMatch(/\.sobha-nav-right\s*{\s*grid-column:\s*3;\s*justify-content:\s*flex-end\s*!important;/);
     expect(css).toContain("height: 84px;");
     expect(css).not.toContain("padding-right: 260px");
     expect(css).not.toContain("padding-left: 260px");

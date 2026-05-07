@@ -6,6 +6,7 @@ import {
   ARIA_CONTACT,
   ARIA_HEADER_MENU,
 } from "@/components/arialux-data";
+import { ContactReveal } from "./ContactReveal";
 
 function PinGlyph() {
   return (
@@ -98,7 +99,7 @@ export default function ContactPage() {
   const hoursWeekday = ARIA_CONTACT.hoursWeekly.slice(0, 6);
 
   return (
-    <main className="bg-white text-black">
+    <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader
         brand={ariaLuxBrand}
         menus={ARIA_HEADER_MENU}
@@ -118,35 +119,21 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-            {/* LEFT — heading + form */}
-            <div className="lg:pr-8">
-              <p
-                className="text-[0.66rem] font-semibold uppercase tracking-[0.28em] text-[#bfa15c]"
-              >
-                Let&apos;s Connect
-              </p>
-              <h1 className="mt-3 font-heading text-[2.25rem] font-light leading-[1.04] text-black sm:text-[2.75rem] lg:text-[3.25rem]">
-                {ARIA_CONTACT.heading}
-              </h1>
-              <span
-                aria-hidden="true"
-                className="mt-4 block h-px w-16 bg-[#bfa15c]"
-              />
+          <ContactReveal
+            eyebrow="Let's Connect"
+            heading={ARIA_CONTACT.heading}
+            body={(
               <p className="mt-5 max-w-[26rem] text-[0.92rem] font-light leading-[1.65] text-black/70">
-                {ARIA_CONTACT.formLead}. We&apos;re here to answer your
-                questions.
+                {ARIA_CONTACT.formLead}. We&apos;re here to answer your questions.
               </p>
-
-              <AriaLuxContactForm />
-
+            )}
+            form={<AriaLuxContactForm />}
+            notice={(
               <p className="mt-5 max-w-md text-[0.68rem] leading-5 text-black/45">
                 {ARIA_CONTACT.recaptchaNotice}
               </p>
-            </div>
-
-            {/* RIGHT — image, gold callout, NAP + Hours */}
-            <div className="lg:pl-8">
+            )}
+            media={(
               <div className="overflow-hidden rounded-md">
                 <img
                   src="/images/who-we-are-hero.png"
@@ -154,102 +141,101 @@ export default function ContactPage() {
                   className="block h-auto w-full"
                 />
               </div>
-
-              <div className="mt-5 rounded-md bg-[#f4efe5] p-6 sm:p-7">
-                <div className="flex items-start gap-5">
-                  <span
-                    className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#bfa15c]/40 bg-white text-[#bfa15c]"
-                    aria-hidden="true"
-                  >
-                    <HouseGlyph />
-                  </span>
-                  <div>
-                    <h2 className="font-heading text-[1.2rem] font-light leading-[1.25] text-black sm:text-[1.35rem]">
-                      Better yet, come see us in person to get a tour of our
-                      builds!
-                    </h2>
-                    <p className="mt-3 text-[0.88rem] font-light leading-[1.65] text-black/65">
-                      We love our customers, so feel free to reach out for a
-                      free consultation.
-                    </p>
+            )}
+            details={(
+              <>
+                <div className="mt-5 rounded-md bg-[#f4efe5] p-6 sm:p-7">
+                  <div className="flex items-start gap-5">
+                    <span
+                      className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#bfa15c]/40 bg-white text-[#bfa15c]"
+                      aria-hidden="true"
+                    >
+                      <HouseGlyph />
+                    </span>
+                    <div>
+                      <h2 className="font-heading text-[1.2rem] font-light leading-[1.25] text-black sm:text-[1.35rem]">
+                        Better yet, come see us in person to get a tour of our builds!
+                      </h2>
+                      <p className="mt-3 text-[0.88rem] font-light leading-[1.65] text-black/65">
+                        We love our customers, so feel free to reach out for a free consultation.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="mt-10 grid gap-10 sm:grid-cols-2">
-                {/* NAP */}
-                <div>
-                  <h3 className="font-heading text-[0.85rem] font-semibold uppercase tracking-[0.22em] text-black">
-                    {ARIA_CONTACT.napHeading}
-                  </h3>
-                  <span
-                    aria-hidden="true"
-                    className="mt-2.5 block h-px w-10 bg-[#bfa15c]"
-                  />
-                  <ul className="mt-5 space-y-4 text-[0.86rem] font-light leading-[1.55] text-black/80">
-                    <li className="flex items-start gap-3.5">
-                      <span className="mt-0.5 text-[#bfa15c]">
-                        <PinGlyph />
-                      </span>
-                      <span>
-                        6985 Starks Blvd,
-                        <br />
-                        Fort Wayne, Indiana 46816
-                      </span>
-                    </li>
-                    <li className="flex items-center gap-3.5">
-                      <span className="text-[#bfa15c]">
-                        <PhoneGlyph />
-                      </span>
-                      <a
-                        href={ARIA_BRAND.phoneHref}
-                        className="text-black underline-offset-4 transition hover:underline"
-                      >
-                        {ARIA_BRAND.phone}
-                      </a>
-                    </li>
-                    <li className="flex items-center gap-3.5">
-                      <span className="text-[#bfa15c]">
-                        <MailGlyph />
-                      </span>
-                      <a
-                        href={ARIA_BRAND.emailHref}
-                        className="break-all text-black uppercase tracking-[0.04em] underline-offset-4 transition hover:underline"
-                      >
-                        {ARIA_BRAND.email}
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Hours */}
-                <div>
-                  <h3 className="font-heading text-[0.85rem] font-semibold uppercase tracking-[0.22em] text-black">
-                    Hours
-                  </h3>
-                  <span
-                    aria-hidden="true"
-                    className="mt-2.5 block h-px w-10 bg-[#bfa15c]"
-                  />
-                  <ul className="mt-5 space-y-2.5 text-[0.84rem] font-light text-black/80">
-                    {hoursWeekday.map((h) => (
-                      <li
-                        key={h.day}
-                        className="flex items-center justify-between"
-                      >
-                        <span className="font-semibold uppercase tracking-[0.18em] text-black/85">
-                          {h.day}
+                <div className="mt-10 grid gap-10 sm:grid-cols-2">
+                  <div>
+                    <h3 className="font-heading text-[0.85rem] font-semibold uppercase tracking-[0.22em] text-black">
+                      {ARIA_CONTACT.napHeading}
+                    </h3>
+                    <span
+                      aria-hidden="true"
+                      className="mt-2.5 block h-px w-10 bg-[#bfa15c]"
+                    />
+                    <ul className="mt-5 space-y-4 text-[0.86rem] font-light leading-[1.55] text-black/80">
+                      <li className="flex items-start gap-3.5">
+                        <span className="mt-0.5 text-[#bfa15c]">
+                          <PinGlyph />
                         </span>
-                        <span className="font-light text-black/65">
-                          {h.hours}
+                        <span>
+                          6985 Starks Blvd,
+                          <br />
+                          Fort Wayne, Indiana 46816
                         </span>
                       </li>
-                    ))}
-                  </ul>
+                      <li className="flex items-center gap-3.5">
+                        <span className="text-[#bfa15c]">
+                          <PhoneGlyph />
+                        </span>
+                        <a
+                          href={ARIA_BRAND.phoneHref}
+                          className="text-black underline-offset-4 transition hover:underline"
+                        >
+                          {ARIA_BRAND.phone}
+                        </a>
+                      </li>
+                      <li className="flex items-center gap-3.5">
+                        <span className="text-[#bfa15c]">
+                          <MailGlyph />
+                        </span>
+                        <a
+                          href={ARIA_BRAND.emailHref}
+                          className="break-all text-black uppercase tracking-[0.04em] underline-offset-4 transition hover:underline"
+                        >
+                          {ARIA_BRAND.email}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 className="font-heading text-[0.85rem] font-semibold uppercase tracking-[0.22em] text-black">
+                      Hours
+                    </h3>
+                    <span
+                      aria-hidden="true"
+                      className="mt-2.5 block h-px w-10 bg-[#bfa15c]"
+                    />
+                    <ul className="mt-5 space-y-2.5 text-[0.84rem] font-light text-black/80">
+                      {hoursWeekday.map((h) => (
+                        <li
+                          key={h.day}
+                          className="flex items-center justify-between"
+                        >
+                          <span className="font-semibold uppercase tracking-[0.18em] text-black/85">
+                            {h.day}
+                          </span>
+                          <span className="font-light text-black/65">
+                            {h.hours}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
+              </>
+            )}
+          />
         </div>
       </section>
 

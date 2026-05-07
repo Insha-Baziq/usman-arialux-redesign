@@ -4,17 +4,18 @@ import { describe, expect, it } from "vitest";
 import { SobhaHomepage } from "./SobhaHomepage";
 
 describe("SobhaHomepage", () => {
-  it("renders the Sobha rotating hero banner slides", () => {
+  it("renders the AriaLux rotating hero banner slides", () => {
     render(<SobhaHomepage />);
 
-    expect(screen.getAllByRole("heading", { name: "Sobha Sanctuary" }).length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByRole("heading", { name: "Sobha City" }).length).toBeGreaterThanOrEqual(1);
-    expect(
-      screen.getAllByRole("heading", { name: "Tranquil Beach Residences" }).length,
-    ).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByRole("heading", { name: "ARIA HEIGHTS" }).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByRole("heading", { name: "ARIALUX HOMES" }).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByRole("heading", { name: "SIXTEEN FLOOR PLANS" }).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("Spaces Where Life Unfolds").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByText("Where the Tide Sets the Tone")).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: "DISCOVER" }).length).toBeGreaterThanOrEqual(3);
+    expect(screen.getByText("Custom Builds. Quiet Confidence.")).toBeInTheDocument();
+    expect(screen.getByText("Designed for the Way You Live")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "EXPLORE" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "DISCOVER" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "VIEW PLANS" })).toBeInTheDocument();
   });
 
   it("renders the merged new-launch section (pillars + properties)", () => {
@@ -22,34 +23,34 @@ describe("SobhaHomepage", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: "FROM CONCEPT TO COMPLETION: DEFINING OUR PILLARS",
+        name: "FROM CONCEPT TO COMPLETION: HOW WE BUILD",
       }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
-        name: "Explore our Luxury properties in the UAE",
+        name: "Explore Our Custom Floor Plans",
       }),
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Explore All" })).toBeInTheDocument();
   });
 
-  it("renders the Press Releases stories section", () => {
+  it("renders the recent builds stories section", () => {
     render(<SobhaHomepage />);
 
     expect(
-      screen.getByRole("heading", { name: "Press Releases" }),
+      screen.getByRole("heading", { name: "Recent Builds" }),
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "View all" })).toBeInTheDocument();
   });
 
-  it("renders the Sobha footer navigation groups", () => {
+  it("renders the AriaLux footer navigation groups", () => {
     render(<SobhaHomepage />);
 
     const footer = screen.getByRole("contentinfo");
 
-    expect(within(footer).getByText("APARTMENTS")).toBeInTheDocument();
-    expect(within(footer).getByText("COMMUNITIES")).toBeInTheDocument();
-    expect(within(footer).getByText("ABOUT US")).toBeInTheDocument();
-    expect(within(footer).getByText("Privacy Policy")).toBeInTheDocument();
+    expect(within(footer).getByText("Visit Our Studio")).toBeInTheDocument();
+    expect(within(footer).getByText("Company")).toBeInTheDocument();
+    expect(within(footer).getByText("Explore")).toBeInTheDocument();
+    expect(within(footer).getByText("Featured Plans")).toBeInTheDocument();
   });
 });

@@ -4,6 +4,8 @@ export { DarkCtaBand } from "./DarkCtaBand";
 export type { DarkCtaBandProps } from "./DarkCtaBand";
 export { HeroBanner } from "./HeroBanner";
 export type { HeroBannerProps, HeroBannerSlide } from "./HeroBanner";
+export { PageHero } from "./PageHero";
+export type { PageHeroProps } from "./PageHero";
 export { PillarsSection } from "./PillarsSection";
 export type { PillarItem, PillarsSectionProps } from "./PillarsSection";
 export { SobhaPillLink } from "./SobhaPillLink";

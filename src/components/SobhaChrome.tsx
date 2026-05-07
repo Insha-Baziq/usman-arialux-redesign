@@ -150,9 +150,28 @@ export function SobhaHeader({
         const start = floorPlans.getBoundingClientRect().left;
         const end = video.getBoundingClientRect().right;
         if (end <= start) return;
+        const floorPlansCenter =
+          floorPlans.getBoundingClientRect().left +
+          floorPlans.getBoundingClientRect().width / 2;
+        const floorPlansPanelWidth = Math.min(window.innerWidth * 0.68, 1160);
+        const floorPlansPanelLeft = Math.max(
+          24,
+          Math.min(
+            window.innerWidth - floorPlansPanelWidth - 24,
+            floorPlansCenter - 88,
+          ),
+        );
 
         el.style.setProperty("--sobha-mega-panel-left", `${start}px`);
         el.style.setProperty("--sobha-mega-panel-width", `${end - start}px`);
+        el.style.setProperty(
+          "--sobha-floorplans-panel-left",
+          `${floorPlansPanelLeft}px`,
+        );
+        el.style.setProperty(
+          "--sobha-floorplans-arrow-left",
+          `${floorPlansCenter - floorPlansPanelLeft}px`,
+        );
       });
     };
 
@@ -173,8 +192,6 @@ export function SobhaHeader({
       ref={headerRef}
       className="sobha-header fixed inset-x-0 top-0 z-40 text-white"
     >
-      {/* Soft scrim — keeps the header transparent but gives the logo + nav
-          enough contrast on bright hero photos. Fades cleanly into the image. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[5.25rem] bg-gradient-to-b from-black/55 via-black/25 to-transparent"
@@ -330,9 +347,89 @@ function SobhaMegaListPanel({
   menu: ChromeMenu;
   items: ChromeMenuItem[];
 }) {
-  const [activeImage, setActiveImage] = useState<string | undefined>(
-    menu.defaultImage,
+  const featuredItems = items.filter((item) => item.hoverImage);
+  const initialItem = featuredItems[0] ?? items[0];
+  const isFloorPlans = menu.label === "FLOOR PLANS";
+  const [activeItem, setActiveItem] = useState<ChromeMenuItem | undefined>(
+    initialItem,
   );
+  const [activeImage, setActiveImage] = useState<string | undefined>(
+    initialItem?.hoverImage ?? menu.defaultImage,
+  );
+
+  if (isFloorPlans) {
+    const navItems = featuredItems.length > 0 ? featuredItems : items;
+    const displayItem = activeItem ?? navItems[0];
+
+    return (
+      <div
+        className="sobha-mega-panel sobha-floorplans-panel"
+        aria-label={`${menu.label} menu`}
+      >
+        <div className="sobha-floorplans-inner">
+          <aside className="sobha-floorplans-list" aria-label="All floor plans">
+            <a href={menu.href} className="sobha-floorplans-kicker">
+              All Floor Plans
+            </a>
+            <div className="sobha-floorplans-divider" aria-hidden="true" />
+            <div className="sobha-floorplans-links">
+              {navItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className={cn(
+                    "sobha-floorplans-link",
+                    displayItem?.href === item.href && "is-active",
+                  )}
+                  onMouseEnter={() => {
+                    setActiveItem(item);
+                    setActiveImage(item.hoverImage ?? menu.defaultImage);
+                  }}
+                  onFocus={() => {
+                    setActiveItem(item);
+                    setActiveImage(item.hoverImage ?? menu.defaultImage);
+                  }}
+                >
+                  <span>{item.label}</span>
+                  <span aria-hidden="true">&rsaquo;</span>
+                </a>
+              ))}
+            </div>
+          </aside>
+
+          <section className="sobha-floorplans-feature">
+            {activeImage ? (
+              <div className="sobha-floorplans-image-wrap">
+                <img
+                  src={activeImage}
+                  alt={displayItem?.label ?? menu.label}
+                  className="sobha-floorplans-image"
+                />
+              </div>
+            ) : null}
+            <div className="sobha-floorplans-copy">
+              <div>
+                <p className="sobha-floorplans-label">Featured Floor Plan</p>
+                <span className="sobha-floorplans-label-line" aria-hidden="true" />
+                <h2>{displayItem?.label ?? "Aria Heights"}</h2>
+                <p>
+                  Spacious and elegant, {displayItem?.label ?? "this plan"} offers
+                  the perfect balance of luxury, comfort, and timeless design.
+                </p>
+              </div>
+              <a
+                href={displayItem?.href ?? menu.href}
+                className="sobha-floorplans-cta"
+              >
+                View Floor Plan
+                <span aria-hidden="true">&rsaquo;</span>
+              </a>
+            </div>
+          </section>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="sobha-mega-panel" aria-label={`${menu.label} menu`}>
@@ -343,8 +440,14 @@ function SobhaMegaListPanel({
               key={item.label}
               href={item.href}
               className="sobha-mega-category-link"
-              onMouseEnter={() => setActiveImage(item.hoverImage ?? menu.defaultImage)}
-              onFocus={() => setActiveImage(item.hoverImage ?? menu.defaultImage)}
+              onMouseEnter={() => {
+                setActiveItem(item);
+                setActiveImage(item.hoverImage ?? menu.defaultImage);
+              }}
+              onFocus={() => {
+                setActiveItem(item);
+                setActiveImage(item.hoverImage ?? menu.defaultImage);
+              }}
               onMouseLeave={() => setActiveImage(menu.defaultImage)}
             >
               {item.label}

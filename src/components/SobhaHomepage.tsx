@@ -240,7 +240,7 @@ export function SobhaHomepage() {
   }, []);
 
   return (
-    <main className="bg-white text-black">
+    <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader brand={ariaLuxBrand} menus={ARIA_HEADER_MENU} hideLanguageSwitcher />
       <SobhaIrisStage />
       <PillarsSection heading={sobhaPillarsHeading} pillars={sobhaPillars} />

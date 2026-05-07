@@ -47,3 +47,18 @@ next-env.d.ts
 
 # Local temp files
 temp/
+
+# Local agent/runtime artifacts
+.agents/
+.playwright-mcp/
+.claude/launch.json
+
+# Generated review and preview artifacts
+dev.log
+hero-video/
+.github/workflows/ci.yml
+docs/*-check.png
+docs/rana-haven-*.png
+docs/plans/
+public/images/facebook/cleaned_image.jpg
+public/images/facebook/main.py

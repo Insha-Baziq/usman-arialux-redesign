@@ -6,10 +6,10 @@ import {
   ARIA_VIDEOS,
   ARIA_VIDEOS_PAGE,
 } from "@/components/arialux-data";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import {
   DarkCtaBand,
-  HeroBanner,
-  type HeroBannerSlide,
+  PageHero,
 } from "@/components/sobha-sections";
 
 export const metadata = {
@@ -17,39 +17,36 @@ export const metadata = {
   description: ARIA_VIDEOS_PAGE.intro,
 };
 
-/**
- * /video — Sobha chrome with a 2-col Vimeo grid.
- * Composition: <SobhaHeader> + <HeroBanner> + 2-col video grid (preserved) +
- * <DarkCtaBand> + <SobhaFooter>.
- */
 export default function VideoPage() {
-  const heroSlide: HeroBannerSlide = {
-    id: "video-hero",
-    title: ARIA_VIDEOS_PAGE.heading,
-    subtitle: ARIA_VIDEOS_PAGE.intro,
-    ctaLabel: "Schedule a Free Consultation",
-    ctaHref: "/contact",
-    desktopImage: ARIA_PORTFOLIO.images[0]?.src ?? "",
-    mobileImage: ARIA_PORTFOLIO.images[0]?.src ?? "",
-    imageAlt: ARIA_VIDEOS_PAGE.heading,
-  };
-
   return (
-    <main className="bg-white text-black">
+    <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader
         brand={ariaLuxBrand}
         menus={ARIA_HEADER_MENU}
         hideLanguageSwitcher
       />
 
-      <HeroBanner slides={[heroSlide]} fullHeight={false} autoplayDelayMs={0} />
+      <PageHero
+        eyebrow="Behind the build"
+        heading={ARIA_VIDEOS_PAGE.heading}
+        description={ARIA_VIDEOS_PAGE.intro}
+        backgroundImage={ARIA_PORTFOLIO.images[0]?.src ?? ""}
+        imageAlt={ARIA_VIDEOS_PAGE.heading}
+        ctaLabel="Schedule a Free Consultation"
+      />
 
+      {/* Video grid — staggered slide-up */}
       <section className="px-6 py-24 lg:px-10">
         <div className="mx-auto max-w-[81rem]">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12">
             {ARIA_VIDEOS.map((video, idx) => (
-              <figure
+              <ScrollReveal
                 key={video.vimeoId}
+                as="figure"
+                variant="fadeUp"
+                index={idx}
+                stagger={0.12}
+                duration={0.9}
                 className="group flex flex-col gap-4"
               >
                 <div className="relative aspect-video w-full overflow-hidden rounded-sm bg-black">
@@ -71,7 +68,7 @@ export default function VideoPage() {
                     {String(ARIA_VIDEOS.length).padStart(2, "0")}
                   </span>
                 </figcaption>
-              </figure>
+              </ScrollReveal>
             ))}
           </div>
         </div>
