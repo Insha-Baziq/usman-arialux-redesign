@@ -62,23 +62,30 @@ export function StoryGrid({
 
     const cards = Array.from(track.querySelectorAll<HTMLElement>(".sobha-press-card"));
 
-    gsap.set(headingEl, { opacity: 0, x: -100 });
-    if (cards.length) gsap.set(cards, { opacity: 0, y: 100 });
+    if (window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 767px)").matches) {
+      gsap.set([headingEl, ...cards], { clearProps: "all" });
+      return;
+    }
+
+    gsap.set(headingEl, { opacity: 0, y: 42, willChange: "transform,opacity" });
+    if (cards.length) gsap.set(cards, { opacity: 0, y: 56, willChange: "transform,opacity" });
 
     const triggerId = `sobha-press-${Math.random().toString(36).slice(2)}`;
     const tl = gsap.timeline({
       scrollTrigger: {
         id: triggerId,
         trigger: headingEl,
-        start: "top 80%",
-        toggleActions: "play none none reverse",
+        start: "top 84%",
+        end: "top 62%",
+        scrub: 0.25,
       },
     });
     tl.to(headingEl, {
       opacity: 1,
-      x: 0,
-      duration: 1.2,
-      ease: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+      y: 0,
+      duration: 1,
+      ease: "none",
+      clearProps: "willChange",
     });
     if (cards.length) {
       tl.to(
@@ -86,12 +93,12 @@ export function StoryGrid({
         {
           opacity: 1,
           y: 0,
-          duration: 1.2,
-          stagger: 0.2,
-          ease: "cubic-bezier(0.25, 0.1, 0.25, 1)",
-          clearProps: "opacity,transform",
+          duration: 1,
+          stagger: 0.07,
+          ease: "none",
+          clearProps: "opacity,transform,willChange",
         },
-        "-=0.8",
+        0.16,
       );
     }
 
@@ -102,7 +109,7 @@ export function StoryGrid({
   }, []);
 
   return (
-    <section className={className ?? "sobha-stories-sec bg-white pb-12 pt-[150px] text-black lg:pb-16"}>
+    <section className={className ?? "sobha-stories-sec bg-[#f7f3ec] pb-12 pt-10 text-black lg:pb-16 lg:pt-12"}>
       <div className="mx-auto max-w-[81rem] px-6 lg:px-10">
         <h2
           ref={headingRef}
@@ -119,7 +126,7 @@ export function StoryGrid({
           centeredSlides
           slideToClickedSlide
           watchSlidesProgress
-          loop={stories.length > 2}
+          loop={stories.length >= 7}
           speed={500}
           autoplay={{ delay: 5000, disableOnInteraction: false }}
           navigation={{ prevEl: `.${prevClass}`, nextEl: `.${nextClass}` }}
@@ -130,7 +137,7 @@ export function StoryGrid({
             <SwiperSlide key={story.title} className="sobha-press-slide">
               <a
                 href={story.href}
-                className="sobha-press-card s-stories-slide-box block overflow-hidden bg-white text-black"
+                className="sobha-press-card s-stories-slide-box block overflow-hidden bg-[#fbf7ef] text-black"
               >
                 <picture>
                   <source media="(max-width: 640px)" srcSet={story.mobileImageUrl ?? story.imageUrl} />
