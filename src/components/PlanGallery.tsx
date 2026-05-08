@@ -14,13 +14,13 @@ type PlanGalleryProps = {
 };
 
 export function PlanGallery({ images, alt }: PlanGalleryProps) {
+  if (images.length === 0) return null;
+
   const reactId = useId();
   const safeId = reactId.replace(/[^a-zA-Z0-9_-]/g, "");
   const prevClass = `plan-gallery-prev-${safeId}`;
   const nextClass = `plan-gallery-next-${safeId}`;
   const pagClass = `plan-gallery-pag-${safeId}`;
-
-  if (images.length === 0) return null;
 
   return (
     <div className="relative">

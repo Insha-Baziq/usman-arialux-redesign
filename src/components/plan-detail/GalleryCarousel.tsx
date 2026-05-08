@@ -16,13 +16,13 @@ type GalleryCarouselProps = {
 };
 
 export function GalleryCarousel({ images, alt }: GalleryCarouselProps) {
+  if (images.length === 0) return null;
+
   const reactId = useId();
   const safeId = reactId.replace(/[^a-zA-Z0-9_-]/g, "");
   const prevClass = `gallery-carousel-prev-${safeId}`;
   const nextClass = `gallery-carousel-next-${safeId}`;
   const pagClass = `gallery-carousel-pag-${safeId}`;
-
-  if (images.length === 0) return null;
 
   return (
     <div className="plan-detail-gallery-swiper relative">

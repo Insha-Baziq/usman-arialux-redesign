@@ -50,10 +50,7 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
   const [sort, setSort] = useState<SortOrder>("featured");
   const [sortOpen, setSortOpen] = useState(false);
   const sortRef = useRef<HTMLDivElement>(null);
-  const [visibleState, setVisibleState] = useState({
-    key: "all:all:featured",
-    count: PLANS_INITIAL,
-  });
+  const [visibleCount, setVisibleCount] = useState(PLANS_INITIAL);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -67,9 +64,9 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
 
   const sizeMatch = SIZE_OPTIONS.find((opt) => opt.id === size) ?? SIZE_OPTIONS[0];
   const bedroomMatch = BEDROOM_OPTIONS.find((opt) => opt.id === bedrooms) ?? BEDROOM_OPTIONS[0];
-  const filterKey = `${size}:${bedrooms}:${sort}`;
 
   const filtered = useMemo(() => {
+    setVisibleCount(PLANS_INITIAL);
     const result = plans.filter(
       (plan) =>
         sizeMatch.match(plan.specs.living) && bedroomMatch.match(plan.specs.bedrooms),
@@ -79,7 +76,6 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
     return result;
   }, [plans, sizeMatch, bedroomMatch, sort]);
 
-  const visibleCount = visibleState.key === filterKey ? visibleState.count : PLANS_INITIAL;
   const visiblePlans = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
 
@@ -206,10 +202,9 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
           <ShowMoreBar
             hasMore={hasMore}
             onToggle={() =>
-              setVisibleState(() => ({
-                key: filterKey,
-                count: hasMore ? Math.min(visibleCount + PLANS_PAGE, filtered.length) : PLANS_INITIAL,
-              }))
+              setVisibleCount((c) =>
+                hasMore ? Math.min(c + PLANS_PAGE, filtered.length) : PLANS_INITIAL,
+              )
             }
           />
         )}
