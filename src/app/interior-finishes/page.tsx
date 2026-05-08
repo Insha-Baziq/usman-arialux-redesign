@@ -6,6 +6,7 @@ import {
   ARIA_HEADER_MENU,
   ARIA_INTERIOR_FINISHES,
 } from "@/components/arialux-data";
+import { InteriorFinishesGallery } from "@/components/InteriorFinishesGallery";
 import { MaskReveal, ScrollReveal } from "@/components/ScrollReveal";
 import {
   DarkCtaBand,
@@ -51,31 +52,7 @@ export default function InteriorFinishesPage() {
             </ScrollReveal>
           </div>
 
-          <div className="columns-1 gap-4 sm:columns-2 md:columns-3 lg:columns-4 [&>*]:mb-4 [&>*]:break-inside-avoid">
-            {ARIA_INTERIOR_FINISHES.images.map((item, idx) => (
-              <ScrollReveal
-                key={item.src}
-                as="figure"
-                variant="scaleUp"
-                index={idx}
-                stagger={0.06}
-                duration={0.8}
-                className="group relative overflow-hidden rounded-sm bg-black/5"
-              >
-                <img
-                  src={item.src}
-                  alt={item.alt}
-                  loading="lazy"
-                  decoding="async"
-                  className="block h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                />
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                />
-              </ScrollReveal>
-            ))}
-          </div>
+          <InteriorFinishesGallery images={ARIA_INTERIOR_FINISHES.images} />
         </div>
       </section>
 

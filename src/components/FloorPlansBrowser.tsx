@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
 
 import type { AriaPlan } from "./arialux-data";
 import { ScrollReveal } from "./ScrollReveal";
+import { ShowMoreBar } from "./ShowMoreBar";
 
 type FloorPlansBrowserProps = {
   plans: AriaPlan[];
@@ -11,6 +12,7 @@ type FloorPlansBrowserProps = {
 
 type SizeFilter = "all" | "compact" | "mid" | "estate";
 type BedroomFilter = "all" | "small" | "large";
+type SortOrder = "featured" | "largest" | "smallest";
 
 type SizeOption = {
   id: SizeFilter;
@@ -39,21 +41,43 @@ const BEDROOM_OPTIONS: BedroomOption[] = [
   { id: "large", label: "5+ BR", hint: "", match: (br) => br >= 5 },
 ];
 
+const PLANS_INITIAL = 6;
+const PLANS_PAGE = 6;
+
 export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
   const [size, setSize] = useState<SizeFilter>("all");
   const [bedrooms, setBedrooms] = useState<BedroomFilter>("all");
+  const [sort, setSort] = useState<SortOrder>("featured");
+  const [sortOpen, setSortOpen] = useState(false);
+  const sortRef = useRef<HTMLDivElement>(null);
+  const [visibleCount, setVisibleCount] = useState(PLANS_INITIAL);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (sortRef.current && !sortRef.current.contains(e.target as Node)) {
+        setSortOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   const sizeMatch = SIZE_OPTIONS.find((opt) => opt.id === size) ?? SIZE_OPTIONS[0];
   const bedroomMatch = BEDROOM_OPTIONS.find((opt) => opt.id === bedrooms) ?? BEDROOM_OPTIONS[0];
 
-  const filtered = useMemo(
-    () =>
-      plans.filter(
-        (plan) =>
-          sizeMatch.match(plan.specs.living) && bedroomMatch.match(plan.specs.bedrooms),
-      ),
-    [plans, sizeMatch, bedroomMatch],
-  );
+  const filtered = useMemo(() => {
+    setVisibleCount(PLANS_INITIAL);
+    const result = plans.filter(
+      (plan) =>
+        sizeMatch.match(plan.specs.living) && bedroomMatch.match(plan.specs.bedrooms),
+    );
+    if (sort === "largest") return [...result].sort((a, b) => b.specs.living - a.specs.living);
+    if (sort === "smallest") return [...result].sort((a, b) => a.specs.living - b.specs.living);
+    return result;
+  }, [plans, sizeMatch, bedroomMatch, sort]);
+
+  const visiblePlans = filtered.slice(0, visibleCount);
+  const hasMore = visibleCount < filtered.length;
 
   return (
     <section className="bg-[#f7f3ec] px-6 pb-16 lg:px-10 lg:pb-24">
@@ -92,27 +116,54 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
             ))}
           </FilterGroup>
 
-          <label className="shrink-0 space-y-3 lg:ml-auto">
-            <span className="block text-[0.58rem] font-semibold uppercase tracking-[0.32em] text-[#171410]">
+          <div className="shrink-0 space-y-3 lg:ml-auto" ref={sortRef}>
+            <p className="text-[0.58rem] font-semibold uppercase tracking-[0.32em] text-[#171410]">
               Sort By
-            </span>
+            </p>
             <div className="relative">
-              <select
-                aria-label="Sort floor plans"
-                className="h-12 w-full min-w-[8rem] appearance-none rounded-full border border-[#d9d0c4] bg-[#fbf8f2] py-0 pr-10 pl-5 text-[0.68rem] font-semibold tracking-[0.08em] text-[#332c25] shadow-[0_10px_32px_-28px_rgba(23,20,16,0.45)] outline-none transition focus:border-[#b58942]"
-                defaultValue="featured"
+              <button
+                type="button"
+                aria-haspopup="listbox"
+                aria-expanded={sortOpen}
+                onClick={() => setSortOpen((o) => !o)}
+                className="flex h-10 min-w-[10rem] items-center rounded-[0.45rem] border border-[#cfc3b5] bg-[#fbf8f2] pl-4 pr-3 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#332c25] shadow-[0_18px_44px_-34px_rgba(23,20,16,0.5)] transition hover:border-[#b58942] focus:outline-none"
               >
-                <option value="featured">Featured</option>
-                <option value="largest">Largest</option>
-                <option value="smallest">Smallest</option>
-              </select>
-              <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[#6c6258]">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                  <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <span className="flex-1 text-left">{sort}</span>
+                <span className="mx-2 h-5 w-px bg-[#d8c9b8]" aria-hidden="true" />
+                <svg
+                  width="13" height="13" viewBox="0 0 13 13" fill="none"
+                  aria-hidden="true"
+                  className={`text-[#b58942] transition-transform duration-200 ${sortOpen ? "rotate-180" : ""}`}
+                >
+                  <path d="M3.25 5L6.5 8.25L9.75 5" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </span>
+              </button>
+
+              {sortOpen && (
+                <ul
+                  role="listbox"
+                  aria-label="Sort floor plans"
+                  className="absolute left-0 right-0 top-[calc(100%+6px)] z-20 overflow-hidden rounded-[0.45rem] border border-[#d6cbbc] bg-[#fbf8f2] shadow-[0_16px_40px_-20px_rgba(23,20,16,0.35)]"
+                >
+                  {(["featured", "largest", "smallest"] as SortOrder[]).map((opt) => (
+                    <li
+                      key={opt}
+                      role="option"
+                      aria-selected={sort === opt}
+                      onClick={() => { setSort(opt); setSortOpen(false); }}
+                      className={`cursor-pointer px-4 py-2 text-[0.62rem] font-semibold uppercase tracking-[0.14em] transition ${
+                        sort === opt
+                          ? "bg-[#b58942] text-white"
+                          : "text-[#332c25] hover:bg-[#f0e8d8] hover:text-[#171410]"
+                      }`}
+                    >
+                      {opt}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
-          </label>
+          </div>
         </div>
 
         {filtered.length === 0 ? (
@@ -133,7 +184,7 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
             data-testid="floor-plan-reference-grid"
             className="grid grid-cols-1 gap-5 py-8 md:grid-cols-2 xl:grid-cols-3 xl:py-10"
           >
-            {filtered.map((plan, idx) => (
+            {visiblePlans.map((plan, idx) => (
               <ScrollReveal
                 key={plan.slug}
                 variant="scaleUp"
@@ -145,6 +196,17 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
               </ScrollReveal>
             ))}
           </div>
+        )}
+
+        {filtered.length > PLANS_INITIAL && (
+          <ShowMoreBar
+            hasMore={hasMore}
+            onToggle={() =>
+              setVisibleCount((c) =>
+                hasMore ? Math.min(c + PLANS_PAGE, filtered.length) : PLANS_INITIAL,
+              )
+            }
+          />
         )}
 
         <CustomPlanPanel />

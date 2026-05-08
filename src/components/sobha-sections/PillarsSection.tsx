@@ -47,32 +47,40 @@ export function PillarsSection({ heading, pillars, className }: PillarsSectionPr
     const cards = Array.from(track.querySelectorAll<HTMLElement>(".sobha-pillar-card"));
     if (cards.length === 0) return;
 
-    gsap.set([headingEl, ...cards], { opacity: 0, y: 100 });
+    if (window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 767px)").matches) {
+      gsap.set([headingEl, ...cards], { clearProps: "all" });
+      return;
+    }
+
+    gsap.set([headingEl, ...cards], { opacity: 0, y: 56, willChange: "transform,opacity" });
 
     const triggerId = `sobha-pillars-${Math.random().toString(36).slice(2)}`;
     const tl = gsap.timeline({
       scrollTrigger: {
         id: triggerId,
         trigger: headingEl,
-        start: "top center",
-        toggleActions: "play none none reverse",
+        start: "top 86%",
+        end: "top 46%",
+        scrub: 0.7,
       },
     });
     tl.to(headingEl, {
       opacity: 1,
       y: 0,
-      duration: 1.2,
-      ease: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+      duration: 1,
+      ease: "none",
+      clearProps: "willChange",
     }).to(
       cards,
       {
         opacity: 1,
         y: 0,
-        duration: 1.2,
-        stagger: 0.2,
-        ease: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+        duration: 1,
+        stagger: 0.12,
+        ease: "none",
+        clearProps: "willChange",
       },
-      "-=0.8",
+      0.16,
     );
 
     return () => {
@@ -82,7 +90,7 @@ export function PillarsSection({ heading, pillars, className }: PillarsSectionPr
   }, []);
 
   return (
-    <section className={className ?? "bg-[#efefef] px-0 py-20 text-black lg:py-24"}>
+    <section className={className ?? "bg-[#f7f3ec] px-0 py-20 text-black lg:py-24"}>
       <div className="title-section mx-auto w-[92vw] max-w-[92vw] px-6 lg:px-10">
         <h2
           ref={headingRef}
@@ -100,7 +108,7 @@ export function PillarsSection({ heading, pillars, className }: PillarsSectionPr
           modules={[Autoplay]}
           spaceBetween={20}
           slidesPerView={1}
-          loop={pillars.length > 2}
+          loop={pillars.length >= 7}
           speed={300}
           autoplay={{ delay: 6000, disableOnInteraction: false }}
           breakpoints={{
