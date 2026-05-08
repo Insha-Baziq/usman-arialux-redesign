@@ -40,10 +40,10 @@ export function PageHero({
         <img
           src={backgroundImage}
           alt={imageAlt}
-          className="h-full w-full object-cover opacity-35 grayscale-[25%]"
+          className="h-full w-full object-cover opacity-55 grayscale-[15%]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#f7f3ec] via-[#f7f3ec]/72 to-[#f7f3ec]/18" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#f7f3ec] via-transparent to-[#f7f3ec]/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#f7f3ec] via-[#f7f3ec]/62 to-[#f7f3ec]/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#f7f3ec] via-transparent to-[#f7f3ec]/22" />
       </motion.div>
 
       <div className="relative mx-auto grid max-w-[81rem] gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">

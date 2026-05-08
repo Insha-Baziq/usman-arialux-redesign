@@ -314,8 +314,39 @@ function SobhaLangSwitcher({
 
 function SobhaMegaMenuItem({ menu }: { menu: ChromeMenu }) {
   const hasPanel = menu.kind !== "simple";
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const clearCloseTimer = () => {
+    if (!closeTimerRef.current) return;
+    clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = null;
+  };
+
+  const openMenu = () => {
+    clearCloseTimer();
+    setIsOpen(true);
+  };
+
+  const scheduleCloseMenu = () => {
+    clearCloseTimer();
+    closeTimerRef.current = setTimeout(() => {
+      setIsOpen(false);
+      closeTimerRef.current = null;
+    }, 260);
+  };
+
+  useEffect(() => clearCloseTimer, []);
+
   return (
-    <div className="sobha-mega-group" data-menu-label={menu.label}>
+    <div
+      className={cn("sobha-mega-group", hasPanel && isOpen && "is-open")}
+      data-menu-label={menu.label}
+      onMouseEnter={hasPanel ? openMenu : undefined}
+      onMouseLeave={hasPanel ? scheduleCloseMenu : undefined}
+      onFocus={hasPanel ? openMenu : undefined}
+      onBlur={hasPanel ? scheduleCloseMenu : undefined}
+    >
       <a
         href={menu.href}
         className="sobha-mega-trigger text-white transition hover:text-white"

@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { existsSync, readdirSync } from "node:fs";
+import path from "node:path";
 
 import { AriaLuxFooter, ariaLuxBrand } from "@/components/arialux-brand";
 import {
@@ -9,6 +11,11 @@ import {
   getPlanBySlug,
   type AriaPlan,
 } from "@/components/arialux-data";
+import {
+  PlanGalleryDialog,
+  type PlanGalleryGroup,
+  type PlanGalleryImage,
+} from "@/components/plan-detail/PlanGalleryDialog";
 import { SobhaHeader } from "@/components/SobhaChrome";
 
 const LIVE_PLAN_DESCRIPTIONS: Record<string, string> = {
@@ -103,31 +110,146 @@ function getGalleryImages(plan: AriaPlan): string[] {
   return Array.from(new Set(images.filter(Boolean)));
 }
 
+const IMAGE_EXTENSIONS = new Set([
+  ".avif",
+  ".gif",
+  ".jpeg",
+  ".jpg",
+  ".png",
+  ".webp",
+]);
+
+const RESERVED_PLAN_ASSET_FOLDERS = new Set(["floor-map", "gallery", "mockup"]);
+
+function getPublicFolderImages(
+  slug: string,
+  folder: string | string[],
+  category: PlanGalleryImage["category"],
+): PlanGalleryImage[] {
+  const folderSegments = Array.isArray(folder) ? folder : folder.split("/");
+  const absoluteFolder = path.join(
+    process.cwd(),
+    "public",
+    "images",
+    "floor-plans",
+    slug,
+    ...folderSegments,
+  );
+
+  if (!existsSync(absoluteFolder)) return [];
+
+  return readdirSync(absoluteFolder, { withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => entry.name)
+    .filter((filename) => IMAGE_EXTENSIONS.has(path.extname(filename).toLowerCase()))
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+    .map((filename) => ({
+      category,
+      src: `/images/floor-plans/${[slug, ...folderSegments, filename]
+        .map((segment) => encodeURIComponent(segment))
+        .join("/")}`,
+    }));
+}
+
+function getBuiltExampleFolders(slug: string): string[] {
+  const absoluteFolder = path.join(
+    process.cwd(),
+    "public",
+    "images",
+    "floor-plans",
+    slug,
+  );
+
+  if (!existsSync(absoluteFolder)) return [];
+
+  return readdirSync(absoluteFolder, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .filter((folder) => !RESERVED_PLAN_ASSET_FOLDERS.has(folder.toLowerCase()))
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+}
+
+function getGalleryGroups(plan: AriaPlan): PlanGalleryGroup[] {
+  const folderGroups = getBuiltExampleFolders(plan.slug)
+    .map((address) => {
+      const images = [
+        ...getPublicFolderImages(plan.slug, [address, "gallery"], "gallery"),
+        ...getPublicFolderImages(
+          plan.slug,
+          [address, "floor-map", "2d"],
+          "floor-plans",
+        ),
+        ...getPublicFolderImages(
+          plan.slug,
+          [address, "floor-map", "3d"],
+          "3d-renders",
+        ),
+      ];
+
+      return { address, images };
+    })
+    .filter((group) => group.images.length > 0);
+
+  if (folderGroups.length > 0) return folderGroups;
+
+  const rootImages = [
+    ...getPublicFolderImages(plan.slug, "gallery", "gallery"),
+    ...getPublicFolderImages(plan.slug, "floor-map/2d", "floor-plans"),
+    ...getPublicFolderImages(plan.slug, "floor-map", "floor-plans"),
+    ...getPublicFolderImages(plan.slug, "floor-map/3d", "3d-renders"),
+  ];
+
+  if (rootImages.length > 0) {
+    return [{ address: "Gallery", images: rootImages }];
+  }
+
+  return [
+    {
+      address: "Gallery",
+      images: getGalleryImages(plan).map((src) => ({ src, category: "gallery" })),
+    },
+  ];
+}
+
 function isPhontoImage(image: string): boolean {
   return decodeURIComponent(image).toLowerCase().includes("phonto-");
 }
 
-function getHeroImage(plan: AriaPlan): string {
-  return plan.gallery.find((image) => !isPhontoImage(image)) ?? plan.hero;
-}
+function getHeroAndGalleryFromFs(
+  plan: AriaPlan,
+  groups: PlanGalleryGroup[],
+): { hero: string; gallery: string[] } {
+  const allImages = groups.flatMap((g) => g.images);
+  const gallerySrcs = allImages
+    .filter((i) => i.category === "gallery")
+    .map((i) => i.src);
+  const allSrcs = allImages.map((i) => i.src);
 
-function getDisplayGalleryImages(plan: AriaPlan, heroImage: string): string[] {
-  const images = getGalleryImages(plan);
-  const cleanImages = images.filter((image) => !isPhontoImage(image));
-  const decoratedImages = images.filter(isPhontoImage);
-  const preferredImages =
-    cleanImages.length > 0
-      ? Array.from(new Set([heroImage, ...cleanImages]))
-      : Array.from(new Set([heroImage, ...decoratedImages]));
-
-  const gallery = [...preferredImages];
-  let index = 0;
-  while (gallery.length < 7 && preferredImages.length > 0) {
-    gallery.push(preferredImages[index % preferredImages.length]);
-    index += 1;
+  if (allSrcs.length === 0) {
+    return { hero: plan.hero, gallery: [plan.hero] };
   }
 
-  return gallery.slice(0, 7);
+  const hero =
+    gallerySrcs.find((src) => !isPhontoImage(src)) ??
+    allSrcs.find((src) => !isPhontoImage(src)) ??
+    allSrcs[0] ??
+    plan.hero;
+
+  const nonPhonto = allSrcs.filter((src) => !isPhontoImage(src));
+  const phonto = allSrcs.filter((src) => isPhontoImage(src));
+  const preferred =
+    nonPhonto.length > 0
+      ? Array.from(new Set([hero, ...nonPhonto]))
+      : Array.from(new Set([hero, ...phonto]));
+
+  const gallery = [...preferred];
+  let idx = 0;
+  while (gallery.length < 7 && preferred.length > 0) {
+    gallery.push(preferred[idx % preferred.length]);
+    idx += 1;
+  }
+
+  return { hero, gallery: gallery.slice(0, 7) };
 }
 
 function SpecIcon({ kind, className = "h-8 w-8" }: { kind: IconKind; className?: string }) {
@@ -217,8 +339,8 @@ export default async function PlanDetailPage(
 
   const description = getPlanDescription(plan);
   const specTiles = buildSpecTiles(plan);
-  const heroImage = getHeroImage(plan);
-  const galleryImages = getDisplayGalleryImages(plan, heroImage);
+  const galleryGroups = getGalleryGroups(plan);
+  const { hero: heroImage, gallery: galleryImages } = getHeroAndGalleryFromFs(plan, galleryGroups);
   const featuredGallery = galleryImages[0] ?? heroImage;
   const thumbnailImages = galleryImages.slice(1, 7);
 
@@ -260,13 +382,11 @@ export default async function PlanDetailPage(
                 Request Consultation
                 <span aria-hidden="true">&rsaquo;</span>
               </a>
-              <a
-                href="#gallery"
-                className="inline-flex min-h-[2.85rem] min-w-[10.5rem] items-center justify-center gap-4 rounded-[0.2rem] border border-[#b58942]/72 bg-transparent px-7 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#a97530] transition hover:bg-[#b58942] hover:text-white"
-              >
-                View Gallery
-                <span aria-hidden="true">&rsaquo;</span>
-              </a>
+              <PlanGalleryDialog
+                planName={plan.displayName}
+                groups={galleryGroups}
+                triggerClassName="inline-flex min-h-[2.85rem] min-w-[10.5rem] items-center justify-center gap-4 rounded-[0.2rem] border border-[#b58942]/72 bg-transparent px-7 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#a97530] transition hover:bg-[#b58942] hover:text-white"
+              />
             </div>
           </div>
 
@@ -283,10 +403,26 @@ export default async function PlanDetailPage(
       </section>
 
       <section className="px-5 py-2 sm:px-8 lg:px-11">
-        <div className="mx-auto grid max-w-[90rem] overflow-hidden rounded-[0.22rem] border border-[#ded1ba] bg-[#fbf7ef]/72 shadow-[0_16px_46px_-38px_rgba(80,60,36,0.6)] sm:grid-cols-2 lg:grid-cols-6">
-          {specTiles.map((spec, index) => (
-            <SpecItem key={spec.label} spec={spec} index={index} />
-          ))}
+        <div className="mx-auto grid max-w-[90rem] overflow-hidden rounded-[0.22rem] border border-[#ded1ba] bg-[#fbf7ef]/64 lg:grid-cols-[19.5rem_minmax(0,1fr)]">
+          <div className="px-8 py-3 lg:border-r lg:border-[#ded1ba]">
+            <h2 className="font-heading text-[1.35rem] font-normal uppercase leading-none tracking-[0.09em] text-[#15120f]">
+              Plan Details
+            </h2>
+            <span
+              aria-hidden="true"
+              className="mt-2 block h-px w-8 bg-[#b58942]"
+            />
+            <p className="mt-2 text-[0.72rem] font-light leading-[1.32] text-[#15120f]/78">
+              Thoughtfully designed for modern living with an open layout,
+              private retreats, and timeless curb appeal. This plan can be
+              customized to fit your lifestyle and lot.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-6">
+            {specTiles.map((spec, index) => (
+              <SpecItem key={spec.label} spec={spec} index={index} />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -326,30 +462,6 @@ export default async function PlanDetailPage(
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-5 py-2 sm:px-8 lg:px-11">
-        <div className="mx-auto grid max-w-[90rem] overflow-hidden rounded-[0.22rem] border border-[#ded1ba] bg-[#fbf7ef]/64 lg:grid-cols-[19.5rem_minmax(0,1fr)]">
-          <div className="px-8 py-3 lg:border-r lg:border-[#ded1ba]">
-            <h2 className="font-heading text-[1.35rem] font-normal uppercase leading-none tracking-[0.09em] text-[#15120f]">
-              Plan Details
-            </h2>
-            <span
-              aria-hidden="true"
-              className="mt-2 block h-px w-8 bg-[#b58942]"
-            />
-            <p className="mt-2 text-[0.72rem] font-light leading-[1.32] text-[#15120f]/78">
-              Thoughtfully designed for modern living with an open layout,
-              private retreats, and timeless curb appeal. This plan can be
-              customized to fit your lifestyle and lot.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-6">
-            {specTiles.map((spec, index) => (
-              <SpecItem key={spec.label} spec={spec} index={index} />
-            ))}
           </div>
         </div>
       </section>

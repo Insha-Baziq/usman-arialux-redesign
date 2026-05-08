@@ -11,6 +11,7 @@ type ScrollRevealProps = {
   delay?: number;
   duration?: number;
   className?: string;
+  id?: string;
   as?: "div" | "section" | "figure" | "li" | "span" | "article";
   index?: number;
   stagger?: number;
@@ -58,6 +59,7 @@ export function ScrollReveal({
   delay = 0,
   duration = 0.9,
   className,
+  id,
   as = "div",
   index = 0,
   stagger = 0,
@@ -71,11 +73,16 @@ export function ScrollReveal({
   const Component = motionComponents[as];
 
   if (shouldReduce) {
-    return <Component className={className}>{children}</Component>;
+    return (
+      <Component id={id} className={className}>
+        {children}
+      </Component>
+    );
   }
 
   return (
     <Component
+      id={id}
       className={className}
       initial={v.hidden}
       whileInView={v.visible}
@@ -100,13 +107,11 @@ export function MaskReveal({
   duration = 1,
   className,
 }: MaskRevealProps) {
-  const shouldReduce = useReducedMotion();
-
   return (
     <span className={`block overflow-hidden ${className ?? ""}`}>
       <motion.span
         className="block"
-        initial={shouldReduce ? false : { y: "110%", opacity: 0 }}
+        initial={false}
         whileInView={{ y: "0%", opacity: 1 }}
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration, delay, ease }}
@@ -130,18 +135,13 @@ export function LineDraw({
   duration = 0.8,
   className,
 }: LineDrawProps) {
-  const shouldReduce = useReducedMotion();
   const isH = direction === "horizontal";
 
   return (
     <motion.span
       className={className}
       aria-hidden="true"
-      initial={
-        shouldReduce
-          ? false
-          : { scaleX: isH ? 0 : 1, scaleY: isH ? 1 : 0, opacity: 0 }
-      }
+      initial={false}
       whileInView={{ scaleX: 1, scaleY: 1, opacity: 1 }}
       viewport={{ once: true, amount: 0.5 }}
       transition={{ duration, delay, ease }}

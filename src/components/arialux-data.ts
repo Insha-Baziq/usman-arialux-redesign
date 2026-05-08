@@ -1,6 +1,6 @@
 // AriaLux Homes shared data layer
 // Sources verified at https://arialuxhomes.com (captured 2026-05-06).
-// All assets reference AriaLux's WSimg CDN (img1.wsimg.com).
+// Images are stored locally under public/images.
 
 export type AriaLink = {
   label: string;
@@ -58,31 +58,47 @@ export type AriaVideoItem = {
   title: string;
 };
 
+export type AriaArticle = {
+  slug: string;
+  title: string;
+  category: "Buying" | "Design" | "Construction" | "Floor Plans";
+  summary: string;
+  image: string;
+  images: string[];
+  dateLabel: string;
+  publisher: string;
+  publishedAt: string;
+};
+
 export type AriaFooterGroup = {
   title: string;
   links: AriaLink[];
 };
 
-const CDN_BASE = "https://img1.wsimg.com/isteam/ip/3260288d-1180-4f25-980c-7e6bbf1754ec";
-const CDN_TX = "/:/rs=w:1280,h:960,m";
+// Local image helpers. Files live under public/images.
+const planImg = (slug: string, filename: string): string =>
+  `/images/floor-plans/${slug}/gallery/${filename}`;
 
-const img = (filename: string): string => {
-  // WSimg uses URL-encoded filenames with spaces preserved as %20.
-  const encoded = encodeURIComponent(filename).replace(/%2F/g, "/");
-  return `${CDN_BASE}/${encoded}${CDN_TX}`;
-};
+const planMapImg = (slug: string, filename: string): string =>
+  `/images/floor-plans/${slug}/floor-map/${filename}`;
 
-const heroImg = (filename: string): string => {
-  const encoded = encodeURIComponent(filename).replace(/%2F/g, "/");
-  return `${CDN_BASE}/${encoded}/:/rs=w:1920,h:1080,m`;
-};
+const img = (filename: string): string => `/images/arialux-gallery/${filename}`;
+
+const interiorImg = (filename: string): string => `/images/interior-finishes/${filename}`;
+
+const portfolioImg = (filename: string): string => `/images/portfolio/${filename}`;
+
+const articleImg = (filename: string): string =>
+  `/images/article/buy-new-construction-now/${filename}`;
+
+const heroImg = img;
 
 export const ARIA_BRAND = {
   name: "AriaLux Homes",
   tagline: "Custom Home Builder | Architectural Firm",
   city: "Fort Wayne, IN",
-  phone: "260-600-9221",
-  phoneHref: "tel:+12606009221",
+  phone: "+1 832-773-9544",
+  phoneHref: "tel:+18327739544",
   whatsapp: "+18327739544",
   whatsappHref: "https://wa.me/18327739544",
   email: "BUILD@ARIALUXHOMES.COM",
@@ -108,7 +124,7 @@ export const ARIA_NAV: AriaLink[] = [
 
 export const ARIA_SOCIAL: AriaSocialLink[] = [
   { label: "Instagram", href: "https://www.instagram.com/arialuxhomes/", icon: "instagram" },
-  { label: "Facebook", href: "https://www.facebook.com/AriaLuxHomes", icon: "facebook" },
+  { label: "Facebook", href: "https://www.facebook.com/share/17oc9hFmYL/?mibextid=wwXIfr", icon: "facebook" },
 ];
 
 // ---------------------------------------------------------------------------
@@ -128,7 +144,7 @@ export const ARIA_PLANS: AriaPlan[] = [
     shortBlurb:
       "Six bedrooms across 3,733 SQFT of living space — designed for multi-generational families who value both grandeur and intimacy.",
     specs: { living: 3733, garage: 455, porch: 79, total: 4267, bedrooms: 6, bathrooms: 3.5 },
-    hero: heroImg("phonto-2026e06.jpeg"),
+    hero: planImg("aria-heights", "phonto-2026e06.jpeg"),
     gallery: [
       "phonto-2026e06.jpeg",
       "IMG_5368.jpeg",
@@ -136,7 +152,17 @@ export const ARIA_PLANS: AriaPlan[] = [
       "IMG_5366.jpeg",
       "IMG_5365.jpeg",
       "IMG_5364.jpeg",
-    ].map(img),
+      "IMG_3727.jpeg",
+      "IMG_9151-7a2eb99.jpeg",
+      "phonto-2ecd45c.jpeg",
+      "IMG_9172.jpeg",
+      "IMG_2386.jpeg",
+      "IMG_1261.jpeg",
+      "IMG_2330-4ea7540.jpeg",
+      "IMG_2332-9b05cb0.jpeg",
+      "IMG_0445.jpeg",
+      "IMG_0446.jpeg",
+    ].map((filename) => planImg("aria-heights", filename)),
     addressGroups: [{ address: "3331 Vantage View Dr", images: [] }],
     featuredOnHome: true,
     featuredOnListing: true,
@@ -151,15 +177,23 @@ export const ARIA_PLANS: AriaPlan[] = [
       // NOTE: AriaLux's live page lists 10 BR / 4.5 BA in 4,070 SQFT living. Verify against the floor-plan PDF before publishing.
       "An estate-scale residence with ten bedrooms and four-and-a-half baths across 4,070 SQFT of living area.",
     specs: { living: 4070, garage: 527, porch: 51, total: 4648, bedrooms: 10, bathrooms: 4.5 },
-    hero: heroImg("phonto-14e9252.jpeg"),
+    hero: planImg("alena-heights", "phonto-14e9252.jpeg"),
     gallery: [
       "phonto-14e9252.jpeg",
       "phonto-9ce1309.jpeg",
       "phonto-efb1ecd.jpeg",
+      "phonto-eda6327.jpeg",
       "IMG_5447.jpeg",
       "IMG_5445.jpeg",
+      "IMG_5430.jpeg",
+      "IMG_5429.jpeg",
+      "IMG_5431.jpeg",
+      "IMG_5432.jpeg",
       "IMG_5433.jpeg",
-    ].map(img),
+      "IMG_5434.jpeg",
+      "IMG_6002-9d81410.jpeg",
+      "IMG_6003-dad255f.jpeg",
+    ].map((filename) => planImg("alena-heights", filename)),
     featuredOnListing: true,
   },
   {
@@ -173,7 +207,7 @@ export const ARIA_PLANS: AriaPlan[] = [
       "Six bedrooms, three-and-a-half baths, and 2,473 SQFT of living space across two built homes on Starks Blvd and Churchill Dr.",
     specs: { living: 2473, garage: 431, porch: 54, total: 2958, bedrooms: 6, bathrooms: 3.5 },
     vimeoId: "1039358014",
-    hero: heroImg("phonto-6c8cc83.jpeg"),
+    hero: planImg("amberstone", "phonto-6c8cc83.jpeg"),
     gallery: [
       "phonto-6c8cc83.jpeg",
       "IMG_5373.jpeg",
@@ -217,7 +251,7 @@ export const ARIA_PLANS: AriaPlan[] = [
       "IMG_4403.jpeg",
       "IMG_4982.jpeg",
       "IMG_3782.jpeg",
-    ].map(img),
+    ].map((filename) => planImg("amberstone", filename)),
     addressGroups: [
       { address: "6985 Starks Blvd", images: [] },
       { address: "5717 Churchill Dr", images: [] },
@@ -234,7 +268,7 @@ export const ARIA_PLANS: AriaPlan[] = [
     shortBlurb:
       "Four bedrooms and a 724 SQFT garage make Bellastone our most accommodating mid-size plan.",
     specs: { living: 2627, garage: 724, porch: 100, total: 3451, bedrooms: 4, bathrooms: 2.5 },
-    hero: heroImg("phonto-1ed1ca9.jpeg"),
+    hero: planImg("bellastone", "phonto-1ed1ca9.jpeg"),
     gallery: [
       "phonto-1ed1ca9.jpeg",
       "9baeb6c9-a139-460a-9b48-997356a3a463.jpeg",
@@ -250,7 +284,7 @@ export const ARIA_PLANS: AriaPlan[] = [
       "IMG_8299.jpeg",
       "IMG_2573.jpeg",
       "IMG_3163.jpeg",
-    ].map(img),
+    ].map((filename) => planImg("bellastone", filename)),
     addressGroups: [{ address: "5924 Wayne Trace", images: [] }],
     featuredOnHome: true,
     featuredOnListing: true,
@@ -265,8 +299,8 @@ export const ARIA_PLANS: AriaPlan[] = [
     shortBlurb:
       "Six bedrooms, three-and-a-half baths, and 3,222 SQFT of living space anchored by a vaulted central living core.",
     specs: { living: 3222, garage: 431, porch: 54, total: 3707, bedrooms: 6, bathrooms: 3.5 },
-    hero: heroImg("phonto-0187e95.jpeg"),
-    gallery: ["phonto-0187e95.jpeg", "IMG_3750.jpeg", "IMG_3751.jpeg"].map(img),
+    hero: planImg("casa-luna", "phonto-0187e95.jpeg"),
+    gallery: ["phonto-0187e95.jpeg", "IMG_3750.jpeg", "IMG_3751.jpeg"].map((filename) => planImg("casa-luna", filename)),
     featuredOnHome: true,
     featuredOnListing: true,
   },
@@ -279,14 +313,14 @@ export const ARIA_PLANS: AriaPlan[] = [
     shortBlurb:
       "Five bedrooms, two-and-a-half baths, and 3,550 SQFT of living space — proportioned for hosting and everyday flow alike.",
     specs: { living: 3550, garage: 455, porch: 105, total: 4110, bedrooms: 5, bathrooms: 2.5 },
-    hero: heroImg("phonto-1125770.jpeg"),
+    hero: planImg("casa-ria", "phonto-1125770.jpeg"),
     gallery: [
       "phonto-1125770.jpeg",
       "phonto-3d0d79c.jpeg",
       "phonto-c804687.jpeg",
       "phonto-414e11b.jpeg",
       "IMG_5347.jpeg",
-    ].map(img),
+    ].map((filename) => planImg("casa-ria", filename)),
     featuredOnListing: true,
   },
   {
@@ -299,14 +333,14 @@ export const ARIA_PLANS: AriaPlan[] = [
     shortBlurb:
       "Four bedrooms, two-and-a-half baths, and 2,088 SQFT of efficient, family-scaled living.",
     specs: { living: 2088, garage: 415, porch: 88, total: 2591, bedrooms: 4, bathrooms: 2.5 },
-    hero: heroImg("phonto-32ce93e.jpeg"),
+    hero: planImg("casa-inaya", "phonto-32ce93e.jpeg"),
     gallery: [
       "phonto-32ce93e.jpeg",
       "phonto-5e38221.jpeg",
       "IMG_5249.jpeg",
       "IMG_5251.jpeg",
       "IMG_5252.jpeg",
-    ].map(img),
+    ].map((filename) => planImg("casa-inaya", filename)),
   },
   {
     slug: "rana-haven",
@@ -317,7 +351,7 @@ export const ARIA_PLANS: AriaPlan[] = [
     shortBlurb:
       "Four bedrooms in 2,088 SQFT — Rana Haven is our entry into custom living.",
     specs: { living: 2088, garage: 415, porch: 88, total: 2591, bedrooms: 4, bathrooms: 2.5 },
-    hero: heroImg("phonto-e24d2ca.jpeg"),
+    hero: planImg("rana-haven", "phonto-e24d2ca.jpeg"),
     gallery: [
       "phonto-e24d2ca.jpeg",
       "phonto-e2ed1d0.jpeg",
@@ -327,7 +361,7 @@ export const ARIA_PLANS: AriaPlan[] = [
       "phonto-746d1b3.jpeg",
       "IMG_5093.jpeg",
       "IMG_5091.jpeg",
-    ].map(img),
+    ].map((filename) => planImg("rana-haven", filename)),
     featuredOnHome: true,
     featuredOnListing: true,
   },
@@ -340,7 +374,7 @@ export const ARIA_PLANS: AriaPlan[] = [
     shortBlurb:
       "Five bedrooms, three-and-a-half baths, and 2,615 SQFT of living space framed by a 546 SQFT garage.",
     specs: { living: 2615, garage: 546, porch: 88, total: 3161, bedrooms: 5, bathrooms: 3.5 },
-    hero: heroImg("phonto-5d39bb6.jpeg"),
+    hero: planImg("sierra-heights", "phonto-5d39bb6.jpeg"),
     gallery: [
       "phonto-5d39bb6.jpeg",
       "phonto-c7cce57.jpeg",
@@ -348,7 +382,7 @@ export const ARIA_PLANS: AriaPlan[] = [
       "IMG_5171.jpeg",
       "IMG_5387.jpeg",
       "IMG_5386.jpeg",
-    ].map(img),
+    ].map((filename) => planImg("sierra-heights", filename)),
     featuredOnListing: true,
   },
   {
@@ -361,59 +395,63 @@ export const ARIA_PLANS: AriaPlan[] = [
     shortBlurb:
       "Five bedrooms and 2,222 SQFT of living, refined across four completed builds at Seddlemeyer, Trentman, and Starks.",
     specs: { living: 2222, garage: 415, porch: 106, total: 2743, bedrooms: 5, bathrooms: 2.5 },
-    hero: heroImg("phonto-1ad0c7f.jpeg"),
+    hero: planImg("villa-terra", "phonto-1ad0c7f.jpeg"),
     gallery: [
-      "phonto-1ad0c7f.jpeg",
-      "IMG_3765.jpeg",
-      "IMG_3759.jpeg",
-      "IMG_3764.jpeg",
-      "IMG_3762.jpeg",
-      "phonto-e7202ec.jpeg",
-      "phonto-2af5a2f.jpeg",
-      "2047 V4.jpg",
-      "5a60ec6b-f757-4730-ad48-3258bab2c01e.jpeg",
-      "IMG_2307-2dbb050.jpeg",
-      "IMG_2310-13a5ecb.jpeg",
-      "IMG_2308.jpeg",
-      "IMG_2309-1307cf2.jpeg",
-      "IMG_2189.jpeg",
-      "IMG_2194.jpeg",
-      "IMG_2184.jpeg",
-      "IMG_2180.jpeg",
-      "IMG_2198.jpeg",
-      "IMG_2200.jpeg",
-      "acb756af-5cea-4379-b9ed-8739cfa76428.jpeg",
-      "64f7fa0a-51cc-4c69-9b61-a7604022a7cc.jpeg",
-      "IMG_2559.jpeg",
-      "IMG_1945.jpeg",
-      "IMG_2865.jpeg",
-      "IMG_2447.jpeg",
-      "RenderedImage.jpeg",
-      "IMG_3001.jpeg",
-      "IMG_1051.jpeg",
-      "IMG_1037.jpeg",
-      "2047 V4.jpeg",
-      "IMG_1940.jpeg",
-      "IMG_8918.jpeg",
-      "IMG_8917.jpeg",
-      "IMG_8738.jpeg",
-      "IMG_8736.jpeg",
-      "IMG_8744.jpeg",
-      "IMG_8748.jpeg",
-      "IMG_8757.jpeg",
-      "IMG_8739.jpeg",
-      "IMG_8758.jpeg",
-      "IMG_8740.jpeg",
-      "IMG_8761.jpeg",
-      "IMG_8777.jpeg",
-      "IMG_8745.jpeg",
-      "IMG_8782.jpeg",
-      "IMG_8771.jpeg",
-      "IMG_8772.jpeg",
-      "IMG_0389.jpeg",
-      "IMG_0090.jpeg",
-      "IMG_0092.jpeg",
-    ].map(img),
+      ...[
+        "phonto-1ad0c7f.jpeg",
+        "IMG_3765.jpeg",
+        "IMG_3759.jpeg",
+        "IMG_3764.jpeg",
+        "IMG_3762.jpeg",
+        "phonto-e7202ec.jpeg",
+        "phonto-2af5a2f.jpeg",
+        "5a60ec6b-f757-4730-ad48-3258bab2c01e.jpeg",
+        "IMG_2307-2dbb050.jpeg",
+        "IMG_2310-13a5ecb.jpeg",
+        "IMG_2308.jpeg",
+        "IMG_2309-1307cf2.jpeg",
+        "IMG_2189.jpeg",
+        "IMG_2194.jpeg",
+        "IMG_2184.jpeg",
+        "IMG_2180.jpeg",
+        "IMG_2198.jpeg",
+        "IMG_2200.jpeg",
+        "acb756af-5cea-4379-b9ed-8739cfa76428.jpeg",
+        "64f7fa0a-51cc-4c69-9b61-a7604022a7cc.jpeg",
+        "IMG_2559.jpeg",
+        "IMG_1945.jpeg",
+        "IMG_2865.jpeg",
+        "IMG_2447.jpeg",
+        "IMG_3001.jpeg",
+        "IMG_1051.jpeg",
+        "IMG_1037.jpeg",
+        "IMG_1940.jpeg",
+        "IMG_8918.jpeg",
+        "IMG_8917.jpeg",
+        "IMG_8738.jpeg",
+        "IMG_8736.jpeg",
+        "IMG_8744.jpeg",
+        "IMG_8748.jpeg",
+        "IMG_8757.jpeg",
+        "IMG_8739.jpeg",
+        "IMG_8758.jpeg",
+        "IMG_8740.jpeg",
+        "IMG_8761.jpeg",
+        "IMG_8777.jpeg",
+        "IMG_8745.jpeg",
+        "IMG_8782.jpeg",
+        "IMG_8771.jpeg",
+        "IMG_8772.jpeg",
+        "IMG_0389.jpeg",
+        "IMG_0090.jpeg",
+        "IMG_0092.jpeg",
+      ].map((f) => planImg("villa-terra", f)),
+      ...[
+        "2047 V4.jpg",
+        "2047 V4.jpeg",
+        "RenderedImage.jpeg",
+      ].map((f) => planMapImg("villa-terra", f)),
+    ],
     addressGroups: [
       { address: "2017 Seddlemeyer Ave", images: [] },
       { address: "2047 Seddlemeyer Ave", images: [] },
@@ -432,7 +470,7 @@ export const ARIA_PLANS: AriaPlan[] = [
     shortBlurb:
       "Three bedrooms in 1,450 SQFT, paired with an oversized 415 SQFT garage.",
     specs: { living: 1450, garage: 415, porch: 51, total: 1916, bedrooms: 3, bathrooms: 2 },
-    hero: heroImg("phonto-6edd633.jpeg"),
+    hero: planImg("villa-lana", "phonto-6edd633.jpeg"),
     gallery: [
       "phonto-6edd633.jpeg",
       "IMG_5108.jpeg",
@@ -440,7 +478,7 @@ export const ARIA_PLANS: AriaPlan[] = [
       "phonto-665a7a5.jpeg",
       "IMG_5106.jpeg",
       "phonto-238dfa0.jpeg",
-    ].map(img),
+    ].map((filename) => planImg("villa-lana", filename)),
     featuredOnListing: true,
   },
   {
@@ -453,44 +491,54 @@ export const ARIA_PLANS: AriaPlan[] = [
     shortBlurb:
       "Five bedrooms, two-and-a-half baths, and 2,000 SQFT of living — Villa Ivory is the most-loved single-story in our collection, with six completed builds.",
     specs: { living: 2000, garage: 387, porch: 83, total: 2470, bedrooms: 5, bathrooms: 2.5 },
-    hero: heroImg("phonto-54b9166.jpeg"),
+    hero: planImg("villa-ivory", "phonto-54b9166.jpeg"),
     gallery: [
-      "phonto-54b9166.jpeg",
-      "phonto-b5e5be3.jpeg",
-      "phonto-c6d9848.jpeg",
-      "phonto-f49e5c4.jpeg",
-      "45' single story house.rvt.jpeg",
-      "45' single story house.rvt-357f0c6.jpeg",
-      "45' single story house.rvt (2).jpeg",
-      "45' single story house.rvt (5).jpeg",
-      "IMG_0420-fe7c625.jpeg",
-      "IMG_0420-ff16e9c.jpeg",
-      "IMG_0421.jpeg",
-      "IMG_0424.jpeg",
-      "IMG_0425.jpeg",
-      "IMG_1727.jpeg",
-      "IMG_1728.jpeg",
-      "IMG_1729.jpeg",
-      "IMG_1730.jpeg",
-      "IMG_1731.jpeg",
-      "IMG_2877.png",
-      "IMG_3820-411bad7.jpeg",
-      "IMG_4248.jpeg",
-      "IMG_4253.jpeg",
-      "IMG_4640-c0cd6c9.webp",
-      "IMG_4640-c6c5308.webp",
-      "IMG_5322.jpeg",
-      "IMG_5323.jpeg",
-      "IMG_5324.jpeg",
-      "IMG_5325.jpeg",
-      "IMG_5326.jpeg",
-      "IMG_5338.jpeg",
-      "IMG_9913.jpeg",
-      "IMG_9915.jpeg",
-      "IMG_9916.jpeg",
-      "IMG_9917.jpeg",
-      "AB1A2C1D-10C9-4030-9C99-EB234D157AE8.jpeg",
-    ].map(img),
+      ...[
+        "phonto-54b9166.jpeg",
+        "phonto-b5e5be3.jpeg",
+        "phonto-c6d9848.jpeg",
+        "phonto-f49e5c4.jpeg",
+        "IMG_0420-fe7c625.jpeg",
+        "IMG_0420-ff16e9c.jpeg",
+        "IMG_0421.jpeg",
+        "IMG_0424.jpeg",
+        "IMG_0425.jpeg",
+        "IMG_1727.jpeg",
+        "IMG_1728.jpeg",
+        "IMG_1729.jpeg",
+        "IMG_1730.jpeg",
+        "IMG_1731.jpeg",
+        "IMG_3820-411bad7.jpeg",
+        "IMG_4248.jpeg",
+        "IMG_4253.jpeg",
+        "IMG_4640-c0cd6c9.webp",
+        "IMG_4640-c6c5308.webp",
+        "IMG_5322.jpeg",
+        "IMG_5323.jpeg",
+        "IMG_5324.jpeg",
+        "IMG_5325.jpeg",
+        "IMG_5326.jpeg",
+        "IMG_5338.jpeg",
+        "IMG_9913.jpeg",
+        "IMG_9915.jpeg",
+        "IMG_9916.jpeg",
+        "IMG_9917.jpeg",
+        "AB1A2C1D-10C9-4030-9C99-EB234D157AE8.jpeg",
+      ].map((f) => planImg("villa-ivory", f)),
+      ...[
+        "45' single story house.rvt.jpeg",
+        "45' single story house.rvt-357f0c6.jpeg",
+        "45' single story house.rvt (2).jpeg",
+        "45' single story house.rvt (2)-93ac5ae.jpeg",
+        "45' single story house.rvt (3).jpeg",
+        "45' single story house.rvt (3)-0f4b7d5.jpeg",
+        "45' single story house.rvt (4).jpeg",
+        "45' single story house.rvt (4)-4cf971f.jpeg",
+        "45' single story house.rvt (5).jpeg",
+        "45' single story house.rvt (5)-f94478e.jpeg",
+        "IMG_2877.png",
+      ].map((f) => planMapImg("villa-ivory", f)),
+    ],
     addressGroups: [
       { address: "7041 Starks Blvd", images: [] },
       { address: "7007 Starks Blvd", images: [] },
@@ -511,7 +559,7 @@ export const ARIA_PLANS: AriaPlan[] = [
     shortBlurb:
       "Three bedrooms in 1,120 SQFT — Villa Nia proves that smaller can still feel custom.",
     specs: { living: 1120, garage: 0, porch: 33, total: 1151, bedrooms: 3, bathrooms: 2 },
-    hero: heroImg("phonto-70f1343.jpeg"),
+    hero: planImg("villa-nia", "phonto-70f1343.jpeg"),
     gallery: [
       "phonto-70f1343.jpeg",
       "IMG_5420.jpeg",
@@ -521,7 +569,7 @@ export const ARIA_PLANS: AriaPlan[] = [
       "IMG_5419.jpeg",
       "IMG_0880.jpeg",
       "IMG_0212.jpeg",
-    ].map(img),
+    ].map((filename) => planImg("villa-nia", filename)),
     addressGroups: [{ address: "3726 South Park Dr", images: [] }],
     featuredOnListing: true,
   },
@@ -534,7 +582,7 @@ export const ARIA_PLANS: AriaPlan[] = [
     shortBlurb:
       "Five bedrooms, two-and-a-half baths, and 3,550 SQFT of living space.",
     specs: { living: 3550, garage: 455, porch: 105, total: 4110, bedrooms: 5, bathrooms: 2.5 },
-    hero: heroImg("phonto-917ee1c.jpeg"),
+    hero: planImg("villa-spectra", "phonto-917ee1c.jpeg"),
     gallery: [
       "phonto-917ee1c.jpeg",
       "IMG_5294.jpeg",
@@ -542,7 +590,7 @@ export const ARIA_PLANS: AriaPlan[] = [
       "IMG_5297.jpeg",
       "IMG_5296.jpeg",
       "IMG_5298.jpeg",
-    ].map(img),
+    ].map((filename) => planImg("villa-spectra", filename)),
     featuredOnHome: true,
     featuredOnListing: true,
   },
@@ -555,16 +603,18 @@ export const ARIA_PLANS: AriaPlan[] = [
     shortBlurb:
       "Four bedrooms and 2,406 SQFT — Villa Zenith fits where larger plans cannot, without giving up scale.",
     specs: { living: 2406, garage: 422, porch: 29, total: 2857, bedrooms: 4, bathrooms: 2.5 },
-    hero: heroImg("IMG_0491.jpeg"),
+    hero: planImg("villa-zenith", "IMG_0491.jpeg"),
     gallery: [
-      "IMG_0491.jpeg",
-      "IMG_0490.jpeg",
-      "IMG_0492.jpeg",
-      "IMG_0121.jpeg",
-      "IMG_0489.jpeg",
-      "IMG_0493.jpeg",
-      "IMG_2709.png",
-    ].map(img),
+      ...[
+        "IMG_0491.jpeg",
+        "IMG_0490.jpeg",
+        "IMG_0492.jpeg",
+        "IMG_0121.jpeg",
+        "IMG_0489.jpeg",
+        "IMG_0493.jpeg",
+      ].map((f) => planImg("villa-zenith", f)),
+      planMapImg("villa-zenith", "IMG_2709.png"),
+    ],
     addressGroups: [{ address: "5705 Churchill Dr", images: [] }],
     featuredOnListing: true,
   },
@@ -577,14 +627,14 @@ export const ARIA_PLANS: AriaPlan[] = [
     shortBlurb:
       "Seven bedrooms, three full baths, and 3,550 SQFT of living — Villa Zoé closes our collection at the top end of capacity.",
     specs: { living: 3550, garage: 455, porch: 105, total: 4110, bedrooms: 7, bathrooms: 3 },
-    hero: heroImg("phonto-caea834.jpeg"),
+    hero: planImg("villa-zoe", "phonto-caea834.jpeg"),
     gallery: [
       "phonto-caea834.jpeg",
       "IMG_5406.jpeg",
       "IMG_5404.jpeg",
       "IMG_5405.jpeg",
       "IMG_5408.jpeg",
-    ].map(img),
+    ].map((filename) => planImg("villa-zoe", filename)),
   },
 ];
 
@@ -632,7 +682,10 @@ export const ARIA_INTERIOR_FINISHES = {
     "phonto-e6c2dcf.jpeg",
     "phonto-edaae4a.jpeg",
     "phonto-f897d80.jpeg",
-  ].map<AriaGalleryItem>((src) => ({ src: img(src), alt: "AriaLux Homes interior finish detail" })),
+  ].map<AriaGalleryItem>((src) => ({
+    src: interiorImg(src),
+    alt: "AriaLux Homes interior finish detail",
+  })),
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -685,7 +738,10 @@ export const ARIA_PORTFOLIO = {
     "phonto-6edd633.jpeg",
     "phonto-917ee1c.jpeg",
     "phonto-d836382.jpeg",
-  ].map<AriaGalleryItem>((src) => ({ src: img(src), alt: "AriaLux Homes built-home photo" })),
+  ].map<AriaGalleryItem>((src) => ({
+    src: portfolioImg(src),
+    alt: "AriaLux Homes built-home photo",
+  })),
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -708,6 +764,33 @@ export const ARIA_VIDEOS_PAGE = {
   intro:
     "Brand films, walkthroughs, and process footage from across the AriaLux portfolio. Press play to see how a custom home becomes a forever home.",
 } as const;
+
+// ---------------------------------------------------------------------------
+// Article image library (`/article`)
+// ---------------------------------------------------------------------------
+
+export const ARIA_ARTICLES: AriaArticle[] = [
+  {
+    slug: "buy-new-construction-now",
+    title: "Buy New Construction Now",
+    category: "Buying",
+    summary:
+      "A seven-image AriaLux Homes guide about why new construction is worth considering now.",
+    image: portfolioImg("IMG_5093.jpeg"),
+    images: [
+      "facebook-post-01.jpeg",
+      "facebook-post-02.jpeg",
+      "facebook-post-03.jpeg",
+      "facebook-post-04.jpeg",
+      "facebook-post-05.jpeg",
+      "facebook-post-06.jpeg",
+      "facebook-post-07.jpeg",
+    ].map(articleImg),
+    dateLabel: "Article",
+    publisher: "AriaLux Homes",
+    publishedAt: "2026-05-08",
+  },
+];
 
 // ---------------------------------------------------------------------------
 // Architectural Services (`/architectural-services`)

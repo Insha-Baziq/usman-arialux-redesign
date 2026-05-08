@@ -7,6 +7,13 @@ import type { ReactNode } from "react";
 type AllFloorPlansHeroProps = {
   heroImage: string;
   planCount: number;
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  primaryCtaLabel?: string;
+  primaryCtaHref?: string;
+  statLabels?: [string, string, string];
+  statValues?: [string, string, string];
   children?: ReactNode;
 };
 
@@ -15,9 +22,17 @@ const ease = [0.16, 1, 0.3, 1] as const;
 export function AllFloorPlansHero({
   heroImage,
   planCount,
+  eyebrow = "The collection",
+  heading = "Floor Plans",
+  description = "Discover a curated collection of thoughtfully designed floor plans that balance timeless architecture with modern livability. Each plan is crafted to elevate your lifestyle.",
+  primaryCtaLabel = "Request a Custom Floor Plan",
+  primaryCtaHref = "/contact",
+  statLabels = ["Plans Available", "Min Sq Ft", "Max Sq Ft"],
+  statValues,
   children,
 }: AllFloorPlansHeroProps) {
   const skip = useReducedMotion();
+  const stats = statValues ?? [String(planCount), "1,120+", "4,070"];
 
   return (
     <section className="relative isolate overflow-hidden border-b border-[#d8d0c4] bg-[#f7f3ec] px-6 pb-10 pt-28 lg:px-10 lg:pb-12 lg:pt-32">
@@ -30,7 +45,7 @@ export function AllFloorPlansHero({
         <img
           src={heroImage}
           alt="AriaLux custom home entry"
-          className="h-full w-full object-cover opacity-35 grayscale-[25%]"
+          className="h-full w-full object-cover opacity-40 grayscale-[25%]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#f7f3ec] via-[#f7f3ec]/72 to-[#f7f3ec]/18" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#f7f3ec] via-transparent to-[#f7f3ec]/30" />
@@ -45,7 +60,7 @@ export function AllFloorPlansHero({
               animate={{ y: "0%", opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.2, ease }}
             >
-              <span>The collection</span>
+              <span>{eyebrow}</span>
               <motion.span
                 className="h-px w-10 bg-[#b58942]"
                 aria-hidden="true"
@@ -64,7 +79,7 @@ export function AllFloorPlansHero({
               animate={{ y: "0%", opacity: 1 }}
               transition={{ duration: 1, delay: 0.35, ease }}
             >
-              Floor Plans
+              {heading}
             </motion.h1>
           </span>
 
@@ -74,9 +89,7 @@ export function AllFloorPlansHero({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.55, ease }}
           >
-            Discover a curated collection of thoughtfully designed floor plans
-            that balance timeless architecture with modern livability. Each plan
-            is crafted to elevate your lifestyle.
+            {description}
           </motion.p>
 
           <motion.div
@@ -96,15 +109,15 @@ export function AllFloorPlansHero({
           transition={{ duration: 1, delay: 0.7, ease }}
         >
           <div className="grid overflow-hidden rounded-full border border-[#d9d0c4] bg-[#fbf8f2]/85 shadow-[0_18px_50px_-34px_rgba(23,20,16,0.45)] backdrop-blur-sm sm:grid-cols-3">
-            <CollectionStat value={String(planCount)} label="Plans Available" />
-            <CollectionStat value="1,120+" label="Min Sq Ft" />
-            <CollectionStat value="4,070" label="Max Sq Ft" />
+            <CollectionStat value={stats[0]} label={statLabels[0]} />
+            <CollectionStat value={stats[1]} label={statLabels[1]} />
+            <CollectionStat value={stats[2]} label={statLabels[2]} />
           </div>
           <a
-            href="/contact"
+            href={primaryCtaHref}
             className="inline-flex items-center justify-center gap-3 rounded-[0.45rem] border border-[#171410] bg-[#171410] px-6 py-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-white shadow-[0_16px_30px_-22px_rgba(23,20,16,0.7)] transition hover:bg-[#3a3129] active:translate-y-px"
           >
-            Request a Custom Floor Plan
+            {primaryCtaLabel}
             <span aria-hidden="true">&rarr;</span>
           </a>
           {children}

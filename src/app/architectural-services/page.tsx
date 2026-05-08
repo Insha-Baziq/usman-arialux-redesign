@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { ArchitectVideo } from "@/components/ArchitectVideo";
 import { AriaLuxFooter, ariaLuxBrand } from "@/components/arialux-brand";
 import { SobhaHeader } from "@/components/SobhaChrome";
 import {
@@ -225,6 +226,26 @@ export default function ArchitecturalServicesPage() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* ── Video Showcase ── */}
+      <section className="px-6 pb-16 lg:px-10 lg:pb-20">
+        <div className="mx-auto max-w-[81rem]">
+          <ScrollReveal variant="fadeUp" duration={0.8}>
+            <div className="mb-10 flex flex-col items-center gap-3 text-center">
+              <h2 className="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-[#5f574e]">
+                See Our Craft in Motion
+              </h2>
+              <span
+                className="block h-2 w-2 rotate-45 bg-[#b58942]"
+                aria-hidden="true"
+              />
+            </div>
+          </ScrollReveal>
+          <ScrollReveal variant="scaleUp" duration={1.2}>
+            <ArchitectVideo />
+          </ScrollReveal>
         </div>
       </section>
 

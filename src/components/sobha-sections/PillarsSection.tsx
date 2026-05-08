@@ -16,6 +16,7 @@ export type PillarItem = {
   title: string;
   description: string;
   imageUrl: string;
+  videoUrl?: string;
 };
 
 export type PillarsSectionProps = {
@@ -120,12 +121,23 @@ export function PillarsSection({ heading, pillars, className }: PillarsSectionPr
           {pillars.map((pillar) => (
             <SwiperSlide key={pillar.title}>
               <article className="sobha-pillar-card flex flex-col gap-6">
-                <div className="sobha-pillar-image-wrap rounded-[1.5rem]">
-                  <img
-                    src={pillar.imageUrl}
-                    alt={pillar.title}
-                    className="sobha-pillar-image h-[27rem] w-full object-cover"
-                  />
+                <div className="sobha-pillar-image-wrap overflow-hidden rounded-[1.5rem]">
+                  {pillar.videoUrl ? (
+                    <video
+                      src={pillar.videoUrl}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="sobha-pillar-image h-[27rem] w-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={pillar.imageUrl}
+                      alt={pillar.title}
+                      className="sobha-pillar-image h-[27rem] w-full object-cover"
+                    />
+                  )}
                 </div>
                 <div className="space-y-4 px-2">
                   <h3 className="font-heading text-[2rem] font-light leading-tight text-black lg:text-[2.25rem]">

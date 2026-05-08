@@ -16,10 +16,10 @@ export const metadata: Metadata = {
 };
 
 const HERO_IMAGE =
-  "https://img1.wsimg.com/isteam/ip/3260288d-1180-4f25-980c-7e6bbf1754ec/phonto-d836382.jpeg/:/rs=w:1920,h:1080,m";
+  "/images/arialux-gallery/phonto-d836382.jpeg";
 
 const HERO_DOOR_IMAGE =
-  "https://img1.wsimg.com/isteam/ip/3260288d-1180-4f25-980c-7e6bbf1754ec/phonto-2026e06.jpeg/:/rs=w:1920,h:1080,m";
+  "/images/floor-plans/aria-heights/phonto-2026e06.jpeg";
 
 export default function AllFloorPlansPage() {
   return (

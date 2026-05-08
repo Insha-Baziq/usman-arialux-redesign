@@ -30,6 +30,7 @@ export type SobhaPillar = {
   title: string;
   description: string;
   imageUrl: string;
+  videoUrl?: string;
 };
 
 export type SobhaAmenity = {
@@ -67,9 +68,9 @@ export type SobhaFooterGroup = {
   links: SobhaLink[];
 };
 
-const SOBHA = "https://sobharealty.com";
+const SOBHA = "";
 
-const asset = (path: string): string => `${SOBHA}${path}`;
+const asset = (path: string): string => path;
 
 export const sobhaTopNavLeft: SobhaLink[] = [
   { label: "ABOUT", href: `${SOBHA}/about` },
@@ -150,7 +151,7 @@ export const sobhaMegaMenus: SobhaMegaMenu[] = [
 ];
 
 // =====================================================================
-// Live header data (captured 2026-05-05 from sobharealty.com).
+// Live header data (captured 2026-05-05 from the reference site).
 // Richer schema supporting per-item hover images, tabbed mega-menus
 // (COMMUNITIES → Dubai/Abu Dhabi/UAQ) and category panels with cards
 // (PROPERTIES → Apartments/Villas/Villaments/Penthouses).
@@ -362,7 +363,7 @@ export const sobhaHero = {
 
 /**
  * Live hero is a single static `home-banner` (img-only fallback when video is missing).
- * Captured from sobharealty.com on 2026-05-04: Tranquil Beach Residences.
+ * Captured from the reference site on 2026-05-04: Tranquil Beach Residences.
  * Overlay gradient: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(66,98,118,0) 100%).
  */
 export const sobhaHeroBanner: SobhaHeroSlide = {
@@ -382,10 +383,10 @@ export const sobhaArtDetail = {
     "At AriaLux Homes, we believe true excellence lives in the smallest decisions — the way a stair tread meets stone, how cabinetry returns into trim, the quiet weight of a custom door. Every plan is drawn in our own studio, every finish specified by hand, every home built to be lived in for a generation.",
   ctaLabel: "Discover More",
   ctaHref: "/who-we-are",
-  backgroundImage: "/images/who-we-are-hero.png",
+  backgroundImage: "/images/art-of-detail/art-of-the-detail-mob.png.webp",
   desktopLogo: "/images/arialux-wordmark.png",
   mobileLogo: "/images/arialux-wordmark.png",
-  figureImage: "/images/who-we-are-hero.png",
+  figureImage: "/images/art-of-detail/art-of-the-detail-mob.png.webp",
 };
 
 // Live h2 inside .new-launch-section .title-section
@@ -399,18 +400,21 @@ export const sobhaPillars: SobhaPillar[] = [
     description:
       "AriaLux Homes is both a custom builder and an in-house architectural firm. We design every plan from the ground up — siting, elevations, interior flow, structural detail — so the home you imagine and the home we build are the same drawing.",
     imageUrl: "/images/facebook/fb-0033.jpg",
+    videoUrl: "/videos/video-2.mov",
   },
   {
     title: "Custom Craftsmanship",
     description:
       "From hand-selected stone and bespoke cabinetry to door hardware and trim profiles, every surface is specified, sampled, and signed off by you. We build sixteen distinct floor plans across Fort Wayne — none of them feel templated.",
     imageUrl: "/images/facebook/fb-0049.jpg",
+    videoUrl: "/videos/video-1.mp4",
   },
   {
     title: "Quiet Confidence",
     description:
       "Clean lines, warm materials, generous proportions. AriaLux homes carry a consistent design language across every build — modern without being cold, expensive without being loud. The kind of home that ages gracefully.",
     imageUrl: "/images/facebook/fb-0055.jpg",
+    videoUrl: "/videos/video-3.mov",
   },
 ];
 
@@ -419,7 +423,7 @@ export const sobhaPropertyLocations: SobhaLocation[] = ["Fort Wayne, IN"];
 // AriaLux floor plans rendered through the Sobha "Properties" carousel.
 // Amenities slot is reused to surface plan specs (bed/bath/sqft/garage).
 const ariaSpecIcon = (label: string): string =>
-  `https://api.iconify.design/lucide/${label}.svg?color=%23000000`;
+  `/images/icons/${label}.svg`;
 
 export const sobhaProperties: SobhaProperty[] = ARIA_PLANS.map((plan) => ({
   location: "Fort Wayne, IN",
@@ -439,7 +443,7 @@ export const sobhaProperties: SobhaProperty[] = ARIA_PLANS.map((plan) => ({
 export const sobhaPropertyFloatingActions: SobhaLink[] = [
   { label: "WALKTHROUGH 360°", href: `${SOBHA}/digital-walkthrough` },
   { label: "CALL BACK", href: "/contact" },
-  { label: "WHATSAPP", href: "https://wa.me/8327739544" },
+  { label: "WHATSAPP", href: "https://wa.me/18327739544" },
 ];
 
 export const sobhaStickyWidgets: SobhaStickyWidget[] = [
@@ -452,7 +456,7 @@ export const sobhaStickyWidgets: SobhaStickyWidget[] = [
   {
     id: "whatsapp",
     label: "WHATSAPP",
-    href: "https://wa.me/8327739544",
+    href: "https://wa.me/18327739544",
     iconUrl: `${SOBHA}/themes/sobha_uplift/images/whatsapp-icon.svg`,
   },
 ];
@@ -503,7 +507,7 @@ export const sobhaFooterGroups: SobhaFooterGroup[] = [
       { label: "Sobha City", href: `${SOBHA}/sobha-communities/sobha-city` },
       { label: "Sobha Sanctuary", href: `${SOBHA}/sobha-communities/sobha-sanctuary` },
       { label: "Sobha Central", href: `${SOBHA}/sobha-communities/sobha-central` },
-      { label: "Downtown UAQ | Sobha Realty", href: `${SOBHA}/sobha-communities/uaq-downtown` },
+      { label: "Downtown UAQ", href: `${SOBHA}/sobha-communities/uaq-downtown` },
       { label: "Sobha Siniya Island", href: `${SOBHA}/sobha-communities/sobha-siniya-island` },
       { label: "Sobha Hartland II", href: `${SOBHA}/sobha-communities/sobha-hartland-2` },
       { label: "Sobha Elwood", href: `${SOBHA}/sobha-communities/sobha-elwood` },
@@ -537,9 +541,9 @@ export const sobhaFooterGroups: SobhaFooterGroup[] = [
     title: "CONTACT US",
     links: [
       { label: "Contact Us", href: `${SOBHA}/contact-us` },
-      { label: "Channel Partner", href: "https://www.sobhapartnerportal.com/partnerportal" },
+      { label: "Channel Partner", href: "/contact" },
       { label: "Careers", href: `${SOBHA}/career-opportunity` },
-      { label: "OUR PRESENCE", href: "https://sobha.cloud/" },
+      { label: "OUR PRESENCE", href: "/contact" },
       { label: "FAQ", href: `${SOBHA}/faq` },
       { label: "Digital Walkthrough", href: `${SOBHA}/digital-walkthrough` },
     ],
@@ -554,13 +558,13 @@ export const sobhaFooterAssets = {
 };
 
 export const sobhaFooterSocials: SobhaLink[] = [
-  { label: "Instagram", href: "https://www.instagram.com/sobharealty/?hl=en" },
-  { label: "Facebook", href: "https://www.facebook.com/SobhaRealty/" },
-  { label: "TikTok", href: "https://www.tiktok.com/@sobharealty" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/company/sobharealty" },
+  { label: "Instagram", href: "https://www.instagram.com/arialuxhomes/" },
+  { label: "Facebook", href: "https://www.facebook.com/share/17oc9hFmYL/?mibextid=wwXIfr" },
+  { label: "TikTok", href: "#" },
+  { label: "LinkedIn", href: "#" },
   { label: "YouTube", href: "https://www.youtube.com/channel/UCKIR9isiNyYq1T0GSnIUyHQ" },
-  { label: "Twitter", href: "https://twitter.com/SobhaRealtyDXB" },
-  { label: "Threads", href: "https://www.threads.net/@sobharealty?igshid=MzRlODBiNWFlZA==" },
+  { label: "Twitter", href: "#" },
+  { label: "Threads", href: "#" },
 ];
 
 export const sobhaFooterLegal: SobhaLink[] = [

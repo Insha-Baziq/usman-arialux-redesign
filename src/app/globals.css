@@ -63,7 +63,7 @@
 /* Background helper to replace inline backgroundImage style on Art of Detail.
    Live: man image right-aligned, contained, no-repeat. */
 .sobha-art-of-detail-bg {
-  background-image: url("https://sobharealty.com/sites/default/files/styles/webp/public/2025-04/art-of-the-detail-bg.png.webp?itok=Vopr8g6b");
+  background-image: url("/images/art-of-detail/art-of-the-detail-mob.png.webp");
   background-repeat: no-repeat;
   background-position: right center;
   background-size: auto 100%;
@@ -132,11 +132,7 @@
 
 @font-face {
   font-family: "Chronicle Display";
-  src:
-    url("https://sobharealty.com/themes/sobha_uplift/fonts/ChronicleDisplay-Light.woff2")
-      format("woff2"),
-    url("https://sobharealty.com/themes/sobha_uplift/fonts/ChronicleDisplay-Light.woff")
-      format("woff");
+  src: local("Georgia");
   font-style: normal;
   font-weight: 300;
   font-display: swap;
@@ -144,11 +140,7 @@
 
 @font-face {
   font-family: "Chronicle Display";
-  src:
-    url("https://sobharealty.com/themes/sobha_uplift/fonts/ChronicleDisplay-Roman.woff2")
-      format("woff2"),
-    url("https://sobharealty.com/themes/sobha_uplift/fonts/ChronicleDisplay-Roman.woff")
-      format("woff");
+  src: local("Georgia");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -315,7 +307,7 @@
 
 /* ========================================================================
    Live-mirror section hooks (sobha-homepage clone).
-   Class names mirror sobharealty.com so structural CSS lines up 1:1.
+   Class names preserve the original component contract so structural CSS lines up 1:1.
    ======================================================================== */
 
 /* Hero overlay gradient — live: linear-gradient(0deg, rgba(0,0,0,0.6) 0%,
@@ -552,6 +544,7 @@
 
 .sobha-mega-group:hover .sobha-mega-panel,
 .sobha-mega-group:focus-within .sobha-mega-panel,
+.sobha-mega-group.is-open .sobha-mega-panel,
 .sobha-mega-panel.is-open {
   max-height: 522px;
   opacity: 1;
@@ -609,7 +602,8 @@
 }
 
 .sobha-mega-group:hover .sobha-mega-trigger,
-.sobha-mega-group:focus-within .sobha-mega-trigger {
+.sobha-mega-group:focus-within .sobha-mega-trigger,
+.sobha-mega-group.is-open .sobha-mega-trigger {
   color: #c69a68 !important;
 }
 
@@ -821,13 +815,16 @@
 .sobha-mega-group[data-menu-label="FLOOR PLANS"]:hover
   .sobha-mega-trigger::after,
 .sobha-mega-group[data-menu-label="FLOOR PLANS"]:focus-within
+  .sobha-mega-trigger::after,
+.sobha-mega-group[data-menu-label="FLOOR PLANS"].is-open
   .sobha-mega-trigger::after {
   opacity: 1;
   transform: scaleX(1);
 }
 
 .sobha-mega-group:hover .sobha-mega-trigger::after,
-.sobha-mega-group:focus-within .sobha-mega-trigger::after {
+.sobha-mega-group:focus-within .sobha-mega-trigger::after,
+.sobha-mega-group.is-open .sobha-mega-trigger::after {
   width: auto;
 }
 
@@ -846,6 +843,7 @@
 
 .sobha-mega-group:hover .sobha-floorplans-panel,
 .sobha-mega-group:focus-within .sobha-floorplans-panel,
+.sobha-mega-group.is-open .sobha-floorplans-panel,
 .sobha-floorplans-panel.is-open {
   max-height: 720px;
   pointer-events: auto;
@@ -1696,6 +1694,31 @@ html {
     transform: none;
     opacity: 1;
   }
+}
+
+/* ===========================================================
+   Article reader — golden scrollbar (content area only)
+   =========================================================== */
+.article-reader-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.article-reader-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.article-reader-scroll::-webkit-scrollbar-thumb {
+  background: rgba(181, 137, 66, 0.38);
+  border-radius: 999px;
+}
+
+.article-reader-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(181, 137, 66, 0.58);
+}
+
+.article-reader-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(181, 137, 66, 0.38) transparent;
 }
 
 /* ===========================================================
