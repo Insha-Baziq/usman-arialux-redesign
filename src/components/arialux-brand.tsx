@@ -20,7 +20,7 @@ export const ariaLuxBrand: ChromeBrand = {
     <img
       src={ARIA_BRAND.logoLight}
       alt={`${ARIA_BRAND.name} logo`}
-      className="h-20 w-auto [filter:drop-shadow(0_1px_3px_rgb(0_0_0/0.35))]"
+      className="h-14 w-auto sm:h-16 [filter:drop-shadow(0_1px_3px_rgb(0_0_0/0.35))]"
     />
   ),
   footerLogo: (

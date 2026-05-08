@@ -67,17 +67,25 @@ export function CardCarousel({
     const el = launchRef.current;
     if (!el) return;
 
+    if (window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 767px)").matches) {
+      gsap.set(el, { clearProps: "all" });
+      return;
+    }
+
     const triggerId = `sobha-launch-${Math.random().toString(36).slice(2)}`;
+    gsap.set(el, { opacity: 0, y: 36, scale: 0.96, willChange: "transform,opacity" });
+
     const tween = gsap.to(el, {
+      opacity: 1,
+      y: 0,
       scale: 1,
-      ease: "power1.out",
-      duration: 0.5,
+      ease: "none",
       scrollTrigger: {
         id: triggerId,
         trigger: el,
-        start: "top 75%",
-        end: "top 20%",
-        scrub: 1,
+        start: "top 88%",
+        end: "top 48%",
+        scrub: 0.65,
       },
     });
 
@@ -88,7 +96,7 @@ export function CardCarousel({
   }, []);
 
   return (
-    <section className={className ?? "bg-[#efefef] px-0 py-20 text-black lg:py-24"}>
+    <section className={className ?? "bg-[#f7f3ec] px-0 pb-4 pt-20 text-black lg:pb-6 lg:pt-24"}>
       <div className="title-section mx-auto max-w-[81rem] px-6 lg:px-10">
         <h2 className="text-center font-sans text-[1.5rem] font-medium uppercase tracking-[0.18em] text-black sm:text-[1.75rem]">
           {heading}
@@ -169,7 +177,7 @@ export function CardCarousel({
           ))}
         </Swiper>
 
-        <div className="sobha-luxury-controls mt-6 flex flex-col items-center gap-4">
+        <div className="sobha-luxury-controls mt-4 flex flex-col items-center gap-4">
           <div className="flex items-center gap-6">
             <button
               type="button"
@@ -193,7 +201,7 @@ export function CardCarousel({
         </div>
 
         {ctaLabel && ctaHref ? (
-          <div className="mt-8 flex justify-center">
+          <div className="mt-4 flex justify-center">
             <SobhaPillLink href={ctaHref} label={ctaLabel} />
           </div>
         ) : null}

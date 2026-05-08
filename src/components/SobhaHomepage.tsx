@@ -1,7 +1,5 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
-
 import AOS from "aos";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -98,7 +96,7 @@ function SobhaIrisStage() {
     const emblem = emblemRef.current;
     if (!stage || !heroPin || !panel || !content) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 767px)").matches) {
       // Skip the iris animation; render the panel fully open.
       panel.style.clipPath = "circle(150% at 50% 100%)";
       (panel.style as CSSStyleDeclaration & { webkitClipPath?: string }).webkitClipPath =
@@ -209,6 +207,33 @@ function SobhaIrisStage() {
  * StickyWidgets — bottom-right floating call/whatsapp/walkthrough column.
  */
 function SobhaStickyWidgets() {
+  const renderIcon = (id: string) => {
+    if (id === "whatsapp") {
+      return (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          className="h-4 w-4 fill-current"
+        >
+          <path d="M12.04 3.5a8.42 8.42 0 0 0-7.3 12.63L3.75 20l3.96-1.04a8.42 8.42 0 1 0 4.33-15.46Zm0 1.55a6.87 6.87 0 0 1 5.83 10.52 6.87 6.87 0 0 1-9.53 1.98l-.28-.17-2.35.62.63-2.29-.18-.3a6.87 6.87 0 0 1 5.88-10.36Zm-2.8 3.73c-.15 0-.38.06-.58.28-.2.22-.76.74-.76 1.8s.78 2.1.89 2.24c.11.15 1.5 2.4 3.73 3.27 1.85.72 2.23.58 2.63.54.4-.04 1.3-.53 1.48-1.04.18-.51.18-.95.13-1.04-.06-.09-.2-.15-.42-.26-.22-.11-1.3-.64-1.5-.71-.2-.08-.35-.11-.5.11-.15.22-.57.71-.7.86-.13.15-.26.17-.48.06-.22-.11-.94-.35-1.79-1.1-.66-.59-1.1-1.32-1.23-1.54-.13-.22-.01-.34.1-.45.1-.1.22-.26.33-.39.11-.13.15-.22.22-.37.07-.15.04-.28-.02-.39-.06-.11-.49-1.2-.68-1.64-.18-.43-.36-.37-.5-.38h-.35Z" />
+        </svg>
+      );
+    }
+
+    return (
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        className="h-4 w-4 fill-none stroke-current"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M6.6 4.8 8.8 4c.47-.17.98.05 1.2.5l1.02 2.08c.2.4.1.9-.24 1.2l-1.1 1.02a9.7 9.7 0 0 0 4.52 4.52l1.02-1.1c.3-.34.8-.44 1.2-.24L18.5 13c.45.22.67.73.5 1.2l-.8 2.2c-.16.44-.58.72-1.04.7C11.52 16.85 7.15 12.48 6.9 6.84c-.02-.46.26-.88.7-1.04Z" />
+      </svg>
+    );
+  };
+
   return (
     <div className="fixed bottom-6 right-4 z-30 flex flex-col items-end gap-3">
       {sobhaStickyWidgets.map((widget) => (
@@ -217,7 +242,7 @@ function SobhaStickyWidgets() {
           href={widget.href}
           className="flex items-center gap-2 rounded-full bg-black/85 px-4 py-2 text-[0.6rem] font-medium uppercase tracking-[0.24em] text-white shadow-lg transition hover:bg-black"
         >
-          <img src={widget.iconUrl} alt="" aria-hidden="true" className="h-4 w-4" />
+          {renderIcon(widget.id)}
           <span>{widget.label}</span>
         </a>
       ))}
@@ -231,11 +256,13 @@ export function SobhaHomepage() {
   // Initialize AOS once on the client.
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const compactMotion = window.matchMedia("(max-width: 767px)").matches;
     AOS.init({
-      duration: 800,
+      duration: compactMotion ? 450 : 800,
       easing: "ease-out-cubic",
       once: true,
-      offset: 80,
+      offset: compactMotion ? 24 : 80,
+      disable: compactMotion,
     });
   }, []);
 
