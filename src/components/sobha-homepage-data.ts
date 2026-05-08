@@ -320,7 +320,7 @@ export const sobhaHeaderSlug = slug;
 export const sobhaHeroSlides: SobhaHeroSlide[] = [
   {
     id: "arialux-aria-heights",
-    title: "ARIA HEIGHTS",
+    title: "ROOSEVELT RESERVES PHASE II",
     subtitle: "Spaces Where Life Unfolds",
     ctaLabel: "EXPLORE",
     ctaHref: "/floor-plans/aria-heights",
@@ -438,21 +438,21 @@ export const sobhaProperties: SobhaProperty[] = ARIA_PLANS.map((plan) => ({
 
 export const sobhaPropertyFloatingActions: SobhaLink[] = [
   { label: "WALKTHROUGH 360°", href: `${SOBHA}/digital-walkthrough` },
-  { label: "CALL BACK", href: `${SOBHA}/contact-us` },
-  { label: "WHATSAPP", href: "https://api.whatsapp.com/send?phone=971800762422" },
+  { label: "CALL BACK", href: "/contact" },
+  { label: "WHATSAPP", href: "https://wa.me/8327739544" },
 ];
 
 export const sobhaStickyWidgets: SobhaStickyWidget[] = [
   {
     id: "call-back",
     label: "CALL BACK",
-    href: `${SOBHA}/contact-us`,
+    href: "/contact",
     iconUrl: `${SOBHA}/themes/sobha_uplift/images/call-back-icon.svg`,
   },
   {
     id: "whatsapp",
     label: "WHATSAPP",
-    href: "https://api.whatsapp.com/send?phone=971800762422",
+    href: "https://wa.me/8327739544",
     iconUrl: `${SOBHA}/themes/sobha_uplift/images/whatsapp-icon.svg`,
   },
 ];
