@@ -11,6 +11,7 @@ import {
   DarkCtaBand,
   PageHero,
 } from "@/components/sobha-sections";
+import Image from "next/image";
 
 export const metadata = {
   title: "Portfolio - AriaLux Homes",
@@ -43,7 +44,7 @@ export default function PortfolioPage() {
                 key={`${image.src}-hero-${index}`}
                 className={`portfolio-hero-stack__image portfolio-hero-stack__image--${index + 1}`}
               >
-                <img src={image.src} alt="" />
+                <Image src={image.src} alt="" fill className="object-cover opacity-[0.62] saturate-[0.8] contrast-[0.92]" sizes="25rem" />
               </div>
             ) : null,
           )}

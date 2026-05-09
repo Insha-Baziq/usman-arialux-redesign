@@ -27,7 +27,7 @@ export function ArchitectVideo() {
     <div className="group relative overflow-hidden rounded-2xl bg-[#171410] shadow-[0_24px_80px_-24px_rgba(23,20,16,0.45)] ring-1 ring-black/10">
       <video
         ref={videoRef}
-        src="/videos/architect.mov"
+        src="/videos/architect.mp4"
         autoPlay
         muted
         loop

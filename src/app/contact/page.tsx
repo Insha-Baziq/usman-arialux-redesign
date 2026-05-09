@@ -7,6 +7,7 @@ import {
   ARIA_HEADER_MENU,
 } from "@/components/arialux-data";
 import { ContactReveal } from "./ContactReveal";
+import Image from "next/image";
 
 function PinGlyph() {
   return (
@@ -135,9 +136,11 @@ export default function ContactPage() {
             )}
             media={(
               <div className="overflow-hidden rounded-md">
-                <img
+                <Image
                   src="/images/who-we-are-hero.png"
                   alt="AriaLux Homes — featured custom build"
+                  width={800}
+                  height={600}
                   className="block h-auto w-full"
                 />
               </div>

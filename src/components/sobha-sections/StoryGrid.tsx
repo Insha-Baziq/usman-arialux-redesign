@@ -1,6 +1,7 @@
 "use client";
+import Image from "next/image";
 
- 
+
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -141,10 +142,14 @@ export function StoryGrid({
                 href={story.href}
                 className="sobha-press-card s-stories-slide-box block overflow-hidden bg-[#fbf7ef] text-black"
               >
-                <picture>
-                  <source media="(max-width: 640px)" srcSet={story.mobileImageUrl ?? story.imageUrl} />
-                  <img src={story.imageUrl} alt={story.title} className="block h-auto w-full" />
-                </picture>
+                <Image
+                  src={story.imageUrl}
+                  alt={story.title}
+                  width={800}
+                  height={500}
+                  className="block h-auto w-full"
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                />
                 <div className="s-stories-slide-content grid grid-cols-12 items-start gap-4 px-6 py-5 lg:px-8 lg:py-6">
                   <div className="story-title col-span-8">
                     <h4 className="font-heading text-[1.05rem] font-light leading-snug text-black lg:text-[1.15rem]">

@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-
 import { AriaLuxFooter, ariaLuxBrand } from "@/components/arialux-brand";
 import { SobhaHeader } from "@/components/SobhaChrome";
 import {

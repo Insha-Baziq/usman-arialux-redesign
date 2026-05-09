@@ -69,12 +69,10 @@
 .sobha-art-title {
   display: flex;
   flex-direction: column;
-  font-family: var(
-    --font-display,
-    "Cormorant Garamond",
-    "Times New Roman",
-    serif
-  );
+  font-family: var(--font-display,
+      "Cormorant Garamond",
+      "Times New Roman",
+      serif);
   font-weight: 300;
   font-size: clamp(2.25rem, 4vw, 3.25rem);
   line-height: 1;
@@ -82,6 +80,7 @@
   text-transform: uppercase;
   color: #151515;
 }
+
 .sobha-art-title__alt {
   font-style: italic;
   font-weight: 400;
@@ -105,6 +104,7 @@
     clip-path: circle(150% at 50% 100%);
     -webkit-clip-path: circle(150% at 50% 100%);
   }
+
   .sobha-art-reveal {
     transform: none;
     opacity: 1;
@@ -116,12 +116,15 @@
   background: rgba(0, 0, 0, 0.25);
   opacity: 1;
 }
+
 .swiper-pagination-bullet-active {
   background: rgba(0, 0, 0, 0.85);
 }
+
 .sobha-hero-swiper .swiper-pagination-bullet {
   background: rgba(255, 255, 255, 0.5);
 }
+
 .sobha-hero-swiper .swiper-pagination-bullet-active {
   background: rgba(255, 255, 255, 1);
 }
@@ -285,6 +288,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings:
@@ -292,9 +296,11 @@
       "kern" 1;
     letter-spacing: 0.01em;
   }
+
   html {
     @apply bg-background font-sans;
   }
+
   a {
     color: inherit;
     text-decoration: none;
@@ -309,11 +315,9 @@
 /* Hero overlay gradient — live: linear-gradient(0deg, rgba(0,0,0,0.6) 0%,
    rgba(66,98,118,0) 100%) on `.explore-more-arrow`. */
 .sobha-hero-overlay {
-  background-image: linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.6) 0%,
-    rgba(66, 98, 118, 0) 100%
-  );
+  background-image: linear-gradient(0deg,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(66, 98, 118, 0) 100%);
   pointer-events: none;
 }
 
@@ -548,12 +552,10 @@
   background:
     linear-gradient(90deg, #ce1126 0 25%, transparent 25%),
     linear-gradient(180deg, #009739 0 33.333%, transparent 33.333%),
-    linear-gradient(
-      180deg,
+    linear-gradient(180deg,
       transparent 33.333%,
       #ffffff 33.333% 66.666%,
-      transparent 66.666%
-    ),
+      transparent 66.666%),
     linear-gradient(180deg, transparent 66.666%, #000000 66.666% 100%);
   background-repeat: no-repeat;
 }
@@ -562,12 +564,10 @@
 .sobha-lang-flag--ru {
   background:
     linear-gradient(180deg, #ffffff 0 33.333%, transparent 33.333%),
-    linear-gradient(
-      180deg,
+    linear-gradient(180deg,
       transparent 33.333%,
       #0039a6 33.333% 66.666%,
-      transparent 66.666%
-    ),
+      transparent 66.666%),
     linear-gradient(180deg, transparent 66.666%, #d52b1e 66.666% 100%);
   background-repeat: no-repeat;
 }
@@ -577,6 +577,7 @@
   background: #de2910;
   position: relative;
 }
+
 .sobha-lang-flag--cn::after {
   content: "★";
   position: absolute;
@@ -656,20 +657,18 @@
     height: 46px;
     margin: 12px auto;
     padding: 0;
-    grid-template-columns: minmax(0, 1fr) clamp(11rem, 13vw, 15rem) minmax(
-        0,
-        1fr
-      );
+    grid-template-columns: minmax(0, 1fr) clamp(11rem, 13vw, 15rem) minmax(0,
+        1fr);
   }
 
-  .sobha-header-row > nav,
-  .sobha-header-row > div:nth-of-type(2) {
+  .sobha-header-row>nav,
+  .sobha-header-row>div:nth-of-type(2) {
     height: auto;
     min-width: 0;
     padding: 0;
   }
 
-  .sobha-header-row > nav {
+  .sobha-header-row>nav {
     align-items: center;
   }
 
@@ -788,12 +787,13 @@
   vertical-align: baseline !important;
 }
 
-.sobha-mega-trigger--icon > svg {
+.sobha-mega-trigger--icon>svg {
   display: inline-block;
   vertical-align: -3px;
 }
 
 @media (min-width: 1280px) and (max-width: 1919px) {
+
   .sobha-nav-left,
   .sobha-nav-right {
     gap: clamp(0.2rem, 0.45vw, 0.45rem);
@@ -933,6 +933,7 @@
 }
 
 .sobha-mega-image-wrap {
+  position: relative;
   width: auto;
   flex: 1 1 auto;
   max-width: 100%;
@@ -979,12 +980,9 @@
   position: relative;
 }
 
-.sobha-mega-group[data-menu-label="FLOOR PLANS"]:hover
-  .sobha-mega-trigger::after,
-.sobha-mega-group[data-menu-label="FLOOR PLANS"]:focus-within
-  .sobha-mega-trigger::after,
-.sobha-mega-group[data-menu-label="FLOOR PLANS"].is-open
-  .sobha-mega-trigger::after {
+.sobha-mega-group[data-menu-label="FLOOR PLANS"]:hover .sobha-mega-trigger::after,
+.sobha-mega-group[data-menu-label="FLOOR PLANS"]:focus-within .sobha-mega-trigger::after,
+.sobha-mega-group[data-menu-label="FLOOR PLANS"].is-open .sobha-mega-trigger::after {
   opacity: 1;
   transform: scaleX(1);
 }
@@ -1092,7 +1090,7 @@
     padding-left 0.18s ease;
 }
 
-.sobha-floorplans-link > span:last-child {
+.sobha-floorplans-link>span:last-child {
   font-family: "Ringside", ui-sans-serif, system-ui, sans-serif;
   font-size: 20px;
   line-height: 1;
@@ -1249,11 +1247,13 @@
   transform-origin: 50% 50%;
   will-change: transform, opacity;
 }
+
 .latest-launch-slider {
   overflow: hidden;
   background: #f7f3ec;
   padding: 28px 0 6px;
 }
+
 .latest-launch-slider .swiper {
   overflow: hidden;
 }
@@ -1264,6 +1264,7 @@
 .sobha-stories-sec {
   overflow: hidden;
 }
+
 .stories-slider {
   overflow: visible;
 }
@@ -1455,7 +1456,7 @@ html {
     transform 0.2s ease;
 }
 
-.sobha-arrow-btn > svg {
+.sobha-arrow-btn>svg {
   width: 32px;
   height: 32px;
   display: block;
@@ -1571,7 +1572,7 @@ html {
     filter 0.2s ease;
 }
 
-.sobha-edge-arrow > svg {
+.sobha-edge-arrow>svg {
   width: 48px;
   height: 48px;
   display: block;
@@ -1687,6 +1688,7 @@ html {
 .plan-gallery-swiper .swiper-button-prev {
   left: 0;
 }
+
 .plan-gallery-swiper .swiper-button-next {
   right: 0;
 }
@@ -1749,13 +1751,6 @@ html {
   animation: portfolio-hero-card 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.portfolio-hero-stack__image img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  opacity: 0.62;
-  filter: saturate(0.8) contrast(0.92);
-}
 
 .portfolio-hero-stack__image::after {
   content: "";
@@ -1806,15 +1801,13 @@ html {
 /* Portfolio masonry image reveal */
 .portfolio-image-reveal {
   clip-path: inset(0 0 100% 0);
-  animation: portfolio-image-reveal 0.95s cubic-bezier(0.16, 1, 0.3, 1)
-    forwards;
+  animation: portfolio-image-reveal 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: calc(var(--portfolio-reveal-index, 0) * 55ms);
 }
 
 .portfolio-image-reveal img {
   transform: scale(1.08);
-  animation: portfolio-image-settle 1.25s cubic-bezier(0.16, 1, 0.3, 1)
-    forwards;
+  animation: portfolio-image-settle 1.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: calc(var(--portfolio-reveal-index, 0) * 55ms);
 }
 
@@ -1842,9 +1835,11 @@ html {
     opacity: 0;
     transform: translateY(-100%);
   }
+
   28% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
     transform: translateY(100%);
@@ -1852,6 +1847,7 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .portfolio-hero-stack__image,
   .portfolio-image-reveal,
   .portfolio-image-reveal img,
@@ -1911,7 +1907,7 @@ body {
     overflow: hidden;
   }
 
-  .sobha-iris-hero-pin > .home-banner {
+  .sobha-iris-hero-pin>.home-banner {
     height: 100svh;
     min-height: 38rem;
   }

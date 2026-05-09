@@ -24,6 +24,7 @@ import {
   sobhaPropertiesHeading,
   sobhaStickyWidgets,
 } from "./sobha-homepage-data";
+import Image from "next/image";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -141,10 +142,12 @@ function SobhaIrisStage() {
               </div>
 
               <div className="sobha-art-image-col relative overflow-hidden">
-                <img
+                <Image
                   src={sobhaArtDetail.figureImage}
                   alt="Luxury interior — marble kitchen island with gold chandelier"
-                  className="absolute inset-0 h-full w-full object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
                 <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent" />
               </div>

@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 /* eslint-disable @next/next/no-img-element */
 
@@ -676,7 +677,7 @@ function SobhaMegaListPanel({
         </div>
         {activeImage ? (
           <div className="sobha-mega-image-wrap">
-            <img src={activeImage} alt={menu.label} className="sobha-mega-image" />
+            <Image src={activeImage} alt={menu.label} fill className="sobha-mega-image object-cover" sizes="400px" />
           </div>
         ) : null}
       </div>
@@ -747,7 +748,7 @@ function SobhaMegaTabbedPanel({
         </div>
         {activeImage ? (
           <div className="sobha-mega-image-wrap">
-            <img src={activeImage} alt={menu.label} className="sobha-mega-image" />
+            <Image src={activeImage} alt={menu.label} fill className="sobha-mega-image object-cover" sizes="400px" />
           </div>
         ) : null}
       </div>
@@ -959,7 +960,7 @@ export function SobhaFooter({
         <div className="mt-12 flex flex-col items-start justify-between gap-8 border-t border-black/10 pt-10 lg:flex-row lg:items-center">
           {appBadges ? (
             <div className="space-y-4">
-              <img src={appBadges.appIcon} alt={`${brand.name} app logo`} className="h-10 w-auto" />
+              <Image src={appBadges.appIcon} alt={`${brand.name} app logo`} width={40} height={40} className="h-10 w-auto" />
               <div className="flex flex-wrap items-center gap-3">
                 <img
                   src={appBadges.appBadgeIos}

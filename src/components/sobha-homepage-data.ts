@@ -402,7 +402,7 @@ export const sobhaPillars: SobhaPillar[] = [
     description:
       "AriaLux Homes is both a custom builder and an in-house architectural firm. We design every plan from the ground up — siting, elevations, interior flow, structural detail — so the home you imagine and the home we build are the same drawing.",
     imageUrl: "/images/facebook/fb-0033.jpg",
-    videoUrl: "/videos/video-2.mov",
+    videoUrl: "/videos/video-2.mp4",
   },
   {
     title: "Custom Craftsmanship",
@@ -416,7 +416,7 @@ export const sobhaPillars: SobhaPillar[] = [
     description:
       "Clean lines, warm materials, generous proportions. AriaLux homes carry a consistent design language across every build — modern without being cold, expensive without being loud. The kind of home that ages gracefully.",
     imageUrl: "/images/facebook/fb-0055.jpg",
-    videoUrl: "/videos/video-3.mov",
+    videoUrl: "/videos/video-3.mp4",
   },
 ];
 

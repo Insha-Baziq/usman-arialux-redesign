@@ -1,4 +1,5 @@
 import type { AriaPlan } from "./arialux-data";
+import Image from "next/image";
 
 type PlanCardProps = {
   plan: AriaPlan;
@@ -14,12 +15,12 @@ export function PlanCard({ plan }: PlanCardProps) {
       data-aos="fade-up"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
-        <img
+        <Image
           src={plan.hero}
           alt={plan.displayName}
-          loading="lazy"
-          decoding="async"
-          className="h-full w-full object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.06]"
+          fill
+          className="object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.06]"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
       <div className="flex flex-1 flex-col gap-3 p-6">
