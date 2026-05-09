@@ -5,7 +5,6 @@
 @import "swiper/css/autoplay";
 @import "swiper/css/navigation";
 @import "swiper/css/pagination";
-@import "aos/dist/aos.css";
 
 /* Sobha "Art of the Detail" — iris/circular clip-path reveal.
    The section is positioned absolutely over the pinned hero and its
@@ -60,13 +59,10 @@
   will-change: transform, opacity;
 }
 
-/* Background helper to replace inline backgroundImage style on Art of Detail.
-   Live: man image right-aligned, contained, no-repeat. */
-.sobha-art-of-detail-bg {
-  background-image: url("/images/art-of-detail/art-of-the-detail-mob.png.webp");
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-size: auto 100%;
+/* Art of Detail image column — full-bleed on desktop, hidden on mobile. */
+.sobha-art-image-col {
+  display: block;
+  min-height: 36rem;
 }
 
 /* Art of Detail title — replaces wordmark image. Two-line display lockup. */
@@ -358,6 +354,177 @@
   background-color: rgba(21, 21, 21, 0.3);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+}
+
+.sobha-mobile-overlay-open {
+  overflow: hidden;
+}
+
+.sobha-mobile-panel {
+  position: fixed;
+  inset: 4.25rem 0 auto 0;
+  z-index: 38;
+  max-height: 0;
+  overflow: hidden;
+  color: #fff;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.75rem);
+  transition:
+    max-height 0.35s ease,
+    opacity 0.24s ease,
+    transform 0.24s ease,
+    visibility 0s linear 0.35s;
+}
+
+.sobha-mobile-panel.is-open {
+  max-height: calc(100dvh - 4.25rem);
+  overflow-y: auto;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition:
+    max-height 0.35s ease,
+    opacity 0.24s ease,
+    transform 0.24s ease,
+    visibility 0s;
+}
+
+.sobha-mobile-panel__inner {
+  min-height: calc(100dvh - 4.25rem);
+  padding: 1rem 1.25rem 2rem;
+  background:
+    linear-gradient(180deg, rgba(18, 17, 15, 0.97), rgba(18, 17, 15, 0.93)),
+    radial-gradient(circle at 15% 0%, rgba(191, 161, 92, 0.22), transparent 32%);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.sobha-mobile-menu-group {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+  padding: 0.15rem 0 0.85rem;
+}
+
+.sobha-mobile-menu-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 3.35rem;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.sobha-mobile-menu-link,
+.sobha-mobile-search-result,
+.sobha-mobile-quick-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 3.35rem;
+  width: 100%;
+  gap: 1rem;
+  border-radius: 0.65rem;
+  padding: 0.75rem 0.9rem;
+  font-family: "Ringside", ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  text-align: left;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.sobha-mobile-menu-link:active,
+.sobha-mobile-menu-arrow:active,
+.sobha-mobile-search-result:active,
+.sobha-mobile-quick-link:active {
+  transform: translateY(1px);
+}
+
+.sobha-mobile-menu-link:hover,
+.sobha-mobile-menu-link:focus-visible,
+.sobha-mobile-menu-arrow:hover,
+.sobha-mobile-menu-arrow:focus-visible,
+.sobha-mobile-search-result:hover,
+.sobha-mobile-search-result:focus-visible,
+.sobha-mobile-quick-link:hover,
+.sobha-mobile-quick-link:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  color: #d9bc79;
+  outline: none;
+}
+
+.sobha-mobile-menu-toggle {
+  cursor: pointer;
+}
+
+.sobha-mobile-menu-group.is-expanded .sobha-mobile-menu-toggle svg {
+  transform: rotate(180deg);
+}
+
+.sobha-mobile-menu-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.35rem;
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.sobha-mobile-subnav {
+  display: grid;
+  gap: 0.35rem;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 0 0.9rem 0.45rem;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.2s ease,
+    padding-top 0.2s ease;
+}
+
+.sobha-mobile-subnav.is-open {
+  max-height: 34rem;
+  overflow-y: auto;
+  opacity: 1;
+  padding-top: 0.35rem;
+}
+
+.sobha-mobile-subnav a {
+  display: block;
+  padding: 0.35rem 0;
+  font-size: 0.82rem;
+  font-weight: 300;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.sobha-mobile-subnav a:hover,
+.sobha-mobile-subnav a:focus-visible {
+  color: #fff;
+  outline: none;
+}
+
+.sobha-mobile-quick-link {
+  justify-content: center;
+  border: 1px solid rgba(217, 188, 121, 0.32);
+  background: rgba(217, 188, 121, 0.08);
+  text-align: center;
+}
+
+.sobha-mobile-search-result {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .sobha-lang-flag {
@@ -1731,13 +1898,17 @@ body {
 }
 
 @media (max-width: 767px) {
+  body {
+    text-rendering: optimizeLegibility;
+  }
+
   .sobha-iris-stage {
-    height: auto;
+    height: 190svh;
   }
 
   .sobha-iris-hero-pin {
-    height: auto;
-    overflow: visible;
+    height: 100svh;
+    overflow: hidden;
   }
 
   .sobha-iris-hero-pin > .home-banner {
@@ -1746,48 +1917,99 @@ body {
   }
 
   .sobha-iris-panel {
-    position: relative;
+    position: absolute;
     min-height: auto;
-    clip-path: circle(150% at 50% 100%);
-    -webkit-clip-path: circle(150% at 50% 100%);
-    pointer-events: auto;
+    clip-path: circle(0% at 50% 100%);
+    -webkit-clip-path: circle(0% at 50% 100%);
   }
 
   .sobha-art-of-detail {
-    min-height: auto;
+    min-height: 36rem;
   }
 
-  .sobha-art-of-detail-bg {
-    background-position: right bottom;
-    background-size: auto 70%;
+  .sobha-art-image-col {
+    display: none;
   }
 
   .sobha-art-title {
     font-size: clamp(2rem, 12vw, 3rem);
   }
 
+  .sobha-art-reveal {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+
   .homepage-hero-banner-heading {
-    font-size: clamp(2.1rem, 11vw, 3rem) !important;
+    font-size: clamp(2.35rem, 11.5vw, 3.35rem) !important;
     line-height: 1.08 !important;
-    letter-spacing: 0.045em !important;
+    letter-spacing: 0.02em !important;
+    text-wrap: balance;
   }
 
   .homepage-hero-banner-subheading {
     font-size: 0.72rem !important;
     line-height: 1.6 !important;
-    letter-spacing: 0.16em !important;
+    letter-spacing: 0.14em !important;
+  }
+
+  .sobha-pill-link {
+    min-height: 3rem;
+    max-width: 100%;
+    padding-inline: 1.15rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
   }
 
   .sobha-launch-init {
-    transform: none;
+    will-change: transform, opacity;
   }
 
   .latest-launch-slider {
     padding: 24px 0;
   }
 
+  .sobha-luxury-image {
+    min-height: 21rem;
+    object-position: center;
+  }
+
+  .launch-amenitites-container {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .latest-launch-logo img {
+    max-width: 12rem;
+    margin-inline: auto;
+  }
+
+  .amenities-box img {
+    max-width: 2.1rem;
+    max-height: 2.1rem;
+  }
+
+  .amenities-label {
+    font-size: 0.66rem !important;
+    line-height: 1.35;
+    letter-spacing: 0.11em !important;
+  }
+
   .sobha-pillar-image {
     height: min(24rem, 78svh);
+  }
+
+  .sobha-pillar-card {
+    gap: 1.25rem;
+  }
+
+  .sobha-pillar-card h3 {
+    font-size: clamp(1.8rem, 8vw, 2.25rem);
+  }
+
+  .sobha-pillar-card p {
+    font-size: 0.98rem;
+    line-height: 1.65;
   }
 
   .sobha-press-slide {
@@ -1800,8 +2022,24 @@ body {
   }
 
   .sobha-press-card {
-    transform: none;
-    opacity: 1;
+    will-change: transform, opacity;
+  }
+
+  .s-stories-slide-content {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  .story-title,
+  .story-publish {
+    grid-column: 1 / -1 !important;
+    text-align: left !important;
+  }
+
+  .story-publish .date-place-main-sec {
+    font-size: 0.6rem;
+    line-height: 1.45;
   }
 
   .sobha-edge-arrow {
@@ -1818,6 +2056,10 @@ body {
 
   .sobha-header::after {
     height: 4.5rem;
+  }
+
+  .sobha-mobile-panel {
+    top: 4rem;
   }
 
   .fixed.bottom-6.right-4 {

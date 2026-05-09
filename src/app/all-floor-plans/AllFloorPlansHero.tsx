@@ -35,7 +35,7 @@ export function AllFloorPlansHero({
   const stats = statValues ?? [String(planCount), "1,120+", "4,070"];
 
   return (
-    <section className="relative isolate overflow-hidden border-b border-[#d8d0c4] bg-[#f7f3ec] px-6 pb-10 pt-28 lg:px-10 lg:pb-12 lg:pt-32">
+    <section className="relative isolate overflow-hidden border-b border-[#d8d0c4] bg-[#f7f3ec] px-6 pb-10 pt-24 sm:pt-28 lg:px-10 lg:pb-12 lg:pt-32">
       <motion.div
         className="absolute inset-y-0 right-0 hidden w-[48%] lg:block"
         initial={skip ? false : { opacity: 0 }}
@@ -74,7 +74,7 @@ export function AllFloorPlansHero({
 
           <span className="block overflow-hidden pb-1">
             <motion.h1
-              className="font-serif text-5xl font-normal leading-[0.92] tracking-[-0.055em] text-[#171410] sm:text-6xl lg:text-7xl"
+              className="font-serif text-[clamp(3rem,15vw,4.5rem)] font-normal leading-[0.92] tracking-[-0.055em] text-[#171410] sm:text-6xl lg:text-7xl"
               initial={skip ? false : { y: "110%", opacity: 0 }}
               animate={{ y: "0%", opacity: 1 }}
               transition={{ duration: 1, delay: 0.35, ease }}
@@ -84,7 +84,7 @@ export function AllFloorPlansHero({
           </span>
 
           <motion.p
-            className="max-w-[35rem] text-base font-light leading-[1.75] text-[#5f574e] sm:text-lg"
+            className="max-w-[35rem] text-[0.96rem] font-light leading-[1.75] text-[#5f574e] sm:text-lg"
             initial={skip ? false : { opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.55, ease }}
@@ -108,14 +108,14 @@ export function AllFloorPlansHero({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.7, ease }}
         >
-          <div className="grid overflow-hidden rounded-full border border-[#d9d0c4] bg-[#fbf8f2]/85 shadow-[0_18px_50px_-34px_rgba(23,20,16,0.45)] backdrop-blur-sm sm:grid-cols-3">
+          <div className="grid overflow-hidden rounded-[1.5rem] border border-[#d9d0c4] bg-[#fbf8f2]/85 shadow-[0_18px_50px_-34px_rgba(23,20,16,0.45)] backdrop-blur-sm sm:grid-cols-3 sm:rounded-full">
             <CollectionStat value={stats[0]} label={statLabels[0]} />
             <CollectionStat value={stats[1]} label={statLabels[1]} />
             <CollectionStat value={stats[2]} label={statLabels[2]} />
           </div>
           <a
             href={primaryCtaHref}
-            className="inline-flex items-center justify-center gap-3 rounded-[0.45rem] border border-[#171410] bg-[#171410] px-6 py-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-white shadow-[0_16px_30px_-22px_rgba(23,20,16,0.7)] transition hover:bg-[#3a3129] active:translate-y-px"
+            className="inline-flex w-full items-center justify-center gap-3 rounded-[0.45rem] border border-[#171410] bg-[#171410] px-5 py-3 text-center text-[0.64rem] font-semibold uppercase tracking-[0.18em] text-white shadow-[0_16px_30px_-22px_rgba(23,20,16,0.7)] transition hover:bg-[#3a3129] active:translate-y-px sm:w-auto sm:px-6 sm:text-[0.68rem] sm:tracking-[0.22em]"
           >
             {primaryCtaLabel}
             <span aria-hidden="true">&rarr;</span>
@@ -129,7 +129,7 @@ export function AllFloorPlansHero({
 
 function CollectionStat({ value, label }: { value: string; label: string }) {
   return (
-    <div className="flex items-center justify-center gap-3 border-[#d9d0c4] px-5 py-4 text-left first:border-b sm:border-b-0 sm:border-r sm:last:border-r-0">
+    <div className="flex items-center justify-start gap-3 border-[#d9d0c4] px-5 py-4 text-left first:border-b sm:justify-center sm:border-b-0 sm:border-r sm:last:border-r-0">
       <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-[#dccfbf] bg-[#f7f0e5] text-[#b58942]">
         <span className="size-2 rounded-full bg-[#b58942]" />
       </span>

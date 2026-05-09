@@ -1,0 +1,37 @@
+
+> ai-website-clone-template@0.3.1 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.100.58:3000
+- Environments: .env.local
+✓ Ready in 649ms
+
+○ Compiling /studio/[[...tool]] ...
+ GET / 200 in 4.4s (next.js: 3.8s, application-code: 564ms)
+ GET /studio 200 in 19.6s (next.js: 16.9s, application-code: 2.7s)
+ GET /studio 200 in 236ms (next.js: 37ms, application-code: 200ms)
+ GET / 200 in 153ms (next.js: 5ms, application-code: 148ms)
+ GET /studio 200 in 98ms (next.js: 19ms, application-code: 79ms)
+ GET /studio 200 in 161ms (next.js: 56ms, application-code: 105ms)
+ GET /studio 200 in 155ms (next.js: 66ms, application-code: 88ms)
+ GET /studio 200 in 166ms (next.js: 25ms, application-code: 142ms)
+ GET /studio 200 in 127ms (next.js: 24ms, application-code: 102ms)
+ GET /studio 200 in 150ms (next.js: 99ms, application-code: 51ms)
+ GET /studio 200 in 190ms (next.js: 129ms, application-code: 61ms)
+ GET /studio 200 in 137ms (next.js: 95ms, application-code: 42ms)
+ GET /studio 200 in 2.2s (next.js: 18ms, application-code: 2.2s)
+✓ Compiled in 697ms
+ GET /studio 200 in 293ms (next.js: 205ms, application-code: 88ms)
+ GET / 200 in 568ms (next.js: 126ms, application-code: 442ms)
+ GET / 200 in 191ms (next.js: 5ms, application-code: 186ms)
+ GET / 200 in 144ms (next.js: 6ms, application-code: 139ms)
+ GET / 200 in 148ms (next.js: 5ms, application-code: 144ms)
+ GET / 200 in 136ms (next.js: 5ms, application-code: 131ms)
+ GET / 200 in 96ms (next.js: 4ms, application-code: 93ms)
+✓ Compiled in 433ms
+ GET /studio 200 in 239ms (next.js: 168ms, application-code: 71ms)
+✓ Compiled in 403ms
+ GET / 200 in 336ms (next.js: 28ms, application-code: 308ms)
+ GET / 200 in 194ms (next.js: 7ms, application-code: 187ms)

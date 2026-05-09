@@ -28,7 +28,7 @@ export type CarouselCard = {
   /** Mobile <source> override; falls back to imageUrl when omitted. */
   mobileImageUrl?: string;
   /** Brand logo / wordmark shown on the amenities row. */
-  logoUrl: string;
+  logoUrl?: string;
   amenities: CarouselAmenity[];
 };
 
@@ -67,11 +67,12 @@ export function CardCarousel({
     const el = launchRef.current;
     if (!el) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 767px)").matches) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       gsap.set(el, { clearProps: "all" });
       return;
     }
 
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
     const triggerId = `sobha-launch-${Math.random().toString(36).slice(2)}`;
     gsap.set(el, { opacity: 0, y: 36, scale: 0.96, willChange: "transform,opacity" });
 
@@ -85,7 +86,8 @@ export function CardCarousel({
         trigger: el,
         start: "top 88%",
         end: "top 48%",
-        scrub: 0.65,
+        scrub: isMobile ? false : 0.65,
+        toggleActions: "play none none none",
       },
     });
 
@@ -139,15 +141,21 @@ export function CardCarousel({
                       <a
                         href={card.href}
                         aria-label={card.title}
-                        className="launch-logo-div block"
+                        className="launch-logo-div block text-center lg:text-left"
                       >
-                        <img
-                          src={card.logoUrl}
-                          alt={`${card.title} logo`}
-                          width={278}
-                          height={141}
-                          className="h-auto w-full max-w-[18rem] object-contain"
-                        />
+                        {card.logoUrl ? (
+                          <img
+                            src={card.logoUrl}
+                            alt={`${card.title} logo`}
+                            width={278}
+                            height={141}
+                            className="h-auto w-full max-w-[18rem] object-contain"
+                          />
+                        ) : (
+                          <span className="font-heading text-[1.75rem] font-light leading-none text-black lg:text-[2rem]">
+                            {card.title}
+                          </span>
+                        )}
                       </a>
                     </div>
                     <ul className="latest-launch-amenitites grid grid-cols-2 gap-6 text-center lg:col-span-9 lg:grid-cols-4">

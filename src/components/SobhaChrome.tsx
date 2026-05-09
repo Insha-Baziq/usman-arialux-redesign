@@ -18,7 +18,7 @@
  * (which mirrors the SobhaHeaderMenu schema) renders identically.
  */
 
-import { ChevronDown, Heart, Menu, Search } from "lucide-react";
+import { ChevronDown, Heart, Menu, Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
@@ -119,6 +119,9 @@ export function SobhaHeader({
   const leftMenus = menus.slice(0, half);
   const rightMenus = menus.slice(half);
   const headerRef = useRef<HTMLElement | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const el = headerRef.current;
@@ -130,6 +133,23 @@ export function SobhaHeader({
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    const hasOverlay = mobileMenuOpen || searchOpen;
+    document.body.classList.toggle("sobha-mobile-overlay-open", hasOverlay);
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setMobileMenuOpen(false);
+      setSearchOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.classList.remove("sobha-mobile-overlay-open");
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [mobileMenuOpen, searchOpen]);
 
   useEffect(() => {
     const el = headerRef.current;
@@ -186,6 +206,34 @@ export function SobhaHeader({
   }, []);
 
   const langs = languages ?? FALLBACK_LANGUAGES;
+  const allMenuItems = menus.flatMap((menu) => {
+    const childItems = [
+      ...(menu.items ?? []),
+      ...(menu.tabs?.flatMap((tab) => tab.items) ?? []),
+      ...(menu.categories?.flatMap((category) => [
+        { label: category.label, href: category.href },
+        ...category.cards.map((card) => ({
+          label: card.title,
+          href: card.href,
+          hoverImage: card.imageUrl,
+        })),
+      ]) ?? []),
+    ];
+
+    return [{ label: menu.label, href: menu.href }, ...childItems];
+  });
+  const searchResults = allMenuItems
+    .filter((item, index, arr) => arr.findIndex((candidate) => candidate.href === item.href) === index)
+    .filter((item) =>
+      item.label.toLowerCase().includes(searchQuery.trim().toLowerCase()),
+    )
+    .slice(0, 8);
+
+  const closeMobileOverlays = () => {
+    setMobileMenuOpen(false);
+    setSearchOpen(false);
+    setSearchQuery("");
+  };
 
   return (
     <header
@@ -200,10 +248,15 @@ export function SobhaHeader({
         <div className="flex items-center gap-4 xl:hidden">
           <button
             type="button"
-            aria-label="Open menu"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
+            onClick={() => {
+              setMobileMenuOpen((open) => !open);
+              setSearchOpen(false);
+            }}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-black/10 backdrop-blur-md transition hover:border-white/55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
-            <Menu className="h-4 w-4" />
+            {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
 
@@ -257,22 +310,158 @@ export function SobhaHeader({
           <button
             type="button"
             aria-label="Search"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20"
+            aria-expanded={searchOpen}
+            onClick={() => {
+              setSearchOpen((open) => !open);
+              setMobileMenuOpen(false);
+            }}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-black/10 backdrop-blur-md transition hover:border-white/55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
-            <Search className="h-4 w-4" />
+            {searchOpen ? <X className="h-4 w-4" /> : <Search className="h-4 w-4" />}
           </button>
           {brand.wishlistHref ? (
             <a
               href={brand.wishlistHref}
               aria-label="Wishlist"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-black/10 backdrop-blur-md transition hover:border-white/55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               <Heart className="h-4 w-4" />
             </a>
           ) : null}
         </div>
       </div>
+
+      <div
+        className={cn(
+          "sobha-mobile-panel xl:hidden",
+          mobileMenuOpen && "is-open",
+        )}
+        aria-hidden={!mobileMenuOpen}
+      >
+        <nav className="sobha-mobile-panel__inner" aria-label="Mobile navigation">
+          <div className="grid gap-2">
+            {menus.map((menu) => (
+              <MobileMenuGroup
+                key={menu.label}
+                menu={menu}
+                onNavigate={closeMobileOverlays}
+              />
+            ))}
+          </div>
+          <div className="mt-6 grid grid-cols-2 gap-3">
+            <a href="/contact" onClick={closeMobileOverlays} className="sobha-mobile-quick-link">
+              Call Back
+            </a>
+            <a href="/all-floor-plans" onClick={closeMobileOverlays} className="sobha-mobile-quick-link">
+              Floor Plans
+            </a>
+          </div>
+        </nav>
+      </div>
+
+      <div
+        className={cn(
+          "sobha-mobile-panel sobha-mobile-search xl:hidden",
+          searchOpen && "is-open",
+        )}
+        aria-hidden={!searchOpen}
+      >
+        <div className="sobha-mobile-panel__inner">
+          <label className="sr-only" htmlFor="sobha-mobile-search">
+            Search site
+          </label>
+          <div className="flex items-center gap-3 rounded-[0.65rem] border border-white/18 bg-white/10 px-4 py-3">
+            <Search className="h-4 w-4 shrink-0 text-white/70" aria-hidden="true" />
+            <input
+              id="sobha-mobile-search"
+              type="search"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder="Search floor plans, portfolio, contact"
+              className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/45"
+            />
+          </div>
+          <div className="mt-5 grid gap-2">
+            {searchResults.map((item) => (
+              <a
+                key={`${item.href}-${item.label}`}
+                href={item.href}
+                onClick={closeMobileOverlays}
+                className="sobha-mobile-search-result"
+              >
+                <span>{item.label}</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
     </header>
+  );
+}
+
+function MobileMenuGroup({
+  menu,
+  onNavigate,
+}: {
+  menu: ChromeMenu;
+  onNavigate: () => void;
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const childItems = [
+    ...(menu.items ?? []),
+    ...(menu.tabs?.flatMap((tab) => tab.items) ?? []),
+    ...(menu.categories?.flatMap((category) => [
+      { label: category.label, href: category.href },
+      ...category.cards.map((card) => ({ label: card.title, href: card.href })),
+    ]) ?? []),
+  ];
+
+  const hasChildren = childItems.length > 0;
+
+  return (
+    <section className={cn("sobha-mobile-menu-group", isExpanded && "is-expanded")}>
+      {hasChildren ? (
+        <div className="sobha-mobile-menu-row">
+          <button
+            type="button"
+            aria-expanded={isExpanded}
+            className="sobha-mobile-menu-link sobha-mobile-menu-toggle"
+            onClick={() => setIsExpanded((open) => !open)}
+          >
+            <span>{menu.label}</span>
+            <ChevronDown aria-hidden="true" className="h-4 w-4 transition-transform" />
+          </button>
+          <a
+            href={menu.href}
+            aria-label={`View ${menu.label}`}
+            onClick={onNavigate}
+            className="sobha-mobile-menu-arrow"
+          >
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      ) : (
+        <a href={menu.href} onClick={onNavigate} className="sobha-mobile-menu-link">
+          <span>{menu.label}</span>
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      )}
+
+      {hasChildren && isExpanded ? (
+        <div className="sobha-mobile-subnav is-open">
+          {childItems.map((item) => (
+            <a
+              key={`${menu.label}-${item.href}-${item.label}`}
+              href={item.href}
+              onClick={onNavigate}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      ) : null}
+    </section>
   );
 }
 

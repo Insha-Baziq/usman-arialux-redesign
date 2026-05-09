@@ -48,11 +48,12 @@ export function PillarsSection({ heading, pillars, className }: PillarsSectionPr
     const cards = Array.from(track.querySelectorAll<HTMLElement>(".sobha-pillar-card"));
     if (cards.length === 0) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 767px)").matches) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       gsap.set([headingEl, ...cards], { clearProps: "all" });
       return;
     }
 
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
     gsap.set([headingEl, ...cards], { opacity: 0, y: 56, willChange: "transform,opacity" });
 
     const triggerId = `sobha-pillars-${Math.random().toString(36).slice(2)}`;
@@ -62,7 +63,8 @@ export function PillarsSection({ heading, pillars, className }: PillarsSectionPr
         trigger: headingEl,
         start: "top 86%",
         end: "top 46%",
-        scrub: 0.7,
+        scrub: isMobile ? false : 0.7,
+        toggleActions: "play none none none",
       },
     });
     tl.to(headingEl, {

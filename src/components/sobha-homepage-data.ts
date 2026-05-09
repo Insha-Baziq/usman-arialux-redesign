@@ -24,6 +24,7 @@ export type SobhaHeroSlide = {
   desktopImage: string;
   mobileImage: string;
   imageAlt: string;
+  videoSrc?: string;
 };
 
 export type SobhaPillar = {
@@ -44,7 +45,7 @@ export type SobhaProperty = {
   href: string;
   imageUrl: string;
   mobileImageUrl: string;
-  logoUrl: string;
+  logoUrl?: string;
   amenities: SobhaAmenity[];
 };
 
@@ -348,6 +349,7 @@ export const sobhaHeroSlides: SobhaHeroSlide[] = [
     desktopImage: "/images/facebook/hero-03.jpg",
     mobileImage: "/images/facebook/hero-03.jpg",
     imageAlt: "AriaLux Homes — modern residential architecture",
+    videoSrc: "/videos/main-page.mp4",
   },
 ];
 
@@ -383,10 +385,10 @@ export const sobhaArtDetail = {
     "At AriaLux Homes, we believe true excellence lives in the smallest decisions — the way a stair tread meets stone, how cabinetry returns into trim, the quiet weight of a custom door. Every plan is drawn in our own studio, every finish specified by hand, every home built to be lived in for a generation.",
   ctaLabel: "Discover More",
   ctaHref: "/who-we-are",
-  backgroundImage: "/images/art-of-detail/art-of-the-detail-mob.png.webp",
+  backgroundImage: "/images/art-of-detail/art-of-detail-interior.jpeg",
   desktopLogo: "/images/arialux-wordmark.png",
   mobileLogo: "/images/arialux-wordmark.png",
-  figureImage: "/images/art-of-detail/art-of-the-detail-mob.png.webp",
+  figureImage: "/images/art-of-detail/art-of-detail-interior.jpeg",
 };
 
 // Live h2 inside .new-launch-section .title-section
@@ -431,7 +433,6 @@ export const sobhaProperties: SobhaProperty[] = ARIA_PLANS.map((plan) => ({
   href: `/floor-plans/${plan.slug}`,
   imageUrl: plan.hero,
   mobileImageUrl: plan.hero,
-  logoUrl: ARIA_PLANS[0]?.gallery[0] ?? plan.hero,
   amenities: [
     { icon: ariaSpecIcon("bed"), label: `${plan.specs.bedrooms} Bedrooms` },
     { icon: ariaSpecIcon("bath"), label: `${plan.specs.bathrooms} Bathrooms` },

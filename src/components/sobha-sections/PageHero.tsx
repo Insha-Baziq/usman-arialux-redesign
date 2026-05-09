@@ -29,7 +29,7 @@ export function PageHero({
   const skip = useReducedMotion();
 
   return (
-    <section className="relative isolate overflow-hidden border-b border-[#d8d0c4] bg-[#f7f3ec] px-6 pb-10 pt-28 lg:px-10 lg:pb-12 lg:pt-32">
+    <section className="relative isolate overflow-hidden border-b border-[#d8d0c4] bg-[#f7f3ec] px-6 pb-10 pt-24 sm:pt-28 lg:px-10 lg:pb-12 lg:pt-32">
       {/* Faded background image with reveal */}
       <motion.div
         className="absolute inset-y-0 right-0 hidden w-[48%] lg:block"
@@ -71,7 +71,7 @@ export function PageHero({
           {/* Heading — mask reveal */}
           <span className="block overflow-hidden pb-1">
             <motion.h1
-              className="font-serif text-5xl font-normal leading-[0.92] tracking-[-0.055em] text-[#171410] sm:text-6xl lg:text-7xl"
+              className="font-serif text-[clamp(3rem,14vw,4.35rem)] font-normal leading-[0.92] tracking-[-0.055em] text-[#171410] sm:text-6xl lg:text-7xl"
               initial={skip ? false : { y: "110%", opacity: 0 }}
               animate={{ y: "0%", opacity: 1 }}
               transition={{ duration: 1.4, delay: 0.45, ease }}
@@ -82,7 +82,7 @@ export function PageHero({
 
           {/* Description — fade up */}
           <motion.p
-            className="max-w-[35rem] text-base font-light leading-[1.75] text-[#5f574e] sm:text-lg"
+            className="max-w-[35rem] text-[0.96rem] font-light leading-[1.75] text-[#5f574e] sm:text-lg"
             initial={skip ? false : { opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.25, delay: 0.75, ease }}
@@ -112,7 +112,7 @@ export function PageHero({
           {ctaLabel ? (
             <a
               href={ctaHref}
-              className="inline-flex items-center justify-center gap-3 rounded-[0.45rem] border border-[#171410] bg-[#171410] px-6 py-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-white shadow-[0_16px_30px_-22px_rgba(23,20,16,0.7)] transition hover:bg-[#3a3129] active:translate-y-px"
+              className="inline-flex w-full items-center justify-center gap-3 rounded-[0.45rem] border border-[#171410] bg-[#171410] px-5 py-3 text-center text-[0.64rem] font-semibold uppercase tracking-[0.18em] text-white shadow-[0_16px_30px_-22px_rgba(23,20,16,0.7)] transition hover:bg-[#3a3129] active:translate-y-px sm:w-auto sm:px-6 sm:text-[0.68rem] sm:tracking-[0.22em]"
             >
               {ctaLabel}
               <span aria-hidden="true">&rarr;</span>

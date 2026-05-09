@@ -1,7 +1,5 @@
 # Dependencies
 node_modules/
-.pnp
-.pnp.js
 
 # Build
 .next/
@@ -11,10 +9,8 @@ dist/
 
 # Environment
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
 
 # Debug
 npm-debug.log*
@@ -36,30 +32,26 @@ Thumbs.db
 next-env.d.ts
 
 # Vercel
-.vercel
+.vercel/
 
-# Local settings (not project config)
+# AI agent configs (not part of the project)
+.agents/
+.amazonq/
+.augment/
+.codex/
+.continue/
+.cursor/
+.gemini/
+.opencode/
+.windsurf/
+.playwright-mcp/
+.worktrees/
+.claude/launch.json
 .claude/settings.local.json
 
-# User-specific skills (not part of the template)
-.claude/skills/customize/
-.claude/skills/release/
-
-# Local temp files
+# Temp
 temp/
-.worktrees/
-
-# Local agent/runtime artifacts
-.agents/
-.playwright-mcp/
-.claude/launch.json
-
-# Generated review and preview artifacts
 dev.log
 hero-video/
-.github/workflows/ci.yml
-docs/*-check.png
-docs/rana-haven-*.png
-docs/plans/
-public/images/facebook/cleaned_image.jpg
-public/images/facebook/main.py
+
+.env*.local

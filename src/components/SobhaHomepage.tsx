@@ -1,6 +1,5 @@
 "use client";
 
-import AOS from "aos";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
@@ -12,7 +11,6 @@ import {
   CardCarousel,
   HeroBanner,
   PillarsSection,
-  SobhaPillLink,
   StoryGrid,
 } from "./sobha-sections";
 import {
@@ -59,7 +57,7 @@ function SobhaIrisStage() {
     const content = contentRef.current;
     if (!stage || !heroPin || !panel || !content) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 767px)").matches) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       // Skip the iris animation; render the panel fully open.
       panel.style.clipPath = "circle(150% at 50% 100%)";
       (panel.style as CSSStyleDeclaration & { webkitClipPath?: string }).webkitClipPath =
@@ -77,7 +75,7 @@ function SobhaIrisStage() {
         trigger: stage,
         start: "top top",
         end: "bottom bottom",
-        scrub: 1,
+        scrub: 0.65,
         pin: heroPin,
         pinSpacing: false,
         anticipatePin: 1,
@@ -124,10 +122,11 @@ function SobhaIrisStage() {
           className="sobha-iris-panel art-of-detail-sec"
           aria-label="The Art of Detail"
         >
-          <div className="sobha-art-of-detail sobha-art-of-detail-bg">
-            <div className="relative mx-auto grid h-full max-w-[81rem] gap-10 px-6 py-20 lg:grid-cols-[minmax(0,30rem)_minmax(0,1fr)] lg:items-center lg:gap-16 lg:px-10">
-              <div ref={contentRef} className="relative z-10 max-w-[34rem] space-y-8">
-                <div className="space-y-6">
+          <div className="sobha-art-of-detail">
+            <div className="relative mx-auto grid h-full lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-stretch">
+              <div ref={contentRef} className="relative z-10 flex flex-col justify-center px-8 py-20 lg:px-16 lg:py-28">
+                <div className="max-w-[30rem] space-y-8">
+                  <span className="sobha-art-reveal block h-px w-14 bg-[#b58942]" aria-hidden="true" />
                   <h2 className="sobha-art-reveal sobha-art-title">
                     {sobhaArtDetail.titleLines.map((line, i) => (
                       <span key={line} className={i === 1 ? "sobha-art-title__alt" : undefined}>
@@ -135,16 +134,20 @@ function SobhaIrisStage() {
                       </span>
                     ))}
                   </h2>
-                  <p className="sobha-art-reveal max-w-[31rem] text-base font-light leading-7 text-black/80 lg:text-[1.0625rem] lg:leading-[1.7]">
+                  <p className="sobha-art-reveal max-w-[28rem] text-base font-light leading-7 text-[#15120f]/75 lg:text-[1.0625rem] lg:leading-[1.7]">
                     {sobhaArtDetail.copy}
                   </p>
                 </div>
-
-                <div className="sobha-art-reveal">
-                  <SobhaPillLink href={sobhaArtDetail.ctaHref} label={sobhaArtDetail.ctaLabel} />
-                </div>
               </div>
 
+              <div className="sobha-art-image-col relative overflow-hidden">
+                <img
+                  src={sobhaArtDetail.figureImage}
+                  alt="Luxury interior — marble kitchen island with gold chandelier"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+                <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent" />
+              </div>
             </div>
           </div>
         </section>
@@ -204,19 +207,6 @@ function SobhaStickyWidgets() {
 
 
 export function SobhaHomepage() {
-  // Initialize AOS once on the client.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const compactMotion = window.matchMedia("(max-width: 767px)").matches;
-    AOS.init({
-      duration: compactMotion ? 450 : 800,
-      easing: "ease-out-cubic",
-      once: true,
-      offset: compactMotion ? 24 : 80,
-      disable: compactMotion,
-    });
-  }, []);
-
   return (
     <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader brand={ariaLuxBrand} menus={ARIA_HEADER_MENU} hideLanguageSwitcher />

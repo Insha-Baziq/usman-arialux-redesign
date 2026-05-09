@@ -62,11 +62,12 @@ export function StoryGrid({
 
     const cards = Array.from(track.querySelectorAll<HTMLElement>(".sobha-press-card"));
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 767px)").matches) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       gsap.set([headingEl, ...cards], { clearProps: "all" });
       return;
     }
 
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
     gsap.set(headingEl, { opacity: 0, y: 42, willChange: "transform,opacity" });
     if (cards.length) gsap.set(cards, { opacity: 0, y: 56, willChange: "transform,opacity" });
 
@@ -77,7 +78,8 @@ export function StoryGrid({
         trigger: headingEl,
         start: "top 84%",
         end: "top 62%",
-        scrub: 0.25,
+        scrub: isMobile ? false : 0.25,
+        toggleActions: "play none none none",
       },
     });
     tl.to(headingEl, {

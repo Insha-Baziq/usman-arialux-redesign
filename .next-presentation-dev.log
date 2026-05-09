@@ -1,0 +1,14 @@
+
+> ai-website-clone-template@0.3.1 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.100.58:3000
+- Environments: .env.local
+✓ Ready in 597ms
+
+ GET / 200 in 684ms (next.js: 259ms, application-code: 425ms)
+ GET /studio/presentation 200 in 1699ms (next.js: 489ms, application-code: 1211ms)
+ GET /api/draft-mode/enable?sanity-preview-secret=NjM0MzAyMWU4MWQxZTk2ZDQzMzE3OGFhZDMzMjdjMTc&sanity-preview-perspective=drafts&sanity-preview-pathname=%2F 500 in 1103ms (next.js: 908ms, application-code: 195ms)
+ GET /api/draft-mode/enable?sanity-preview-secret=NjljNDhmZDc1MmFlNjliOWMyNTc5MDFmZjE2MmU5YjQ&sanity-preview-perspective=drafts&sanity-preview-pathname=%2F 500 in 86ms (next.js: 5ms, application-code: 81ms)

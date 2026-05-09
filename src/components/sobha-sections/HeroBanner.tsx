@@ -16,6 +16,7 @@ export type HeroBannerSlide = {
   desktopImage: string;
   mobileImage: string;
   imageAlt: string;
+  videoSrc?: string;
 };
 
 export type HeroBannerProps = {
@@ -57,16 +58,31 @@ export function HeroBanner({ slides, fullHeight = true, autoplayDelayMs = 4500 }
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
             <div className="relative h-full w-full overflow-hidden">
-              <picture>
-                <source media="(max-width: 640px)" srcSet={slide.mobileImage} />
-                <img
-                  src={slide.desktopImage}
-                  alt={slide.imageAlt}
+              {slide.videoSrc ? (
+                <video
                   className="impression-banner only-desk homepage-banner-desk h-full w-full object-cover"
-                  loading="eager"
-                  fetchPriority="high"
-                />
-              </picture>
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  poster={slide.desktopImage}
+                  aria-hidden="true"
+                >
+                  <source src={slide.videoSrc} type="video/mp4" />
+                </video>
+              ) : (
+                <picture>
+                  <source media="(max-width: 640px)" srcSet={slide.mobileImage} />
+                  <img
+                    src={slide.desktopImage}
+                    alt={slide.imageAlt}
+                    className="impression-banner only-desk homepage-banner-desk h-full w-full object-cover"
+                    loading="eager"
+                    fetchPriority="high"
+                  />
+                </picture>
+              )}
               <div className="explore-more-arrow absolute inset-0 sobha-hero-overlay" aria-hidden="true" />
               <div className="absolute inset-0 flex items-end justify-center pb-24 sm:pb-28">
                 <div className="max-w-4xl space-y-4 px-6 text-center sm:space-y-5">

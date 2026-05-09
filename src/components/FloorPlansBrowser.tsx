@@ -66,7 +66,6 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
   const bedroomMatch = BEDROOM_OPTIONS.find((opt) => opt.id === bedrooms) ?? BEDROOM_OPTIONS[0];
 
   const filtered = useMemo(() => {
-    setVisibleCount(PLANS_INITIAL);
     const result = plans.filter(
       (plan) =>
         sizeMatch.match(plan.specs.living) && bedroomMatch.match(plan.specs.bedrooms),
@@ -82,8 +81,8 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
   return (
     <section className="bg-[#f7f3ec] px-6 pb-16 lg:px-10 lg:pb-24">
       <div className="mx-auto w-full max-w-[81rem]">
-        <div className="flex flex-wrap items-start gap-8 border-b border-[#d8d0c4] py-8 lg:flex-nowrap lg:gap-10">
-          <div className="shrink-0 space-y-2">
+        <div className="grid gap-7 border-b border-[#d8d0c4] py-7 sm:py-8 lg:flex lg:flex-nowrap lg:items-start lg:gap-10">
+          <div className="space-y-2 lg:shrink-0">
             <p className="text-[0.64rem] font-semibold uppercase tracking-[0.32em] text-[#171410]">
               Filter Plans
             </p>
@@ -99,7 +98,10 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
                 label={opt.label}
                 hint={opt.hint}
                 active={size === opt.id}
-                onClick={() => setSize(opt.id)}
+                onClick={() => {
+                  setSize(opt.id);
+                  setVisibleCount(PLANS_INITIAL);
+                }}
               />
             ))}
           </FilterGroup>
@@ -111,12 +113,15 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
                 label={opt.label}
                 hint={opt.hint}
                 active={bedrooms === opt.id}
-                onClick={() => setBedrooms(opt.id)}
+                onClick={() => {
+                  setBedrooms(opt.id);
+                  setVisibleCount(PLANS_INITIAL);
+                }}
               />
             ))}
           </FilterGroup>
 
-          <div className="shrink-0 space-y-3 lg:ml-auto" ref={sortRef}>
+          <div className="space-y-3 lg:ml-auto lg:shrink-0" ref={sortRef}>
             <p className="text-[0.58rem] font-semibold uppercase tracking-[0.32em] text-[#171410]">
               Sort By
             </p>
@@ -126,7 +131,7 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
                 aria-haspopup="listbox"
                 aria-expanded={sortOpen}
                 onClick={() => setSortOpen((o) => !o)}
-                className="flex h-10 min-w-[10rem] items-center rounded-[0.45rem] border border-[#cfc3b5] bg-[#fbf8f2] pl-4 pr-3 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#332c25] shadow-[0_18px_44px_-34px_rgba(23,20,16,0.5)] transition hover:border-[#b58942] focus:outline-none"
+                className="flex h-11 w-full items-center rounded-[0.45rem] border border-[#cfc3b5] bg-[#fbf8f2] pl-4 pr-3 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#332c25] shadow-[0_18px_44px_-34px_rgba(23,20,16,0.5)] transition hover:border-[#b58942] focus:outline-none sm:w-auto sm:min-w-[10rem]"
               >
                 <span className="flex-1 text-left">{sort}</span>
                 <span className="mx-2 h-5 w-px bg-[#d8c9b8]" aria-hidden="true" />
@@ -150,7 +155,11 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
                       key={opt}
                       role="option"
                       aria-selected={sort === opt}
-                      onClick={() => { setSort(opt); setSortOpen(false); }}
+                      onClick={() => {
+                        setSort(opt);
+                        setVisibleCount(PLANS_INITIAL);
+                        setSortOpen(false);
+                      }}
                       className={`cursor-pointer px-4 py-2 text-[0.62rem] font-semibold uppercase tracking-[0.14em] transition ${
                         sort === opt
                           ? "bg-[#b58942] text-white"
@@ -226,7 +235,7 @@ function FilterGroup({ label, children }: FilterGroupProps) {
       <p className="text-[0.58rem] font-semibold uppercase tracking-[0.32em] text-[#171410]">
         {label}
       </p>
-      <div className="flex flex-nowrap gap-2">{children}</div>
+      <div className="flex flex-wrap gap-2">{children}</div>
     </div>
   );
 }
@@ -246,8 +255,8 @@ function FilterChip({ label, hint, active, onClick }: FilterChipProps) {
       aria-pressed={active}
       className={
         active
-          ? "inline-flex min-h-12 items-center gap-2 rounded-full border border-[#b58942] bg-[#b58942] px-5 py-2 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-white shadow-[0_12px_30px_-24px_rgba(181,137,66,0.8)] transition"
-          : "inline-flex min-h-12 items-center gap-2 rounded-full border border-[#d9d0c4] bg-[#fbf8f2] px-5 py-2 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-[#3f372f] transition hover:border-[#b58942] hover:text-[#171410]"
+          ? "inline-flex min-h-11 items-center gap-2 rounded-full border border-[#b58942] bg-[#b58942] px-4 py-2 text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_12px_30px_-24px_rgba(181,137,66,0.8)] transition sm:min-h-12 sm:px-5 sm:text-[0.62rem]"
+          : "inline-flex min-h-11 items-center gap-2 rounded-full border border-[#d9d0c4] bg-[#fbf8f2] px-4 py-2 text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-[#3f372f] transition hover:border-[#b58942] hover:text-[#171410] sm:min-h-12 sm:px-5 sm:text-[0.62rem]"
       }
     >
       <span>{label}</span>
@@ -291,17 +300,20 @@ function FloorPlanListingCard({ plan }: FloorPlanListingCardProps) {
           className="h-full w-full object-cover transition duration-[700ms] ease-out group-hover:scale-[1.045]"
         />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#171410]/78 via-[#171410]/22 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-        <div className="absolute inset-x-0 bottom-0 p-5 text-white opacity-0 transition-opacity duration-500 group-hover:opacity-100 sm:p-6">
+        <div className="absolute inset-x-0 bottom-0 hidden p-5 text-white opacity-0 transition-opacity duration-500 md:block md:group-hover:opacity-100 sm:p-6">
           <h3 className="font-serif text-3xl font-normal tracking-[-0.055em] text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] sm:text-4xl">
             {plan.displayName}
           </h3>
         </div>
       </div>
-      <div className="grid grid-cols-[1fr_1fr_1fr_auto] items-center gap-2 border-t border-[#ded4c8] bg-[#fbf8f2] px-4 py-3 text-[#6c6258]">
+      <div className="grid grid-cols-2 items-center gap-3 border-t border-[#ded4c8] bg-[#fbf8f2] px-4 py-4 text-[#6c6258] sm:grid-cols-[1fr_1fr_1fr_auto] sm:gap-2 sm:py-3">
+        <h3 className="col-span-2 font-serif text-2xl font-normal leading-none tracking-[-0.045em] text-[#171410] sm:hidden">
+          {plan.displayName}
+        </h3>
         <CardSpec label={brLabel} />
         <CardSpec label={baLabel} />
         <CardSpec label={sqftLabel} />
-        <span className="inline-flex items-center gap-2 pl-2 text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-[#b58942]">
+        <span className="col-span-2 inline-flex items-center gap-2 border-t border-[#ded4c8] pt-3 text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-[#b58942] sm:col-span-1 sm:border-t-0 sm:pl-2 sm:pt-0">
           View Plan
           <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
             &rarr;
