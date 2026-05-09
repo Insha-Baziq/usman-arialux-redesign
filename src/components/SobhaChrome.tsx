@@ -962,16 +962,8 @@ export function SobhaFooter({
             <div className="space-y-4">
               <Image src={appBadges.appIcon} alt={`${brand.name} app logo`} width={40} height={40} className="h-10 w-auto" />
               <div className="flex flex-wrap items-center gap-3">
-                <img
-                  src={appBadges.appBadgeIos}
-                  alt={`Download ${brand.name} app on the Apple App Store`}
-                  className="h-10 w-auto"
-                />
-                <img
-                  src={appBadges.appBadgeAndroid}
-                  alt={`Download ${brand.name} app on Google Play`}
-                  className="h-10 w-auto"
-                />
+                <Image src={appBadges.appBadgeIos} alt={`Download ${brand.name} app on the Apple App Store`} width={120} height={40} className="h-10 w-auto" />
+                <Image src={appBadges.appBadgeAndroid} alt={`Download ${brand.name} app on Google Play`} width={135} height={40} className="h-10 w-auto" />
               </div>
             </div>
           ) : (

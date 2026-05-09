@@ -137,7 +137,7 @@ export default function ContactPage() {
             media={(
               <div className="overflow-hidden rounded-md">
                 <Image
-                  src="/images/who-we-are-hero.webp"
+                  src="/images/who-we-are-hero-v1.webp"
                   alt="AriaLux Homes — featured custom build"
                   width={800}
                   height={600}

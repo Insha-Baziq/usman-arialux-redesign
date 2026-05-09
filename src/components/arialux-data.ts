@@ -97,8 +97,8 @@ export const ARIA_BRAND = {
   name: "AriaLux Homes",
   tagline: "Custom Home Builder | Architectural Firm",
   city: "Fort Wayne, IN",
-  phone: "+1 832-773-9544",
-  phoneHref: "tel:+18327739544",
+  phone: "260-600-9221",
+  phoneHref: "tel:2606009221",
   whatsapp: "+18327739544",
   whatsappHref: "https://wa.me/18327739544",
   email: "BUILD@ARIALUXHOMES.COM",
@@ -860,7 +860,7 @@ export const ARIA_WHO_WE_ARE = {
         "AriaLux is Fort Wayne, born and built. Every plan in our collection is engineered for Indiana lots, codes, and weather.",
     },
   ],
-  hero: "/images/who-we-are-hero.webp",
+  hero: "/images/who-we-are-hero-v1.webp",
 } as const;
 
 // ---------------------------------------------------------------------------

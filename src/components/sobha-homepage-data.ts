@@ -321,6 +321,17 @@ export const sobhaHeaderSlug = slug;
 // (public/images/facebook/hero-0X.jpg). Three featured exterior + interior shots.
 export const sobhaHeroSlides: SobhaHeroSlide[] = [
   {
+    id: "arialux-floor-plans",
+    title: "SIXTEEN FLOOR PLANS",
+    subtitle: "Designed for the Way You Live",
+    ctaLabel: "VIEW PLANS",
+    ctaHref: "/all-floor-plans",
+    desktopImage: "/images/facebook/hero-preview.jpg",
+    mobileImage: "/images/facebook/hero-preview.jpg",
+    imageAlt: "AriaLux Homes — modern residential architecture",
+    videoSrc: "/videos/main-page.mp4",
+  },
+  {
     id: "arialux-aria-heights",
     title: "ROOSEVELT RESERVES PHASE II",
     subtitle: "Spaces Where Life Unfolds",
@@ -336,20 +347,9 @@ export const sobhaHeroSlides: SobhaHeroSlide[] = [
     subtitle: "Custom Builds. Quiet Confidence.",
     ctaLabel: "DISCOVER",
     ctaHref: "/portfolio",
-    desktopImage: "/images/facebook/hero-02.jpg",
-    mobileImage: "/images/facebook/hero-02.jpg",
+    desktopImage: "/images/facebook/home_page_3.jpg",
+    mobileImage: "/images/facebook/home_page_3.jpg",
     imageAlt: "AriaLux Homes — grand white-stone estate with reflecting pool",
-  },
-  {
-    id: "arialux-floor-plans",
-    title: "SIXTEEN FLOOR PLANS",
-    subtitle: "Designed for the Way You Live",
-    ctaLabel: "VIEW PLANS",
-    ctaHref: "/all-floor-plans",
-    desktopImage: "/images/facebook/hero-03.jpg",
-    mobileImage: "/images/facebook/hero-03.jpg",
-    imageAlt: "AriaLux Homes — modern residential architecture",
-    videoSrc: "/videos/main-page.mp4",
   },
 ];
 
