@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "Browse AriaLux Homes articles, including new-construction guidance, design details, floor plan notes, and active build updates.",
 };
 
-const HERO_IMAGE = "/images/article/arialux-article-hero.png";
+const HERO_IMAGE = "/images/article/arialux-article-hero.webp";
 
 export default function ArticlePage() {
   return (

@@ -1,7 +1,6 @@
 "use client";
 
- 
-
+import Image from "next/image";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -21,19 +20,10 @@ export type HeroBannerSlide = {
 
 export type HeroBannerProps = {
   slides: HeroBannerSlide[];
-  /** Sets fixed viewport height. Defaults to true (homepage hero behavior). */
   fullHeight?: boolean;
-  /** Autoplay delay in ms. Defaults to 4500. Set to 0 to disable autoplay. */
   autoplayDelayMs?: number;
 };
 
-/**
- * Full-bleed Sobha hero banner — fading Swiper carousel with bottom-centered
- * title / subtitle / pill CTA over a dark gradient overlay.
- *
- * Visual parity with `SobhaHero` from the homepage. Subpages can pass a single
- * slide for a static hero or many slides for the rotating homepage behavior.
- */
 export function HeroBanner({ slides, fullHeight = true, autoplayDelayMs = 4500 }: HeroBannerProps) {
   return (
     <div
@@ -55,7 +45,7 @@ export function HeroBanner({ slides, fullHeight = true, autoplayDelayMs = 4500 }
         }
         className="sobha-hero-swiper h-full"
       >
-        {slides.map((slide) => (
+        {slides.map((slide, i) => (
           <SwiperSlide key={slide.id}>
             <div className="relative h-full w-full overflow-hidden">
               {slide.videoSrc ? (
@@ -72,16 +62,14 @@ export function HeroBanner({ slides, fullHeight = true, autoplayDelayMs = 4500 }
                   <source src={slide.videoSrc} type="video/mp4" />
                 </video>
               ) : (
-                <picture>
-                  <source media="(max-width: 640px)" srcSet={slide.mobileImage} />
-                  <img
-                    src={slide.desktopImage}
-                    alt={slide.imageAlt}
-                    className="impression-banner only-desk homepage-banner-desk h-full w-full object-cover"
-                    loading="eager"
-                    fetchPriority="high"
-                  />
-                </picture>
+                <Image
+                  src={slide.desktopImage}
+                  alt={slide.imageAlt}
+                  fill
+                  priority={i === 0}
+                  sizes="100vw"
+                  className="impression-banner homepage-banner-desk object-cover"
+                />
               )}
               <div className="explore-more-arrow absolute inset-0 sobha-hero-overlay" aria-hidden="true" />
               <div className="absolute inset-0 flex items-end justify-center pb-24 sm:pb-28">

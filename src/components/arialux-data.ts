@@ -536,7 +536,7 @@ export const ARIA_PLANS: AriaPlan[] = [
         "45' single story house.rvt (4)-4cf971f.jpeg",
         "45' single story house.rvt (5).jpeg",
         "45' single story house.rvt (5)-f94478e.jpeg",
-        "IMG_2877.png",
+        "IMG_2877.webp",
       ].map((f) => planMapImg("villa-ivory", f)),
     ],
     addressGroups: [
@@ -613,7 +613,7 @@ export const ARIA_PLANS: AriaPlan[] = [
         "IMG_0489.jpeg",
         "IMG_0493.jpeg",
       ].map((f) => planImg("villa-zenith", f)),
-      planMapImg("villa-zenith", "IMG_2709.png"),
+      planMapImg("villa-zenith", "IMG_2709.webp"),
     ],
     addressGroups: [{ address: "5705 Churchill Dr", images: [] }],
     featuredOnListing: true,
@@ -860,7 +860,7 @@ export const ARIA_WHO_WE_ARE = {
         "AriaLux is Fort Wayne, born and built. Every plan in our collection is engineered for Indiana lots, codes, and weather.",
     },
   ],
-  hero: "/images/who-we-are-hero.png",
+  hero: "/images/who-we-are-hero.webp",
 } as const;
 
 // ---------------------------------------------------------------------------

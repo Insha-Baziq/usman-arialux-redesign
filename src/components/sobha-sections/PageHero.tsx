@@ -1,5 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
+import Image from "next/image";
 
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -37,10 +37,13 @@ export function PageHero({
         animate={{ opacity: 1 }}
         transition={{ duration: 2.2, ease }}
       >
-        <img
+        <Image
           src={backgroundImage}
           alt={imageAlt}
-          className="h-full w-full object-cover opacity-55 grayscale-[15%]"
+          fill
+          priority
+          sizes="48vw"
+          className="object-cover opacity-55 grayscale-[15%]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#f7f3ec] via-[#f7f3ec]/62 to-[#f7f3ec]/10" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#f7f3ec] via-transparent to-[#f7f3ec]/22" />

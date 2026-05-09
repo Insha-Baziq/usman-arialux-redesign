@@ -1,7 +1,6 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
-
+import Image from "next/image";
 import { useState, type CSSProperties } from "react";
 
 import type { AriaGalleryItem } from "./arialux-data";
@@ -105,12 +104,13 @@ export function PortfolioGallery({ images }: PortfolioGalleryProps) {
                   }
                 >
                   <div className={`portfolio-image-reveal relative h-full w-full ${imageAspectClass(index)}`}>
-                    <img
+                    <Image
                       src={item.src}
                       alt={item.alt}
-                      loading={index < 6 ? "eager" : "lazy"}
-                      decoding="async"
-                      className="absolute inset-0 h-full w-full object-cover transition duration-[850ms] ease-out group-hover:scale-[1.04]"
+                      fill
+                      priority={index < 6}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover transition duration-[850ms] ease-out group-hover:scale-[1.04]"
                     />
                   </div>
                   <div

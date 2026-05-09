@@ -14,19 +14,19 @@ const SERVICES = [
     step: "01",
     title: "Discovery & Concept",
     body: "We start with a consultation to understand your lot, lifestyle, goals, and architectural vision. This phase establishes the design direction and overall concept for your future home.",
-    image: "/images/architectural-services/discovery-concept.png",
+    image: "/images/architectural-services/discovery-concept.webp",
   },
   {
     step: "02",
     title: "Schematic Design",
     body: "Approved concepts move into measured floor plans, exterior elevations, and layout refinement. We shape spaces that are both beautiful and functional.",
-    image: "/images/architectural-services/schematic-design.png",
+    image: "/images/architectural-services/schematic-design.webp",
   },
   {
     step: "03",
     title: "Construction Documents",
     body: "Final permit-ready drawings, detailed specifications, and technical coordination are prepared for execution, helping bring the design to life with clarity and precision.",
-    image: "/images/architectural-services/construction-documents.png",
+    image: "/images/architectural-services/construction-documents.webp",
   },
 ];
 

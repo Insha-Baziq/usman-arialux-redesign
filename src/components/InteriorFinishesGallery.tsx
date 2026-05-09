@@ -1,7 +1,6 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
-
+import Image from "next/image";
 import { useState } from "react";
 
 import type { AriaGalleryItem } from "./arialux-data";
@@ -33,13 +32,16 @@ export function InteriorFinishesGallery({ images }: Props) {
             duration={0.8}
             className="group relative overflow-hidden rounded-sm bg-black/5"
           >
-            <img
-              src={item.src}
-              alt={item.alt}
-              loading={idx < 8 ? "eager" : "lazy"}
-              decoding="async"
-              className="block h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-            />
+            <div className="relative w-full" style={{ minHeight: "200px" }}>
+              <Image
+                src={item.src}
+                alt={item.alt}
+                fill
+                priority={idx < 8}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="!relative !h-auto !w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+              />
+            </div>
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"

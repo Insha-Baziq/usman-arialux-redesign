@@ -55,3 +55,4 @@ dev.log
 hero-video/
 
 .env*.local
+.vercel
