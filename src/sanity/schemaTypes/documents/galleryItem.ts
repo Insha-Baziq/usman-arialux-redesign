@@ -1,13 +1,12 @@
 import { defineField, defineType } from "sanity";
 
-export const portfolioItem = defineType({
-  name: "portfolioItem",
-  title: "Portfolio item",
+export const galleryItem = defineType({
+  name: "galleryItem",
+  title: "Gallery item",
   type: "document",
   groups: [
     { name: "content", title: "Content", default: true },
     { name: "settings", title: "Settings" },
-    { name: "seo", title: "SEO" },
   ],
   fields: [
     defineField({
@@ -18,30 +17,17 @@ export const portfolioItem = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "slug",
-      title: "Slug",
-      type: "slug",
+      name: "gallery",
+      title: "Gallery",
+      type: "string",
       group: "settings",
       options: {
-        source: "title",
-        maxLength: 96,
-      },
-    }),
-    defineField({
-      name: "category",
-      title: "Category",
-      type: "string",
-      group: "content",
-      options: {
         list: [
-          { title: "Exterior", value: "exterior" },
-          { title: "Interior", value: "interior" },
-          { title: "Kitchen", value: "kitchen" },
-          { title: "Bath", value: "bath" },
-          { title: "Outdoor living", value: "outdoor-living" },
-          { title: "Detail", value: "detail" },
+          { title: "Portfolio", value: "portfolio" },
+          { title: "Interior finishes", value: "interior-finishes" },
         ],
       },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "image",
@@ -57,18 +43,17 @@ export const portfolioItem = defineType({
       description: "Starter/fallback image URL. Uploading an image overrides this.",
     }),
     defineField({
+      name: "alt",
+      title: "Alt text",
+      type: "string",
+      group: "content",
+    }),
+    defineField({
       name: "caption",
       title: "Caption",
       type: "text",
       rows: 3,
       group: "content",
-    }),
-    defineField({
-      name: "featured",
-      title: "Featured",
-      type: "boolean",
-      group: "settings",
-      initialValue: false,
     }),
     defineField({
       name: "order",
@@ -77,17 +62,11 @@ export const portfolioItem = defineType({
       group: "settings",
       initialValue: 100,
     }),
-    defineField({
-      name: "seo",
-      title: "SEO",
-      type: "seo",
-      group: "seo",
-    }),
   ],
   preview: {
     select: {
       title: "title",
-      subtitle: "category",
+      subtitle: "gallery",
       media: "image.image",
     },
   },

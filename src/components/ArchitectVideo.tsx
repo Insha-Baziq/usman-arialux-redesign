@@ -58,7 +58,7 @@ export function ArchitectVideo({ posterImage = ARCHITECT_VIDEO_POSTER, videoSrc 
   return (
     <div
       ref={wrapperRef}
-      className="group relative aspect-video overflow-hidden rounded-2xl bg-[#171410] shadow-[0_24px_80px_-24px_rgba(23,20,16,0.45)] ring-1 ring-black/10"
+      className="group relative mx-auto aspect-video w-full max-w-[50rem] overflow-hidden rounded-lg bg-[#171410] shadow-[0_14px_42px_-28px_rgba(23,20,16,0.38)] ring-1 ring-black/10"
     >
       <Image
         src={posterImage}

@@ -17,6 +17,9 @@ import {
   type PlanGalleryImage,
 } from "@/components/plan-detail/PlanGalleryDialog";
 import { SobhaHeader } from "@/components/SobhaChrome";
+import { getCmsFloorPlans } from "@/sanity/lib/content";
+
+export const revalidate = 60;
 
 const LIVE_PLAN_DESCRIPTIONS: Record<string, string> = {
   "aria-heights":
@@ -54,15 +57,25 @@ type SpecTile = {
   icon: IconKind;
 };
 
+async function getPlans() {
+  return (await getCmsFloorPlans()) ?? ARIA_PLANS;
+}
+
+async function getPlan(slug: string) {
+  const plans = await getPlans();
+  return plans.find((plan) => plan.slug === slug) ?? getPlanBySlug(slug);
+}
+
 export async function generateStaticParams() {
-  return ARIA_PLANS.map((p) => ({ slug: p.slug }));
+  const plans = await getPlans();
+  return plans.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata(
   props: PageProps<"/floor-plans/[slug]">,
 ): Promise<Metadata> {
   const { slug } = await props.params;
-  const plan = getPlanBySlug(slug);
+  const plan = await getPlan(slug);
   if (!plan) {
     return { title: "Floor Plan Not Found | AriaLux Homes" };
   }
@@ -334,7 +347,7 @@ export default async function PlanDetailPage(
   props: PageProps<"/floor-plans/[slug]">,
 ) {
   const { slug } = await props.params;
-  const plan = getPlanBySlug(slug);
+  const plan = await getPlan(slug);
   if (!plan) notFound();
 
   const description = getPlanDescription(plan);

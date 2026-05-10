@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Swiper as SwiperInstance } from "swiper";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -25,6 +25,47 @@ export type HeroBannerProps = {
   fullHeight?: boolean;
   autoplayDelayMs?: number;
 };
+
+function HeroVideo({ poster, src }: { poster: string; src: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.load();
+    void video.play().catch(() => {
+      // Muted autoplay can still be deferred by the browser until media is ready.
+    });
+  }, [src]);
+
+  return (
+    <video
+      key={src}
+      ref={videoRef}
+      className={`impression-banner only-desk homepage-banner-desk absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+        isReady ? "opacity-100" : "opacity-0"
+      }`}
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="auto"
+      poster={poster}
+      aria-hidden="true"
+      onCanPlay={() => {
+        setIsReady(true);
+        void videoRef.current?.play().catch(() => undefined);
+      }}
+      onPlaying={() => {
+        setIsReady(true);
+      }}
+    >
+      <source src={src} type="video/mp4" />
+    </video>
+  );
+}
 
 export function HeroBanner({ slides, fullHeight = true, autoplayDelayMs = 4500 }: HeroBannerProps) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -64,26 +105,7 @@ export function HeroBanner({ slides, fullHeight = true, autoplayDelayMs = 4500 }
                 className="impression-banner homepage-banner-desk object-cover"
               />
               {slide.videoSrc && i === activeIndex ? (
-                <>
-                  <video
-                    className="impression-banner only-desk homepage-banner-desk absolute inset-0 h-full w-full object-cover opacity-0"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                    poster={slide.desktopImage}
-                    crossOrigin="anonymous"
-                    aria-hidden="true"
-                    onLoadedData={(e) => {
-                      const video = e.target as HTMLVideoElement;
-                      video.style.transition = "opacity 500ms ease";
-                      video.style.opacity = "1";
-                    }}
-                  >
-                    <source src={slide.videoSrc} type="video/mp4" />
-                  </video>
-                </>
+                <HeroVideo poster={slide.desktopImage} src={slide.videoSrc} />
               ) : null}
               <div className="explore-more-arrow absolute inset-0 sobha-hero-overlay" aria-hidden="true" />
               <div className="absolute inset-0 flex items-end justify-center pb-24 sm:pb-28">

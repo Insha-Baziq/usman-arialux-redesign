@@ -1,5 +1,6 @@
 import { article } from "./documents/article";
 import { floorPlan } from "./documents/floorPlan";
+import { galleryItem } from "./documents/galleryItem";
 import { mediaSettings } from "./documents/mediaSettings";
 import { navigationMenu } from "./documents/navigationMenu";
 import { page } from "./documents/page";
@@ -38,6 +39,7 @@ export const schemaTypes = [
   mediaSettings,
   page,
   floorPlan,
+  galleryItem,
   portfolioItem,
   video,
   article,

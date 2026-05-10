@@ -11,6 +11,7 @@ import {
   DarkCtaBand,
   PageHero,
 } from "@/components/sobha-sections";
+import { getCmsVideos } from "@/sanity/lib/content";
 import { getVideoGallery } from "@/sanity/lib/media";
 
 export const revalidate = 60;
@@ -21,7 +22,7 @@ export const metadata = {
 };
 
 export default async function VideoPage() {
-  const sanityVideos = await getVideoGallery();
+  const sanityVideos = (await getCmsVideos()) ?? (await getVideoGallery());
   const videos = sanityVideos ?? ARIA_VIDEOS;
 
   return (

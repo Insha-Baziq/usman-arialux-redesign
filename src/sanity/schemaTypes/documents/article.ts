@@ -1,4 +1,4 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const article = defineType({
   name: "article",
@@ -46,6 +46,29 @@ export const article = defineType({
       title: "Hero image",
       type: "imageWithAlt",
       group: "content",
+    }),
+    defineField({
+      name: "heroImageUrl",
+      title: "Hero image URL",
+      type: "string",
+      group: "content",
+      description: "Starter/fallback hero image URL. Uploading a hero image overrides this.",
+    }),
+    defineField({
+      name: "imageUrls",
+      title: "Article image URLs",
+      type: "array",
+      group: "content",
+      description: "Starter/fallback article image URLs.",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({ name: "src", title: "Image URL", type: "string" }),
+            defineField({ name: "alt", title: "Alt text", type: "string" }),
+          ],
+        }),
+      ],
     }),
     defineField({
       name: "publishedAt",

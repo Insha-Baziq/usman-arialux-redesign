@@ -31,9 +31,27 @@ export const floorPlanSpecs = defineType({
     }),
     defineField({
       name: "squareFeet",
-      title: "Square feet",
+      title: "Living square feet",
       type: "number",
       validation: (Rule) => Rule.min(1),
+    }),
+    defineField({
+      name: "garageSquareFeet",
+      title: "Garage square feet",
+      type: "number",
+      validation: (Rule) => Rule.min(0),
+    }),
+    defineField({
+      name: "porchSquareFeet",
+      title: "Porch square feet",
+      type: "number",
+      validation: (Rule) => Rule.min(0),
+    }),
+    defineField({
+      name: "totalSquareFeet",
+      title: "Total square feet",
+      type: "number",
+      validation: (Rule) => Rule.min(0),
     }),
     defineField({
       name: "width",

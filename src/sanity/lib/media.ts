@@ -125,16 +125,16 @@ export async function getHomepageMedia(): Promise<HomepageMedia | null> {
     .map((slide, index) => ({
       ...fallbackHeroSlides[index],
       ...slide,
-      desktopImage: fallbackHeroSlides[index]?.desktopImage ?? slide.desktopImage,
+      desktopImage: slide.desktopImage ?? fallbackHeroSlides[index]?.desktopImage,
       mobileImage:
-        fallbackHeroSlides[index]?.mobileImage ??
-        fallbackHeroSlides[index]?.desktopImage ??
         slide.mobileImage ??
-        slide.desktopImage,
-      imageAlt: fallbackHeroSlides[index]?.imageAlt ?? slide.imageAlt,
+        slide.desktopImage ??
+        fallbackHeroSlides[index]?.mobileImage ??
+        fallbackHeroSlides[index]?.desktopImage,
+      imageAlt: slide.imageAlt ?? fallbackHeroSlides[index]?.imageAlt,
       ctaLabel: slide.ctaLabel ?? fallbackHeroSlides[index]?.ctaLabel,
       ctaHref: slide.ctaHref ?? fallbackHeroSlides[index]?.ctaHref,
-      videoSrc: fallbackHeroSlides[index]?.videoSrc ?? slide.videoSrc,
+      videoSrc: slide.videoSrc ?? fallbackHeroSlides[index]?.videoSrc,
     }))
     .filter(isHeroSlide);
 

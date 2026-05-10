@@ -8,6 +8,7 @@ import {
 } from "@/components/arialux-data";
 import { SobhaHeader } from "@/components/SobhaChrome";
 import { PageHero } from "@/components/sobha-sections";
+import { getCmsArticles } from "@/sanity/lib/content";
 
 export const metadata: Metadata = {
   title: "Article | AriaLux Homes — Custom Home Insights",
@@ -17,7 +18,11 @@ export const metadata: Metadata = {
 
 const HERO_IMAGE = "/images/article/arialux-article-hero.webp";
 
-export default function ArticlePage() {
+export const revalidate = 60;
+
+export default async function ArticlePage() {
+  const articles = (await getCmsArticles()) ?? ARIA_ARTICLES;
+
   return (
     <main className="bg-[#f7f3ec] text-[#171410]">
       <SobhaHeader
@@ -34,7 +39,7 @@ export default function ArticlePage() {
         imageAlt="AriaLux Homes article entrance"
       />
 
-      <ArticleBrowser articles={ARIA_ARTICLES} />
+      <ArticleBrowser articles={articles} />
 
       <AriaLuxFooter />
     </main>

@@ -100,26 +100,9 @@ export const heroCarouselSection = defineType({
               type: "string",
             }),
             defineField({
-              name: "ctaLabel",
-              title: "Button label",
-              type: "string",
-            }),
-            defineField({
-              name: "ctaHref",
-              title: "Button URL",
-              type: "string",
-            }),
-            defineField({
               name: "cta",
               title: "Button",
               type: "cta",
-            }),
-            defineField({
-              name: "desktopImage",
-              title: "Desktop poster image",
-              type: "imageWithAlt",
-              description:
-                "Required visual fallback. This appears instantly before/while the optional video loads.",
             }),
             defineField({
               name: "image",
@@ -164,7 +147,7 @@ export const heroCarouselSection = defineType({
       return {
         title: firstSlide?.title || "Hero carousel",
         subtitle: `${Array.isArray(slides) ? slides.length : 0} slide${Array.isArray(slides) && slides.length === 1 ? "" : "s"}`,
-        media: firstSlide?.image?.image || firstSlide?.desktopImage?.image,
+        media: firstSlide?.image?.image,
       };
     },
   },

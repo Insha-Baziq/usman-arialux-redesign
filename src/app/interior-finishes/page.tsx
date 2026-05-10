@@ -10,13 +10,20 @@ import {
   DarkCtaBand,
   PageHero,
 } from "@/components/sobha-sections";
+import { getCmsGalleryItems } from "@/sanity/lib/content";
 
 export const metadata = {
   title: "Interior Finishes — AriaLux Homes",
   description: ARIA_INTERIOR_FINISHES.intro,
 };
 
-export default function InteriorFinishesPage() {
+export const revalidate = 60;
+
+export default async function InteriorFinishesPage() {
+  const images =
+    (await getCmsGalleryItems("interior-finishes")) ??
+    ARIA_INTERIOR_FINISHES.images;
+
   return (
     <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader
@@ -45,12 +52,12 @@ export default function InteriorFinishesPage() {
             </MaskReveal>
             <ScrollReveal variant="fadeIn" delay={0.3} duration={0.6}>
               <span className="hidden text-[0.7rem] font-medium uppercase tracking-[0.28em] text-black/45 sm:inline">
-                {ARIA_INTERIOR_FINISHES.images.length} details
+                {images.length} details
               </span>
             </ScrollReveal>
           </div>
 
-          <InteriorFinishesGallery images={ARIA_INTERIOR_FINISHES.images} />
+          <InteriorFinishesGallery images={images} />
         </div>
       </section>
 

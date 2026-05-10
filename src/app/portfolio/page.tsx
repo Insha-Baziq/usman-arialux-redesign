@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-
 import { AriaLuxFooter, ariaLuxBrand } from "@/components/arialux-brand";
 import {
   ARIA_HEADER_MENU,
@@ -12,14 +10,20 @@ import {
   PageHero,
 } from "@/components/sobha-sections";
 import Image from "next/image";
+import { getCmsGalleryItems, getCmsPortfolioImages } from "@/sanity/lib/content";
 
 export const metadata = {
   title: "Portfolio - AriaLux Homes",
   description: ARIA_PORTFOLIO.intro,
 };
 
-export default function PortfolioPage() {
-  const images = ARIA_PORTFOLIO.images;
+export const revalidate = 60;
+
+export default async function PortfolioPage() {
+  const images =
+    (await getCmsPortfolioImages()) ??
+    (await getCmsGalleryItems("portfolio")) ??
+    ARIA_PORTFOLIO.images;
 
   return (
     <main className="bg-[#f7f3ec] text-black">

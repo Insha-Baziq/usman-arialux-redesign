@@ -6,6 +6,7 @@ import { ARIA_HEADER_MENU, ARIA_PLANS } from "@/components/arialux-data";
 import { FloorPlansBrowser } from "@/components/FloorPlansBrowser";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { DarkCtaBand } from "@/components/sobha-sections";
+import { getCmsFloorPlans } from "@/sanity/lib/content";
 import { AllFloorPlansHero } from "./AllFloorPlansHero";
 
 export const metadata: Metadata = {
@@ -21,7 +22,11 @@ const HERO_IMAGE =
 const HERO_DOOR_IMAGE =
   "/images/floor-plans/aria-heights/phonto-2026e06.jpeg";
 
-export default function AllFloorPlansPage() {
+export const revalidate = 60;
+
+export default async function AllFloorPlansPage() {
+  const plans = (await getCmsFloorPlans()) ?? ARIA_PLANS;
+
   return (
     <main className="bg-[#f7f3ec] text-[#171410]">
       <SobhaHeader
@@ -32,11 +37,11 @@ export default function AllFloorPlansPage() {
 
       <AllFloorPlansHero
         heroImage={HERO_DOOR_IMAGE}
-        planCount={ARIA_PLANS.length}
+        planCount={plans.length}
       />
 
       <ScrollReveal variant="fadeUp" delay={0.1}>
-        <FloorPlansBrowser plans={ARIA_PLANS} />
+        <FloorPlansBrowser plans={plans} />
       </ScrollReveal>
 
       <DarkCtaBand

@@ -32,6 +32,13 @@ export const floorPlan = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "livePath",
+      title: "Legacy/live path",
+      type: "string",
+      group: "settings",
+      description: "Optional legacy URL path from the old site. The Next.js page still uses the slug.",
+    }),
+    defineField({
       name: "status",
       title: "Publishing status",
       type: "string",
@@ -109,6 +116,13 @@ export const floorPlan = defineType({
       group: "media",
     }),
     defineField({
+      name: "heroImageUrl",
+      title: "Hero image URL",
+      type: "string",
+      group: "media",
+      description: "Starter/fallback image URL. Uploading a hero image overrides this.",
+    }),
+    defineField({
       name: "cardImage",
       title: "Card image",
       type: "imageWithAlt",
@@ -116,11 +130,34 @@ export const floorPlan = defineType({
       description: "Optional. Uses hero image when left empty.",
     }),
     defineField({
+      name: "cardImageUrl",
+      title: "Card image URL",
+      type: "string",
+      group: "media",
+      description: "Starter/fallback card image URL. Uploading a card image overrides this.",
+    }),
+    defineField({
       name: "gallery",
       title: "Gallery",
       type: "array",
       group: "media",
       of: [defineArrayMember({ type: "imageWithAlt" })],
+    }),
+    defineField({
+      name: "galleryUrls",
+      title: "Gallery URLs",
+      type: "array",
+      group: "media",
+      description: "Starter/fallback gallery URLs. Uploaded gallery images are preferred.",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({ name: "src", title: "Image URL", type: "string" }),
+            defineField({ name: "alt", title: "Alt text", type: "string" }),
+          ],
+        }),
+      ],
     }),
     defineField({
       name: "floorMaps",
