@@ -124,7 +124,7 @@ function SobhaIrisStage() {
           aria-label="The Art of Detail"
         >
           <div className="sobha-art-of-detail">
-            <div className="relative mx-auto grid h-full lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-stretch">
+            <div className="relative mx-auto grid h-full lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.4fr)] lg:items-stretch">
               <div ref={contentRef} className="relative z-10 flex flex-col justify-center px-8 py-20 lg:px-16 lg:py-28">
                 <div className="max-w-[30rem] space-y-8">
                   <span className="sobha-art-reveal block h-px w-14 bg-[#b58942]" aria-hidden="true" />
@@ -149,7 +149,7 @@ function SobhaIrisStage() {
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
-                <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent" />
+                <div className="pointer-events-none absolute inset-y-0 -left-32 w-[36rem] bg-gradient-to-r from-white from-20% via-white/70 via-40% to-transparent" />
               </div>
             </div>
           </div>

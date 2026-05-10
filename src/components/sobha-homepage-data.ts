@@ -329,7 +329,7 @@ export const sobhaHeroSlides: SobhaHeroSlide[] = [
     desktopImage: "/images/facebook/hero-preview.jpg",
     mobileImage: "/images/facebook/hero-preview.jpg",
     imageAlt: "AriaLux Homes — modern residential architecture",
-    videoSrc: "/videos/main-page.mp4",
+    videoSrc: "/videos/hero-video.mp4",
   },
   {
     id: "arialux-aria-heights",
@@ -388,7 +388,7 @@ export const sobhaArtDetail = {
   backgroundImage: "/images/art-of-detail/art-of-detail-interior.jpeg",
   desktopLogo: "/images/arialux-wordmark.png",
   mobileLogo: "/images/arialux-wordmark.png",
-  figureImage: "/images/art-of-detail/art-of-detail-interior.jpeg",
+  figureImage: "/images/art-of-detail/ENHANCED.jpg",
 };
 
 // Live h2 inside .new-launch-section .title-section
