@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { ArrowLeft, ArrowRight, ImageIcon, X } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export type PlanGalleryImage = {
   src: string;
@@ -86,6 +86,25 @@ export function PlanGalleryDialog({
   );
   const focusedImage =
     focusedIndex === null ? null : filteredImages[focusedIndex] ?? null;
+  const canFocusPrevious = focusedIndex !== null && focusedIndex > 0;
+  const canFocusNext =
+    focusedIndex !== null && focusedIndex < filteredImages.length - 1;
+  const showImageNavigation = filteredImages.length > 1;
+  const showFooterNavigation = focusedIndex !== null && showImageNavigation;
+
+  const focusPreviousImage = useCallback(() => {
+    setFocusedIndex((index) => {
+      if (index === null) return filteredImages.length > 0 ? 0 : null;
+      return Math.max(index - 1, 0);
+    });
+  }, [filteredImages.length]);
+
+  const focusNextImage = useCallback(() => {
+    setFocusedIndex((index) => {
+      if (index === null) return filteredImages.length > 0 ? 0 : null;
+      return Math.min(index + 1, filteredImages.length - 1);
+    });
+  }, [filteredImages.length]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -97,12 +116,10 @@ export function PlanGalleryDialog({
       }
       if (focusedIndex === null) return;
       if (event.key === "ArrowRight") {
-        setFocusedIndex((index) =>
-          index === null ? null : Math.min(index + 1, filteredImages.length - 1),
-        );
+        focusNextImage();
       }
       if (event.key === "ArrowLeft") {
-        setFocusedIndex((index) => (index === null ? null : Math.max(index - 1, 0)));
+        focusPreviousImage();
       }
     };
 
@@ -113,7 +130,7 @@ export function PlanGalleryDialog({
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [filteredImages.length, focusedIndex, isOpen]);
+  }, [focusNextImage, focusPreviousImage, focusedIndex, isOpen]);
 
   if (groups.length === 0) return null;
 
@@ -257,53 +274,90 @@ export function PlanGalleryDialog({
             <footer className="flex shrink-0 items-center justify-between border-t border-white/10 px-5 py-4 text-[0.64rem] font-semibold uppercase tracking-[0.22em] text-white/70 sm:px-8">
               <span className="inline-flex items-center gap-3">
                 <ImageIcon className="h-4 w-4 text-[#d1b27a]" strokeWidth={1.6} />
-                {filteredImages.length > 0 ? `1 / ${filteredImages.length}` : "0 / 0"}
+                {focusedIndex === null || filteredImages.length === 0
+                  ? `${filteredImages.length} Images`
+                  : `${focusedIndex + 1} / ${filteredImages.length}`}
               </span>
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setFocusedIndex((index) =>
-                      index === null ? 0 : Math.max(index - 1, 0),
-                    )
-                  }
-                  className="grid h-10 w-10 place-items-center rounded-full border border-white/16 text-white transition hover:border-[#b58942]"
-                  aria-label="Previous image"
-                >
-                  <ArrowLeft className="h-4 w-4" strokeWidth={1.7} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setFocusedIndex((index) =>
-                      index === null
-                        ? 0
-                        : Math.min(index + 1, filteredImages.length - 1),
-                    )
-                  }
-                  className="grid h-10 w-10 place-items-center rounded-full border border-white/16 text-white transition hover:border-[#b58942]"
-                  aria-label="Next image"
-                >
-                  <ArrowRight className="h-4 w-4" strokeWidth={1.7} />
-                </button>
-              </div>
+              {showFooterNavigation ? (
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={focusPreviousImage}
+                    disabled={focusedIndex === 0}
+                    className="grid h-10 w-10 place-items-center rounded-full border border-white/16 text-white transition hover:border-[#b58942] disabled:pointer-events-none disabled:opacity-35"
+                    aria-label="Previous image"
+                  >
+                    <ArrowLeft className="h-4 w-4" strokeWidth={1.7} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={focusNextImage}
+                    disabled={focusedIndex === filteredImages.length - 1}
+                    className="grid h-10 w-10 place-items-center rounded-full border border-white/16 text-white transition hover:border-[#b58942] disabled:pointer-events-none disabled:opacity-35"
+                    aria-label="Next image"
+                  >
+                    <ArrowRight className="h-4 w-4" strokeWidth={1.7} />
+                  </button>
+                </div>
+              ) : null}
               <span aria-hidden="true" className="hidden w-[5.8rem] sm:block" />
             </footer>
           </div>
 
-          {focusedImage ? (
-            <button
-              type="button"
-              className="absolute inset-0 z-[101] grid cursor-zoom-out place-items-center bg-[#15120f]/82 p-4"
-              onClick={() => setFocusedIndex(null)}
-              aria-label="Close focused image"
+          {focusedImage && focusedIndex !== null ? (
+            <div
+              className="absolute inset-0 z-[101] grid place-items-center bg-[#15120f]/88 p-4"
+              role="dialog"
+              aria-modal="true"
+              aria-label={`${planName} focused gallery image`}
             >
-              <img
-                src={focusedImage.src}
-                alt={`${planName} focused gallery image`}
-                className="max-h-[90vh] max-w-[92vw] object-contain shadow-[0_26px_80px_-34px_rgba(0,0,0,0.9)]"
+              <button
+                type="button"
+                className="absolute inset-0 cursor-zoom-out"
+                onClick={() => setFocusedIndex(null)}
+                aria-label="Close focused image"
               />
-            </button>
+              <button
+                type="button"
+                onClick={() => setFocusedIndex(null)}
+                className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full border border-white/18 bg-[#1d1b18]/78 text-white/78 backdrop-blur-md transition hover:border-[#b58942] hover:text-white"
+                aria-label="Close focused image"
+              >
+                <X className="h-5 w-5" strokeWidth={1.5} />
+              </button>
+              {showImageNavigation ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={focusPreviousImage}
+                    disabled={!canFocusPrevious}
+                    className="absolute left-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-white/18 bg-[#1d1b18]/78 text-white backdrop-blur-md transition hover:border-[#b58942] disabled:pointer-events-none disabled:opacity-25 sm:left-8 sm:h-12 sm:w-12"
+                    aria-label="Previous image"
+                  >
+                    <ArrowLeft className="h-5 w-5" strokeWidth={1.7} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={focusNextImage}
+                    disabled={!canFocusNext}
+                    className="absolute right-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-white/18 bg-[#1d1b18]/78 text-white backdrop-blur-md transition hover:border-[#b58942] disabled:pointer-events-none disabled:opacity-25 sm:right-8 sm:h-12 sm:w-12"
+                    aria-label="Next image"
+                  >
+                    <ArrowRight className="h-5 w-5" strokeWidth={1.7} />
+                  </button>
+                </>
+              ) : null}
+              <figure className="relative z-[1] flex max-h-[90vh] max-w-[92vw] flex-col items-center gap-3">
+                <img
+                  src={focusedImage.src}
+                  alt={`${planName} focused gallery image ${focusedIndex + 1}`}
+                  className="max-h-[84vh] max-w-[92vw] object-contain shadow-[0_26px_80px_-34px_rgba(0,0,0,0.9)]"
+                />
+                <figcaption className="rounded-full bg-[#1d1b18]/78 px-4 py-2 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-white/72 backdrop-blur-md">
+                  {focusedIndex + 1} / {filteredImages.length}
+                </figcaption>
+              </figure>
+            </div>
           ) : null}
         </div>
       ) : null}

@@ -9,53 +9,9 @@ import {
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { PageHero } from "@/components/sobha-sections";
 import { getArchitectureMedia } from "@/sanity/lib/media";
+import { getArchitecturePageContent } from "@/sanity/lib/pages";
 
 export const revalidate = 60;
-
-const SERVICES = [
-  {
-    step: "01",
-    title: "Discovery & Concept",
-    body: "We start with a consultation to understand your lot, lifestyle, goals, and architectural vision. This phase establishes the design direction and overall concept for your future home.",
-    image: "/images/architectural-services/discovery-concept.webp",
-  },
-  {
-    step: "02",
-    title: "Schematic Design",
-    body: "Approved concepts move into measured floor plans, exterior elevations, and layout refinement. We shape spaces that are both beautiful and functional.",
-    image: "/images/architectural-services/schematic-design.webp",
-  },
-  {
-    step: "03",
-    title: "Construction Documents",
-    body: "Final permit-ready drawings, detailed specifications, and technical coordination are prepared for execution, helping bring the design to life with clarity and precision.",
-    image: "/images/architectural-services/construction-documents.webp",
-  },
-];
-
-const INCLUDED_ITEMS = [
-  "Detailed Floor Plans",
-  "Exterior Elevations",
-  "Design Consultation",
-  "Construction Documentation",
-  "Permit-Ready Drawings",
-  "Builder Collaboration",
-];
-
-const WHY_BUILD = [
-  {
-    title: "Bespoke Design",
-    body: "Custom homes tailored to your vision, lot, and lifestyle.",
-  },
-  {
-    title: "Builder-Ready Documents",
-    body: "Clear, accurate plans that streamline permitting and construction.",
-  },
-  {
-    title: "Collaborative Service",
-    body: "We partner with you and your builder for a seamless building experience.",
-  },
-];
 
 function CompassIcon() {
   return (
@@ -157,7 +113,10 @@ const SERVICE_ICONS = [CompassIcon, RulerIcon, DocumentIcon];
 const WHY_ICONS = [PencilHouseIcon, DocBadgeIcon, TeamIcon];
 
 export default async function ArchitecturalServicesPage() {
-  const architectureMedia = await getArchitectureMedia();
+  const [architectureMedia, content] = await Promise.all([
+    getArchitectureMedia(),
+    getArchitecturePageContent(ARIA_ARCHITECTURAL),
+  ]);
 
   return (
     <main className="bg-[#f7f3ec] text-black">
@@ -168,13 +127,13 @@ export default async function ArchitecturalServicesPage() {
       />
 
       <PageHero
-        eyebrow="Design & build"
-        heading={ARIA_ARCHITECTURAL.heading}
-        description="Thoughtful design. Timeless architecture. We bring your custom home vision to life with a seamless process from concept to construction, crafted around your lifestyle and the way you live."
-        backgroundImage={ARIA_ARCHITECTURAL.hero}
-        imageAlt="AriaLux architectural services"
-        ctaLabel={ARIA_ARCHITECTURAL.ctaLabel}
-        ctaHref={ARIA_ARCHITECTURAL.ctaHref}
+        eyebrow={content.eyebrow}
+        heading={content.heading}
+        description={content.description}
+        backgroundImage={content.hero}
+        imageAlt={content.heroAlt}
+        ctaLabel={content.ctaLabel}
+        ctaHref={content.ctaHref}
       />
 
       {/* ── From First Sketch to Final Permit ── */}
@@ -183,18 +142,18 @@ export default async function ArchitecturalServicesPage() {
           <ScrollReveal variant="fadeUp" duration={0.8}>
             <div className="flex flex-col items-center gap-3 text-center">
               <h2 className="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-[#5f574e]">
-                From First Sketch to Final Permit
+                {content.servicesHeading}
               </h2>
               <span className="block h-2 w-2 rotate-45 bg-[#b58942]" aria-hidden="true" />
             </div>
           </ScrollReveal>
 
           <div className="mt-12 grid gap-8 lg:grid-cols-3">
-            {SERVICES.map((svc, idx) => {
-              const Icon = SERVICE_ICONS[idx]!;
+            {content.services.map((svc, idx) => {
+              const Icon = SERVICE_ICONS[idx % SERVICE_ICONS.length]!;
               return (
                 <ScrollReveal
-                  key={svc.step}
+                  key={svc.title}
                   variant="scaleUp"
                   index={idx}
                   stagger={0.24}
@@ -212,7 +171,7 @@ export default async function ArchitecturalServicesPage() {
                     </div>
                     <div className="flex items-start gap-4 p-6">
                       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-[#b58942] text-sm font-bold text-[#b58942]">
-                        {svc.step}
+                        {String(idx + 1).padStart(2, "0")}
                       </span>
                       <div className="min-w-0 flex-1">
                         <h3 className="font-heading text-lg font-medium leading-tight text-black">
@@ -240,7 +199,7 @@ export default async function ArchitecturalServicesPage() {
           <ScrollReveal variant="fadeUp" duration={0.8}>
             <div className="mb-10 flex flex-col items-center gap-3 text-center">
               <h2 className="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-[#5f574e]">
-                See Our Craft in Motion
+                {content.videoHeading}
               </h2>
               <span
                 className="block h-2 w-2 rotate-45 bg-[#b58942]"
@@ -267,11 +226,11 @@ export default async function ArchitecturalServicesPage() {
                   <ChecklistIcon />
                 </span>
                 <h3 className="font-heading text-xl font-medium italic text-black">
-                  What&apos;s Included
+                  {content.includedHeading}
                 </h3>
               </div>
               <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-3">
-                {INCLUDED_ITEMS.map((item) => (
+                {content.includedItems.map((item) => (
                   <div key={item} className="flex items-center gap-2.5">
                     <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#b58942]/10">
                       <span className="block h-1.5 w-1.5 rotate-45 bg-[#b58942]" />
@@ -290,12 +249,12 @@ export default async function ArchitecturalServicesPage() {
                   <HandshakeIcon />
                 </span>
                 <h3 className="font-heading text-xl font-medium italic text-black">
-                  Why Build With Us
+                  {content.whyHeading}
                 </h3>
               </div>
               <div className="mt-6 grid gap-6 sm:grid-cols-3">
-                {WHY_BUILD.map((item, idx) => {
-                  const Icon = WHY_ICONS[idx]!;
+                {content.whyItems.map((item, idx) => {
+                  const Icon = WHY_ICONS[idx % WHY_ICONS.length]!;
                   return (
                     <div key={item.title} className="flex flex-col gap-2">
                       <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#faf5eb]">
@@ -327,18 +286,18 @@ export default async function ArchitecturalServicesPage() {
               </span>
               <div>
                 <h3 className="font-heading text-xl font-medium leading-tight text-black sm:text-[1.4rem]">
-                  Let&apos;s design a home that&apos;s distinctly yours.
+                  {content.bottomHeading}
                 </h3>
                 <p className="mt-1 text-[0.85rem] font-light text-black/55">
-                  Every detail, every line&mdash;crafted around you.
+                  {content.bottomSubline}
                 </p>
               </div>
             </div>
             <a
-              href="/contact"
+              href={content.bottomCtaHref}
               className="inline-flex shrink-0 items-center gap-3 rounded-[0.45rem] border border-[#171410] bg-[#171410] px-6 py-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-white shadow-[0_16px_30px_-22px_rgba(23,20,16,0.7)] transition hover:bg-[#3a3129] active:translate-y-px"
             >
-              Request a Consultation
+              {content.bottomCtaLabel}
               <span aria-hidden="true">&rarr;</span>
             </a>
           </div>

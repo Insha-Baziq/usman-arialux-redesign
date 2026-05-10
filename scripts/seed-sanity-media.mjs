@@ -159,6 +159,30 @@ const architectureVideo = {
   videoFile: "public/videos/architect.mp4",
 };
 
+const architectureServices = [
+  {
+    title: "Discovery & Concept",
+    description:
+      "We start with a consultation to understand your lot, lifestyle, goals, and architectural vision. This phase establishes the design direction and overall concept for your future home.",
+    image: "public/images/architectural-services/discovery-concept.webp",
+    imageAlt: "Architectural discovery and concept planning",
+  },
+  {
+    title: "Schematic Design",
+    description:
+      "Approved concepts move into measured floor plans, exterior elevations, and layout refinement. We shape spaces that are both beautiful and functional.",
+    image: "public/images/architectural-services/schematic-design.webp",
+    imageAlt: "Schematic architectural design preview",
+  },
+  {
+    title: "Construction Documents",
+    description:
+      "Final permit-ready drawings, detailed specifications, and technical coordination are prepared for execution, helping bring the design to life with clarity and precision.",
+    image: "public/images/architectural-services/construction-documents.webp",
+    imageAlt: "Construction documents and permit-ready drawings",
+  },
+];
+
 const videos = [
   { vimeoId: "1001832837", vimeoHash: "bd3f41d7c8", title: "AriaLux Homes - Brand Reel", order: 10 },
   { vimeoId: "1069221614", vimeoHash: "6c1300b731", title: "AriaLux Homes - Walkthrough", order: 20 },
@@ -320,6 +344,15 @@ function imageUrlObject(src, alt, key) {
   };
 }
 
+function featureItem(title, description, key) {
+  return {
+    _key: key,
+    _type: "object",
+    title,
+    description,
+  };
+}
+
 function normalizedCategory(category) {
   const allowed = new Set(["Buying", "Design", "Construction", "Floor Plans"]);
   return allowed.has(category) ? category : "Design";
@@ -478,6 +511,160 @@ await client.createOrReplace({
       heading: "FROM CONCEPT TO COMPLETION: HOW WE BUILD",
       theme: "light",
       cards: pagePillars,
+    },
+  ],
+});
+
+await client.createOrReplace({
+  _id: "page-contact",
+  _type: "page",
+  title: "Contact",
+  slug: {
+    _type: "slug",
+    current: "contact",
+  },
+  status: "published",
+  template: "contact",
+  showInSitemap: true,
+  sections: [
+    {
+      _key: "contact-main",
+      _type: "contactSection",
+      eyebrow: "Let's Connect",
+      heading: aria.ARIA_CONTACT.heading,
+      description: `${aria.ARIA_CONTACT.formLead}. We're here to answer your questions.`,
+      image: await imageWithAlt(
+        "public/images/who-we-are-hero-v1.webp",
+        "AriaLux Homes - featured custom build",
+      ),
+      detailHeading: "Better yet, come see us in person to get a tour of our builds!",
+      detailBody: "We love our customers, so feel free to reach out for a free consultation.",
+      notice: aria.ARIA_CONTACT.recaptchaNotice,
+      showForm: true,
+      showContactDetails: true,
+    },
+  ],
+});
+
+await client.createOrReplace({
+  _id: "page-who-we-are",
+  _type: "page",
+  title: "Who We Are",
+  slug: {
+    _type: "slug",
+    current: "who-we-are",
+  },
+  status: "published",
+  template: "builder",
+  showInSitemap: true,
+  sections: [
+    {
+      _key: "who-we-are-mission",
+      _type: "textImageSection",
+      eyebrow: "AriaLux Homes",
+      heading: aria.ARIA_WHO_WE_ARE.heading,
+      body: richTextBlock(aria.ARIA_WHO_WE_ARE.mission, "who-we-are-mission-body"),
+      image: await imageWithAlt("public/images/who-we-are-hero-v1.webp", "AriaLux Homes"),
+      imagePosition: "left",
+    },
+    {
+      _key: "who-we-are-cta",
+      _type: "ctaBandSection",
+      heading: "Build with AriaLux",
+      description:
+        "Schedule a free consultation and let's start designing the home that will outlast trends, generations, and time itself.",
+      backgroundImage: await imageWithAlt(
+        "public/images/floor-plans/alena-heights/gallery/IMG_5433.jpeg",
+        "AriaLux Homes custom home",
+      ),
+      ctas: [cta("Start the Conversation", "/contact")],
+    },
+  ],
+});
+
+await client.createOrReplace({
+  _id: "page-architectural-services",
+  _type: "page",
+  title: "Architectural Services",
+  slug: {
+    _type: "slug",
+    current: "architectural-services",
+  },
+  status: "published",
+  template: "builder",
+  showInSitemap: true,
+  sections: [
+    {
+      _key: "architectural-hero",
+      _type: "heroSection",
+      eyebrow: "Design & build",
+      heading: aria.ARIA_ARCHITECTURAL.heading,
+      subheading:
+        "Thoughtful design. Timeless architecture. We bring your custom home vision to life with a seamless process from concept to construction, crafted around your lifestyle and the way you live.",
+      backgroundImage: await imageWithAlt(
+        "public/images/arialux-gallery/phonto-d836382.jpeg",
+        "AriaLux architectural services",
+      ),
+      alignment: "left",
+      ctas: [cta(aria.ARIA_ARCHITECTURAL.ctaLabel, aria.ARIA_ARCHITECTURAL.ctaHref)],
+    },
+    {
+      _key: "architectural-services-cards",
+      _type: "cardGridSection",
+      heading: "From First Sketch to Final Permit",
+      theme: "light",
+      cards: await Promise.all(
+        architectureServices.map(async (service, index) => ({
+          _key: `architectural-service-${index}`,
+          _type: "object",
+          title: service.title,
+          description: service.description,
+          image: await imageWithAlt(service.image, service.imageAlt),
+        })),
+      ),
+    },
+    {
+      _key: "architectural-video",
+      _type: "videoGridSection",
+      heading: "See Our Craft in Motion",
+    },
+    {
+      _key: "architectural-included",
+      _type: "featureListSection",
+      heading: "What's Included",
+      items: [
+        featureItem("Detailed Floor Plans", "", "included-0"),
+        featureItem("Exterior Elevations", "", "included-1"),
+        featureItem("Design Consultation", "", "included-2"),
+        featureItem("Construction Documentation", "", "included-3"),
+        featureItem("Permit-Ready Drawings", "", "included-4"),
+        featureItem("Builder Collaboration", "", "included-5"),
+      ],
+    },
+    {
+      _key: "architectural-why",
+      _type: "featureListSection",
+      heading: "Why Build With Us",
+      items: [
+        featureItem("Bespoke Design", "Custom homes tailored to your vision, lot, and lifestyle.", "why-0"),
+        featureItem(
+          "Builder-Ready Documents",
+          "Clear, accurate plans that streamline permitting and construction.",
+          "why-1",
+        ),
+        featureItem(
+          "Collaborative Service",
+          "We partner with you and your builder for a seamless building experience.",
+          "why-2",
+        ),
+      ],
+    },
+    {
+      _key: "architectural-bottom-cta",
+      _type: "ctaBandSection",
+      heading: "Let's design a home that's distinctly yours.",
+      description: "Every detail, every line - crafted around you.",
+      ctas: [cta("Request a Consultation", "/contact")],
     },
   ],
 });

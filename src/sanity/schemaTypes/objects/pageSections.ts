@@ -553,12 +553,35 @@ export const contactSection = defineType({
   title: "Contact section",
   type: "object",
   fields: [
+    defineField({ name: "eyebrow", title: "Eyebrow", type: "string" }),
     defineField({ name: "heading", title: "Heading", type: "string" }),
     defineField({
       name: "description",
       title: "Description",
       type: "text",
       rows: 3,
+    }),
+    defineField({
+      name: "image",
+      title: "Contact image",
+      type: "imageWithAlt",
+    }),
+    defineField({
+      name: "detailHeading",
+      title: "Detail heading",
+      type: "string",
+    }),
+    defineField({
+      name: "detailBody",
+      title: "Detail body",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({
+      name: "notice",
+      title: "Notice text",
+      type: "text",
+      rows: 2,
     }),
     defineField({
       name: "showForm",

@@ -6,8 +6,11 @@ import {
   ARIA_CONTACT,
   ARIA_HEADER_MENU,
 } from "@/components/arialux-data";
+import { getContactPageContent } from "@/sanity/lib/pages";
 import { ContactReveal } from "./ContactReveal";
 import Image from "next/image";
+
+export const revalidate = 60;
 
 function PinGlyph() {
   return (
@@ -95,7 +98,8 @@ function DiamondMark() {
  * Two-column layout with a thin gold rule + diamond divider, gold accents,
  * and the who-we-are hero image as the right-column visual.
  */
-export default function ContactPage() {
+export default async function ContactPage() {
+  const contactContent = await getContactPageContent(ARIA_CONTACT);
   // Mockup shows Mon-Sat (no Sun). Clip the weekly hours accordingly.
   const hoursWeekday = ARIA_CONTACT.hoursWeekly.slice(0, 6);
 
@@ -121,24 +125,24 @@ export default function ContactPage() {
           </div>
 
           <ContactReveal
-            eyebrow="Let's Connect"
-            heading={ARIA_CONTACT.heading}
+            eyebrow={contactContent.eyebrow}
+            heading={contactContent.heading}
             body={(
               <p className="mt-5 max-w-[26rem] text-[0.92rem] font-light leading-[1.65] text-black/70">
-                {ARIA_CONTACT.formLead}. We&apos;re here to answer your questions.
+                {contactContent.formLead}
               </p>
             )}
             form={<AriaLuxContactForm />}
             notice={(
               <p className="mt-5 max-w-md text-[0.68rem] leading-5 text-black/45">
-                {ARIA_CONTACT.recaptchaNotice}
+                {contactContent.notice}
               </p>
             )}
             media={(
               <div className="overflow-hidden rounded-md">
                 <Image
-                  src="/images/who-we-are-hero-v1.webp"
-                  alt="AriaLux Homes — featured custom build"
+                  src={contactContent.image}
+                  alt={contactContent.imageAlt}
                   width={800}
                   height={600}
                   className="block h-auto w-full"
@@ -157,10 +161,10 @@ export default function ContactPage() {
                     </span>
                     <div>
                       <h2 className="font-heading text-[1.2rem] font-light leading-[1.25] text-black sm:text-[1.35rem]">
-                        Better yet, come see us in person to get a tour of our builds!
+                        {contactContent.detailHeading}
                       </h2>
                       <p className="mt-3 text-[0.88rem] font-light leading-[1.65] text-black/65">
-                        We love our customers, so feel free to reach out for a free consultation.
+                        {contactContent.detailBody}
                       </p>
                     </div>
                   </div>

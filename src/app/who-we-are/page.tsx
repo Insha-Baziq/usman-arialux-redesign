@@ -6,13 +6,21 @@ import {
   ARIA_WHO_WE_ARE,
 } from "@/components/arialux-data";
 import { DarkCtaBand } from "@/components/sobha-sections";
+import { getWhoWeArePageContent } from "@/sanity/lib/pages";
 import { WhoWeAreMissionReveal } from "./WhoWeAreMissionReveal";
+
+export const revalidate = 60;
 
 /**
  * /who-we-are — responsive split mission layout.
  * Mobile stays stacked; larger screens place the image beside the mission copy.
  */
-export default function WhoWeArePage() {
+export default async function WhoWeArePage() {
+  const content = await getWhoWeArePageContent(
+    ARIA_WHO_WE_ARE,
+    ARIA_PLANS[1]?.gallery[0],
+  );
+
   return (
     <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader
@@ -22,19 +30,19 @@ export default function WhoWeArePage() {
       />
 
       <WhoWeAreMissionReveal
-        eyebrow="AriaLux Homes"
-        heading={ARIA_WHO_WE_ARE.heading}
-        hero={ARIA_WHO_WE_ARE.hero}
-        mission={ARIA_WHO_WE_ARE.mission}
+        eyebrow={content.eyebrow}
+        heading={content.heading}
+        hero={content.hero}
+        mission={content.mission}
       />
 
       <DarkCtaBand
-        eyebrow="Ready to begin?"
-        headline="Build with AriaLux"
-        subline="Schedule a free consultation and let's start designing the home that will outlast trends, generations, and time itself."
-        ctaLabel="Start the Conversation"
-        ctaHref="/contact"
-        backgroundImage={ARIA_PLANS[1]?.gallery[0]}
+        eyebrow={content.ctaEyebrow}
+        headline={content.ctaHeadline}
+        subline={content.ctaSubline}
+        ctaLabel={content.ctaLabel}
+        ctaHref={content.ctaHref}
+        backgroundImage={content.ctaBackgroundImage}
       />
 
       <AriaLuxFooter />
