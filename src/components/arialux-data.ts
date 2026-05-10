@@ -981,7 +981,7 @@ export const ARIA_HEADER_MENU: AriaHeaderMenu[] = [
     ],
   },
   { label: "CONTACT", href: "/contact", kind: "simple" },
-  { label: "ARTICLE", href: "/article", kind: "simple" },
+  { label: "ARTICLES", href: "/article", kind: "simple" },
   { label: "PORTFOLIO", href: "/portfolio", kind: "simple" },
   { label: "VIDEO", href: "/video", kind: "simple" },
   {

@@ -322,7 +322,7 @@ export const sobhaHeaderSlug = slug;
 export const sobhaHeroSlides: SobhaHeroSlide[] = [
   {
     id: "arialux-floor-plans",
-    title: "SIXTEEN FLOOR PLANS",
+    title: "CURATED FLOOR PLANS",
     subtitle: "Designed for the Way You Live",
     ctaLabel: "VIEW PLANS",
     ctaHref: "/all-floor-plans",
@@ -340,6 +340,7 @@ export const sobhaHeroSlides: SobhaHeroSlide[] = [
     desktopImage: "/images/facebook/hero-01.jpg",
     mobileImage: "/images/facebook/hero-01.jpg",
     imageAlt: "AriaLux Homes — Aria Heights estate exterior",
+    videoSrc: "/videos/hero-02.mp4",
   },
   {
     id: "arialux-craftsmanship",
@@ -347,8 +348,8 @@ export const sobhaHeroSlides: SobhaHeroSlide[] = [
     subtitle: "Custom Builds. Quiet Confidence.",
     ctaLabel: "DISCOVER",
     ctaHref: "/portfolio",
-    desktopImage: "/images/facebook/home_page_3.jpg",
-    mobileImage: "/images/facebook/home_page_3.jpg",
+    desktopImage: "/images/facebook/hero-09.jpg",
+    mobileImage: "/images/facebook/hero-09.jpg",
     imageAlt: "AriaLux Homes — grand white-stone estate with reflecting pool",
   },
 ];
