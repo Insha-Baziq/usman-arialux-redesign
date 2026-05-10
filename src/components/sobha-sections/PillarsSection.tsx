@@ -4,7 +4,7 @@
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -25,6 +25,60 @@ export type PillarsSectionProps = {
   /** Background utility classes. Defaults to Sobha's `bg-[#efefef]`. */
   className?: string;
 };
+
+function PillarMedia({ pillar }: { pillar: PillarItem }) {
+  const mediaRef = useRef<HTMLDivElement | null>(null);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+
+  useEffect(() => {
+    if (!pillar.videoUrl || shouldLoadVideo) return;
+    const media = mediaRef.current;
+    if (!media) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        setShouldLoadVideo(true);
+        observer.disconnect();
+      },
+      { rootMargin: "360px 0px" },
+    );
+
+    observer.observe(media);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [pillar.videoUrl, shouldLoadVideo]);
+
+  return (
+    <div ref={mediaRef} className="relative h-[27rem] w-full">
+      <img
+        src={pillar.imageUrl}
+        alt={pillar.title}
+        className="sobha-pillar-image h-full w-full object-cover"
+      />
+      {pillar.videoUrl && shouldLoadVideo ? (
+        <video
+          src={pillar.videoUrl}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster={pillar.imageUrl}
+          className="sobha-pillar-image absolute inset-0 h-full w-full object-cover opacity-0"
+          aria-hidden="true"
+          onLoadedData={(e) => {
+            const video = e.target as HTMLVideoElement;
+            video.style.transition = "opacity 500ms ease";
+            video.style.opacity = "1";
+          }}
+        />
+      ) : null}
+    </div>
+  );
+}
 
 /**
  * Sobha "Defining Our Pillars" section — three-up image+text card carousel
@@ -124,22 +178,7 @@ export function PillarsSection({ heading, pillars, className }: PillarsSectionPr
             <SwiperSlide key={pillar.title}>
               <article className="sobha-pillar-card flex flex-col gap-6">
                 <div className="sobha-pillar-image-wrap overflow-hidden rounded-[1.5rem]">
-                  {pillar.videoUrl ? (
-                    <video
-                      src={pillar.videoUrl}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="sobha-pillar-image h-[27rem] w-full object-cover"
-                    />
-                  ) : (
-                    <img
-                      src={pillar.imageUrl}
-                      alt={pillar.title}
-                      className="sobha-pillar-image h-[27rem] w-full object-cover"
-                    />
-                  )}
+                  <PillarMedia pillar={pillar} />
                 </div>
                 <div className="space-y-4 px-2">
                   <h3 className="font-heading text-[2rem] font-light leading-tight text-black lg:text-[2.25rem]">

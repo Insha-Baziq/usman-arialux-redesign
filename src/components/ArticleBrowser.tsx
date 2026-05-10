@@ -160,7 +160,7 @@ export function ArticleBrowser({ articles }: ArticleBrowserProps) {
 
         <div
           data-testid="article-reference-grid"
-          className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,20rem),25rem))] gap-5 py-8 xl:py-10"
+          className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,14rem),18rem))] gap-4 py-6 xl:py-8"
         >
           {visibleArticles.map((article, index) => (
             <ScrollReveal
@@ -218,13 +218,13 @@ function ArticleListingCard({
       type="button"
       onClick={onOpen}
       aria-label={`Open ${article.title} article`}
-      className="group relative block h-full w-full max-w-[400px] overflow-hidden rounded-[0.7rem] border border-white/70 bg-white/35 text-left shadow-[0_20px_70px_-44px_rgba(23,20,16,0.78)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#b58942]/55 hover:bg-white/45 hover:shadow-[0_28px_90px_-52px_rgba(23,20,16,0.85)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#b58942]"
+      className="group relative block h-full w-full max-w-[18rem] overflow-hidden rounded-[0.6rem] border border-white/70 bg-white/35 text-left shadow-[0_16px_48px_-38px_rgba(23,20,16,0.72)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#b58942]/55 hover:bg-white/45 hover:shadow-[0_22px_68px_-48px_rgba(23,20,16,0.82)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#b58942]"
     >
       <span
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 rounded-[0.7rem] bg-[linear-gradient(135deg,rgba(255,255,255,0.72),rgba(255,255,255,0.08)_48%,rgba(181,137,66,0.1))] opacity-80"
       />
-      <span className="relative block aspect-[16/9] overflow-hidden bg-[#ded4c7]">
+      <span className="relative block aspect-[4/3] overflow-hidden bg-[#ded4c7]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={article.image}
@@ -240,33 +240,33 @@ function ArticleListingCard({
           alt={article.title}
           loading="lazy"
           decoding="async"
-          className="relative h-full w-full object-contain transition duration-500 ease-out group-hover:scale-[1.035]"
+          className="relative h-full w-full object-cover transition duration-500 ease-out group-hover:scale-[1.035]"
         />
         <span
           aria-hidden="true"
           className="absolute inset-0 bg-gradient-to-t from-[#171410]/72 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-40"
         />
         <span className="absolute inset-0 flex items-center justify-center bg-[#171410]/20 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100">
-          <span className="inline-flex items-center gap-2 rounded-full bg-[#171410] px-5 py-2.5 text-sm font-medium text-white shadow-[0_18px_40px_-24px_rgba(0,0,0,0.9)]">
-            <BookOpen aria-hidden="true" className="size-4" />
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#171410] px-4 py-2 text-xs font-medium text-white shadow-[0_18px_40px_-24px_rgba(0,0,0,0.9)]">
+            <BookOpen aria-hidden="true" className="size-3.5" />
             Read Article
           </span>
         </span>
       </span>
 
-      <span className="relative flex flex-col gap-4 p-5">
-        <span className="space-y-2">
-          <span className="block text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#9a6c2b]">
+      <span className="relative flex flex-col gap-3 p-3.5">
+        <span className="space-y-1.5">
+          <span className="block text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#9a6c2b]">
             {article.dateLabel}
           </span>
-          <span className="block font-serif text-2xl font-normal leading-tight tracking-[-0.04em] text-[#171410] transition-colors group-hover:text-[#9a6c2b]">
+          <span className="block font-serif text-lg font-normal leading-tight tracking-[-0.025em] text-[#171410] transition-colors group-hover:text-[#9a6c2b]">
             {article.title}
           </span>
         </span>
-        <span className="line-clamp-2 block text-sm leading-6 text-[#5d5147]">
+        <span className="line-clamp-2 block text-[0.78rem] leading-5 text-[#5d5147]">
           {article.summary}
         </span>
-        <span className="flex items-center justify-between gap-4 border-t border-[#d8d0c4]/70 pt-4">
+        <span className="flex items-center justify-between gap-2.5 border-t border-[#d8d0c4]/70 pt-2.5">
           <span className="min-w-0 text-xs">
             <span className="block truncate font-medium text-[#171410]">
               AriaLux Homes

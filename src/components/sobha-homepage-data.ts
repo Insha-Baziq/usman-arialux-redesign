@@ -348,8 +348,8 @@ export const sobhaHeroSlides: SobhaHeroSlide[] = [
     subtitle: "Custom Builds. Quiet Confidence.",
     ctaLabel: "DISCOVER",
     ctaHref: "/portfolio",
-    desktopImage: "/images/facebook/hero-09.jpg",
-    mobileImage: "/images/facebook/hero-09.jpg",
+    desktopImage: "/images/facebook/hero-09.JPG",
+    mobileImage: "/images/facebook/hero-09.JPG",
     imageAlt: "AriaLux Homes — grand white-stone estate with reflecting pool",
   },
 ];

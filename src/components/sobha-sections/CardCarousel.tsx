@@ -74,7 +74,7 @@ export function CardCarousel({
 
     const isMobile = window.matchMedia("(max-width: 767px)").matches;
     const triggerId = `sobha-launch-${Math.random().toString(36).slice(2)}`;
-    gsap.set(el, { opacity: 0, y: 36, scale: 0.96, willChange: "transform,opacity" });
+    gsap.set(el, { opacity: 0.35, y: isMobile ? 48 : 96, scale: isMobile ? 0.9 : 0.78, willChange: "transform,opacity" });
 
     const tween = gsap.to(el, {
       opacity: 1,
@@ -84,9 +84,9 @@ export function CardCarousel({
       scrollTrigger: {
         id: triggerId,
         trigger: el,
-        start: "top 88%",
-        end: "top 48%",
-        scrub: isMobile ? false : 0.65,
+        start: "top 96%",
+        end: "top 34%",
+        scrub: isMobile ? false : 0.9,
         toggleActions: "play none none none",
       },
     });
@@ -195,7 +195,7 @@ export function CardCarousel({
               <ChevronLeft aria-hidden="true" strokeWidth={1.25} />
             </button>
             <div
-              className={`${pagClass} flex items-center gap-2`}
+              className={`${pagClass} sobha-luxury-pagination`}
               aria-hidden="true"
             />
             <button

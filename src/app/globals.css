@@ -1242,8 +1242,8 @@
    `overflow: hidden` clips Swiper loop clones (positioned at huge -X offsets)
    so they don't push body width past the viewport. */
 .sobha-launch-init {
-  transform: translateY(36px) scale(0.96);
-  opacity: 0;
+  transform: translateY(96px) scale(0.78);
+  opacity: 0.35;
   transform-origin: 50% 50%;
   will-change: transform, opacity;
 }
@@ -1467,9 +1467,18 @@ html {
   transform: scale(1.1);
 }
 
+.sobha-luxury-pagination {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 54px;
+}
+
 .sobha-luxury-pagination .swiper-pagination-bullet {
   width: 8px;
   height: 8px;
+  margin: 0 !important;
   background: rgba(0, 0, 0, 0.25);
   opacity: 1;
   border-radius: 999px;
