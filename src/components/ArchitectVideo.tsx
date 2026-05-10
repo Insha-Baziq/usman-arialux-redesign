@@ -5,8 +5,14 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 const ARCHITECT_VIDEO_POSTER = "/images/architectural-services/schematic-design.webp";
+const ARCHITECT_VIDEO_SRC = "/videos/architect.mp4";
 
-export function ArchitectVideo() {
+type ArchitectVideoProps = {
+  posterImage?: string;
+  videoSrc?: string;
+};
+
+export function ArchitectVideo({ posterImage = ARCHITECT_VIDEO_POSTER, videoSrc = ARCHITECT_VIDEO_SRC }: ArchitectVideoProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
@@ -55,7 +61,7 @@ export function ArchitectVideo() {
       className="group relative aspect-video overflow-hidden rounded-2xl bg-[#171410] shadow-[0_24px_80px_-24px_rgba(23,20,16,0.45)] ring-1 ring-black/10"
     >
       <Image
-        src={ARCHITECT_VIDEO_POSTER}
+        src={posterImage}
         alt="Architectural design preview"
         fill
         sizes="(min-width: 1024px) 50vw, 100vw"
@@ -64,13 +70,13 @@ export function ArchitectVideo() {
       {shouldLoadVideo ? (
         <video
           ref={videoRef}
-          src="/videos/architect.mp4"
+          src={videoSrc}
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
-          poster={ARCHITECT_VIDEO_POSTER}
+          poster={posterImage}
           className="absolute inset-0 h-full w-full object-cover opacity-0"
           onLoadedData={(e) => {
             const video = e.target as HTMLVideoElement;

@@ -333,7 +333,7 @@ export const sobhaHeroSlides: SobhaHeroSlide[] = [
   },
   {
     id: "arialux-aria-heights",
-    title: "ROOSEVELT RESERVES PHASE II",
+    title: "BUILDING HOMES THAT ARE FOR NOW & EVER",
     subtitle: "Spaces Where Life Unfolds",
     ctaLabel: "EXPLORE",
     ctaHref: "/floor-plans/aria-heights",

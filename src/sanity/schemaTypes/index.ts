@@ -1,5 +1,6 @@
 import { article } from "./documents/article";
 import { floorPlan } from "./documents/floorPlan";
+import { mediaSettings } from "./documents/mediaSettings";
 import { navigationMenu } from "./documents/navigationMenu";
 import { page } from "./documents/page";
 import { portfolioItem } from "./documents/portfolioItem";
@@ -21,10 +22,12 @@ import {
   ctaBandSection,
   featureListSection,
   floorPlanCarouselSection,
+  heroCarouselSection,
   heroSection,
   imageGallerySection,
   spacerSection,
   textImageSection,
+  videoAsset,
   videoGridSection,
 } from "./objects/pageSections";
 import { richText } from "./objects/richText";
@@ -32,6 +35,7 @@ import { seo } from "./objects/seo";
 
 export const schemaTypes = [
   siteSettings,
+  mediaSettings,
   page,
   floorPlan,
   portfolioItem,
@@ -50,7 +54,9 @@ export const schemaTypes = [
   floorMap,
   addressGroup,
   planAmenityGroup,
+  heroCarouselSection,
   heroSection,
+  videoAsset,
   textImageSection,
   imageGallerySection,
   floorPlanCarouselSection,

@@ -13,6 +13,15 @@ export const structure: StructureResolver = (S) =>
             .documentId("siteSettings")
             .title("Site settings"),
         ),
+      S.listItem()
+        .title("Media settings")
+        .id("mediaSettings")
+        .child(
+          S.document()
+            .schemaType("mediaSettings")
+            .documentId("mediaSettings")
+            .title("Media settings"),
+        ),
       S.divider(),
       S.listItem()
         .title("Pages")

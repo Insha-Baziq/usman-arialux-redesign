@@ -8,6 +8,7 @@ import {
 } from "@/components/arialux-data";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { PageHero } from "@/components/sobha-sections";
+import { getArchitectureMedia } from "@/sanity/lib/media";
 
 const SERVICES = [
   {
@@ -153,7 +154,9 @@ function BlueprintIcon() {
 const SERVICE_ICONS = [CompassIcon, RulerIcon, DocumentIcon];
 const WHY_ICONS = [PencilHouseIcon, DocBadgeIcon, TeamIcon];
 
-export default function ArchitecturalServicesPage() {
+export default async function ArchitecturalServicesPage() {
+  const architectureMedia = await getArchitectureMedia();
+
   return (
     <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader
@@ -244,7 +247,10 @@ export default function ArchitecturalServicesPage() {
             </div>
           </ScrollReveal>
           <ScrollReveal variant="scaleUp" duration={1.2}>
-            <ArchitectVideo />
+            <ArchitectVideo
+              posterImage={architectureMedia?.posterImage}
+              videoSrc={architectureMedia?.videoSrc}
+            />
           </ScrollReveal>
         </div>
       </section>

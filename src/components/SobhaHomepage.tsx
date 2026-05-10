@@ -25,6 +25,8 @@ import {
   sobhaStickyWidgets,
 } from "./sobha-homepage-data";
 import Image from "next/image";
+import type { HomepageMedia } from "@/sanity/lib/media";
+import type { HeroBannerSlide } from "./sobha-sections";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -44,7 +46,7 @@ if (typeof window !== "undefined") {
  * user has manual control over the iris opening. Internal content has a
  * subtle parallax (`y: 100 → 0`) timed against the same progress.
  */
-function SobhaIrisStage() {
+function SobhaIrisStage({ heroSlides }: { heroSlides: HeroBannerSlide[] }) {
   const stageRef = useRef<HTMLDivElement | null>(null);
   const heroPinRef = useRef<HTMLDivElement | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
@@ -116,7 +118,7 @@ function SobhaIrisStage() {
   return (
     <div ref={stageRef} className="sobha-iris-stage">
       <div ref={heroPinRef} className="sobha-iris-hero-pin">
-        <HeroBanner slides={sobhaHeroSlides} fullHeight autoplayDelayMs={4500} />
+        <HeroBanner slides={heroSlides} fullHeight autoplayDelayMs={4500} />
 
         <section
           ref={panelRef}
@@ -209,12 +211,25 @@ function SobhaStickyWidgets() {
 
 
 
-export function SobhaHomepage() {
+type SobhaHomepageProps = {
+  homepageMedia?: HomepageMedia | null;
+};
+
+export function SobhaHomepage({ homepageMedia }: SobhaHomepageProps) {
+  const heroSlides =
+    homepageMedia?.heroSlides && homepageMedia.heroSlides.length > 0
+      ? homepageMedia.heroSlides
+      : sobhaHeroSlides;
+  const pillars =
+    homepageMedia?.pillars && homepageMedia.pillars.length > 0
+      ? homepageMedia.pillars
+      : sobhaPillars;
+
   return (
     <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader brand={ariaLuxBrand} menus={ARIA_HEADER_MENU} hideLanguageSwitcher />
-      <SobhaIrisStage />
-      <PillarsSection heading={sobhaPillarsHeading} pillars={sobhaPillars} />
+      <SobhaIrisStage heroSlides={heroSlides} />
+      <PillarsSection heading={sobhaPillarsHeading} pillars={pillars} />
       <CardCarousel
         heading={sobhaPropertiesHeading}
         cards={sobhaProperties}

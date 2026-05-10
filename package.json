@@ -31,6 +31,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "sanity:seed-media": "node scripts/seed-sanity-media.mjs",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "check": "npm run lint && npm run typecheck && npm run build"

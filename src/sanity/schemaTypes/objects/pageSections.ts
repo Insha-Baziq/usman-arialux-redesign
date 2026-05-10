@@ -7,6 +7,169 @@ const sectionThemeOptions = [
   { title: "Transparent", value: "transparent" },
 ];
 
+export const videoAsset = defineType({
+  name: "videoAsset",
+  title: "Video asset",
+  type: "object",
+  fields: [
+    defineField({
+      name: "source",
+      title: "Source",
+      type: "string",
+      initialValue: "sanityFile",
+      options: {
+        layout: "radio",
+        list: [
+          { title: "Sanity file", value: "sanityFile" },
+          { title: "External URL", value: "externalUrl" },
+        ],
+      },
+    }),
+    defineField({
+      name: "file",
+      title: "Optional video file",
+      type: "file",
+      description:
+        "Large MP4 files can take time to upload. The poster image still shows immediately while the video loads.",
+      options: {
+        accept: "video/*",
+      },
+      hidden: ({ parent }) => parent?.source === "externalUrl",
+    }),
+    defineField({
+      name: "url",
+      title: "Optional external video URL",
+      type: "url",
+      description:
+        "Use this for an already-hosted MP4/WebM instead of uploading to Sanity.",
+      hidden: ({ parent }) => parent?.source !== "externalUrl",
+    }),
+    defineField({
+      name: "caption",
+      title: "Caption",
+      type: "string",
+    }),
+  ],
+  preview: {
+    select: {
+      title: "caption",
+      source: "source",
+    },
+    prepare({ title, source }) {
+      return {
+        title: title || "Video",
+        subtitle: source === "externalUrl" ? "External URL" : "Sanity file",
+      };
+    },
+  },
+});
+
+const videoAssetField = defineField({
+  name: "video",
+  title: "Video",
+  type: "videoAsset",
+});
+
+export const heroCarouselSection = defineType({
+  name: "heroCarouselSection",
+  title: "Hero carousel",
+  type: "object",
+  fields: [
+    defineField({
+      name: "slides",
+      title: "Slides",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "id",
+              title: "Stable ID",
+              type: "string",
+            }),
+            defineField({
+              name: "title",
+              title: "Title",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "subtitle",
+              title: "Subtitle",
+              type: "string",
+            }),
+            defineField({
+              name: "ctaLabel",
+              title: "Button label",
+              type: "string",
+            }),
+            defineField({
+              name: "ctaHref",
+              title: "Button URL",
+              type: "string",
+            }),
+            defineField({
+              name: "cta",
+              title: "Button",
+              type: "cta",
+            }),
+            defineField({
+              name: "desktopImage",
+              title: "Desktop poster image",
+              type: "imageWithAlt",
+              description:
+                "Required visual fallback. This appears instantly before/while the optional video loads.",
+            }),
+            defineField({
+              name: "image",
+              title: "Poster image",
+              type: "imageWithAlt",
+              description:
+                "Required visual fallback. This can be used alone as an image slide, or under an optional video.",
+            }),
+            defineField({
+              name: "mobileImage",
+              title: "Mobile poster image",
+              type: "imageWithAlt",
+              description:
+                "Optional mobile fallback image. Uses the desktop/poster image when empty.",
+            }),
+            videoAssetField,
+            defineField({
+              name: "order",
+              title: "Display order",
+              type: "number",
+              initialValue: 100,
+            }),
+          ],
+          preview: {
+            select: {
+              title: "title",
+              subtitle: "subtitle",
+              media: "image.image",
+            },
+          },
+        }),
+      ],
+      validation: (Rule) => Rule.min(1),
+    }),
+  ],
+  preview: {
+    select: {
+      slides: "slides",
+    },
+    prepare({ slides }) {
+      const firstSlide = Array.isArray(slides) ? slides[0] : null;
+      return {
+        title: firstSlide?.title || "Hero carousel",
+        subtitle: `${Array.isArray(slides) ? slides.length : 0} slide${Array.isArray(slides) && slides.length === 1 ? "" : "s"}`,
+        media: firstSlide?.image?.image || firstSlide?.desktopImage?.image,
+      };
+    },
+  },
+});
+
 export const heroSection = defineType({
   name: "heroSection",
   title: "Hero section",
@@ -246,7 +409,14 @@ export const cardGridSection = defineType({
               type: "text",
               rows: 3,
             }),
-            defineField({ name: "image", title: "Image", type: "imageWithAlt" }),
+            defineField({
+              name: "image",
+              title: "Poster image",
+              type: "imageWithAlt",
+              description:
+                "Required visual fallback. This displays first and remains the image-only version when no video is set.",
+            }),
+            videoAssetField,
             defineField({ name: "link", title: "Link", type: "link" }),
           ],
           preview: {

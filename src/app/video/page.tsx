@@ -11,13 +11,17 @@ import {
   DarkCtaBand,
   PageHero,
 } from "@/components/sobha-sections";
+import { getVideoGallery } from "@/sanity/lib/media";
 
 export const metadata = {
   title: "Video — AriaLux Homes",
   description: ARIA_VIDEOS_PAGE.intro,
 };
 
-export default function VideoPage() {
+export default async function VideoPage() {
+  const sanityVideos = await getVideoGallery();
+  const videos = sanityVideos ?? ARIA_VIDEOS;
+
   return (
     <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader
@@ -38,7 +42,7 @@ export default function VideoPage() {
       {/* Video grid — staggered slide-up */}
       <section className="px-6 py-24 lg:px-10">
         <div className="mx-auto max-w-[81rem]">
-          <VideoGrid videos={ARIA_VIDEOS} />
+          <VideoGrid videos={videos} />
         </div>
       </section>
 
