@@ -47,17 +47,34 @@ export function HeroBanner({ slides, fullHeight = true, autoplayDelayMs = 4500 }
       >
         {slides.map((slide, i) => (
           <SwiperSlide key={slide.id}>
-            <div className="relative h-full w-full overflow-hidden">
+            <div
+              className="relative h-full w-full overflow-hidden"
+              style={{
+                backgroundImage: `url(${slide.desktopImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
               {slide.videoSrc ? (
                 <video
-                  className="impression-banner only-desk homepage-banner-desk h-full w-full object-cover"
+                  className="impression-banner only-desk homepage-banner-desk h-full w-full object-cover opacity-0"
                   autoPlay
                   loop
                   muted
                   playsInline
                   preload="auto"
-                  // poster={slide.desktopImage}
                   aria-hidden="true"
+                  onCanPlay={(e) => {
+                    const video = e.target as HTMLVideoElement;
+                    const parent = video.parentElement;
+                    video.style.transition = "opacity 500ms ease";
+                    video.style.opacity = "1";
+                    if (parent) {
+                      setTimeout(() => {
+                        parent.style.backgroundImage = "none";
+                      }, 500);
+                    }
+                  }}
                 >
                   <source src={slide.videoSrc} type="video/mp4" />
                 </video>
