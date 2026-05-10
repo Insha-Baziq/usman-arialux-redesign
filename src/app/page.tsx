@@ -1,6 +1,8 @@
 import { SobhaHomepage } from "@/components/SobhaHomepage";
 import { getHomepageMedia } from "@/sanity/lib/media";
 
+export const revalidate = 60;
+
 export default async function Home() {
   const homepageMedia = await getHomepageMedia();
 

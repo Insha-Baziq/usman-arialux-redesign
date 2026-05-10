@@ -13,6 +13,8 @@ import {
 } from "@/components/sobha-sections";
 import { getVideoGallery } from "@/sanity/lib/media";
 
+export const revalidate = 60;
+
 export const metadata = {
   title: "Video — AriaLux Homes",
   description: ARIA_VIDEOS_PAGE.intro,

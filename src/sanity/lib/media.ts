@@ -87,17 +87,12 @@ const videosQuery = `*[_type == "video"]|order(order asc, title asc){
   vimeoHash
 }`;
 
-let mediaSettingsPromise: Promise<MediaSettingsResult | null> | null = null;
-let homePageSectionsPromise: Promise<HomepagePageSectionResult | null> | null = null;
-
 async function getMediaSettings() {
-  mediaSettingsPromise ??= sanityClient.fetch<MediaSettingsResult | null>(mediaSettingsQuery);
-  return mediaSettingsPromise;
+  return sanityClient.fetch<MediaSettingsResult | null>(mediaSettingsQuery);
 }
 
 async function getHomePageSections() {
-  homePageSectionsPromise ??= sanityClient.fetch<HomepagePageSectionResult | null>(homePageSectionsQuery);
-  return homePageSectionsPromise;
+  return sanityClient.fetch<HomepagePageSectionResult | null>(homePageSectionsQuery);
 }
 
 function isHeroSlide(slide: SanityHeroSlide): slide is HeroBannerSlide {
@@ -130,12 +125,16 @@ export async function getHomepageMedia(): Promise<HomepageMedia | null> {
     .map((slide, index) => ({
       ...fallbackHeroSlides[index],
       ...slide,
-      desktopImage: slide.desktopImage ?? fallbackHeroSlides[index]?.desktopImage,
-      mobileImage: slide.mobileImage ?? slide.desktopImage ?? fallbackHeroSlides[index]?.mobileImage,
-      imageAlt: slide.imageAlt ?? fallbackHeroSlides[index]?.imageAlt,
+      desktopImage: fallbackHeroSlides[index]?.desktopImage ?? slide.desktopImage,
+      mobileImage:
+        fallbackHeroSlides[index]?.mobileImage ??
+        fallbackHeroSlides[index]?.desktopImage ??
+        slide.mobileImage ??
+        slide.desktopImage,
+      imageAlt: fallbackHeroSlides[index]?.imageAlt ?? slide.imageAlt,
       ctaLabel: slide.ctaLabel ?? fallbackHeroSlides[index]?.ctaLabel,
       ctaHref: slide.ctaHref ?? fallbackHeroSlides[index]?.ctaHref,
-      videoSrc: slide.videoSrc ?? fallbackHeroSlides[index]?.videoSrc,
+      videoSrc: fallbackHeroSlides[index]?.videoSrc ?? slide.videoSrc,
     }))
     .filter(isHeroSlide);
 

@@ -10,6 +10,8 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { PageHero } from "@/components/sobha-sections";
 import { getArchitectureMedia } from "@/sanity/lib/media";
 
+export const revalidate = 60;
+
 const SERVICES = [
   {
     step: "01",
