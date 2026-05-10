@@ -55,8 +55,8 @@ export function HeroBanner({ slides, fullHeight = true, autoplayDelayMs = 4500 }
                   loop
                   muted
                   playsInline
-                  preload="metadata"
-                  poster={slide.desktopImage}
+                  preload="auto"
+                  // poster={slide.desktopImage}
                   aria-hidden="true"
                 >
                   <source src={slide.videoSrc} type="video/mp4" />
