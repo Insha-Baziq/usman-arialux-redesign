@@ -408,7 +408,7 @@ export const sobhaPillars: SobhaPillar[] = [
   {
     title: "Custom Craftsmanship",
     description:
-      "From hand-selected stone and bespoke cabinetry to door hardware and trim profiles, every surface is specified, sampled, and signed off by you. We build sixteen distinct floor plans across Fort Wayne — none of them feel templated.",
+      "From hand-selected stone and bespoke cabinetry to door hardware and trim profiles, every surface is specified, sampled, and signed off by you. We build twenty-three distinct floor plans across Fort Wayne — none of them feel templated.",
     imageUrl: "/images/facebook/fb-0049.jpg",
     videoUrl: "/videos/video-1.mp4",
   },

@@ -1010,7 +1010,7 @@
 .sobha-mega-group:focus-within .sobha-floorplans-panel,
 .sobha-mega-group.is-open .sobha-floorplans-panel,
 .sobha-floorplans-panel.is-open {
-  max-height: 720px;
+  max-height: min(540px, calc(100vh - 148px));
   pointer-events: auto;
 }
 
@@ -1033,7 +1033,8 @@
   display: grid;
   grid-template-columns: 300px minmax(0, 1fr);
   gap: 34px;
-  min-height: 548px;
+  height: min(540px, calc(100vh - 148px));
+  min-height: 0;
   padding: 34px 36px 34px 38px;
   overflow: hidden;
   background:
@@ -1047,8 +1048,36 @@
 }
 
 .sobha-floorplans-list {
+  min-height: 0;
   padding-right: 28px;
+  overflow-y: auto;
   border-right: 1px solid rgba(0, 0, 0, 0.12);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(181, 137, 66, 0.38) rgba(245, 239, 223, 0.72);
+}
+
+.sobha-floorplans-list:hover {
+  scrollbar-color: rgba(143, 100, 43, 0.86) rgba(245, 239, 223, 0.92);
+}
+
+.sobha-floorplans-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sobha-floorplans-list::-webkit-scrollbar-track {
+  background: rgba(245, 239, 223, 0.72);
+  border-radius: 999px;
+}
+
+.sobha-floorplans-list::-webkit-scrollbar-thumb {
+  background: rgba(181, 137, 66, 0.38);
+  border: 2px solid rgba(245, 239, 223, 0.72);
+  border-radius: 999px;
+}
+
+.sobha-floorplans-list:hover::-webkit-scrollbar-thumb {
+  background: rgba(143, 100, 43, 0.86);
+  border-color: rgba(245, 239, 223, 0.92);
 }
 
 .sobha-floorplans-kicker,
@@ -1111,7 +1140,7 @@
 }
 
 .sobha-floorplans-image-wrap {
-  height: 300px;
+  height: clamp(230px, 30vh, 290px);
   overflow: hidden;
   border-radius: 7px;
   background: rgba(0, 0, 0, 0.08);
@@ -1197,7 +1226,8 @@
   .sobha-floorplans-inner {
     grid-template-columns: 240px minmax(0, 1fr);
     gap: 24px;
-    min-height: 470px;
+    height: min(455px, calc(100vh - 128px));
+    min-height: 0;
     padding: 24px 26px;
   }
 
@@ -1211,7 +1241,7 @@
   }
 
   .sobha-floorplans-image-wrap {
-    height: 250px;
+    height: clamp(205px, 26vh, 240px);
   }
 
   .sobha-floorplans-copy {

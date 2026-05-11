@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title:
     "Floor Plans | AriaLux Homes — Custom Builds in Fort Wayne, IN",
   description:
-    "Explore the full AriaLux Homes floor plan collection — 16 custom designs ranging from compact single-story villas to multi-generational estates, all built in Fort Wayne, Indiana.",
+    "Explore the full AriaLux Homes floor plan collection — 23 custom designs ranging from compact single-story villas to multi-generational estates, all built in Fort Wayne, Indiana.",
 };
 
 const HERO_IMAGE =

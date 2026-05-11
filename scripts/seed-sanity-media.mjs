@@ -77,14 +77,14 @@ const heroSlides = [
   {
     key: "home-hero-slide-0",
     id: "arialux-floor-plans",
-    title: "SIXTEEN FLOOR PLANS",
+    title: "CURATED FLOOR PLANS",
     subtitle: "Designed for the Way You Live",
-    ctaLabel: "VIEW PLANS",
-    ctaHref: "/all-floor-plans",
+    ctaLabel: "EXPLORE",
+    ctaHref: "/interior-finishes",
     image: "public/images/facebook/hero-preview.jpg",
     imageAlt: "AriaLux Homes - modern residential architecture",
     videoFile: "public/videos/hero-video.mp4",
-    order: 10,
+    order: 20,
   },
   {
     key: "home-hero-slide-1",
@@ -96,7 +96,7 @@ const heroSlides = [
     image: "public/images/facebook/fallback-02.jpg",
     imageAlt: "AriaLux Homes - Aria Heights estate exterior",
     videoFile: "public/videos/hero-02.mp4",
-    order: 20,
+    order: 10,
   },
   {
     key: "home-hero-slide-2",
@@ -126,7 +126,7 @@ const pillars = [
     key: "home-pillar-custom-craftsmanship",
     title: "Custom Craftsmanship",
     description:
-      "From hand-selected stone and bespoke cabinetry to door hardware and trim profiles, every surface is specified, sampled, and signed off by you. We build sixteen distinct floor plans across Fort Wayne - none of them feel templated.",
+      "From hand-selected stone and bespoke cabinetry to door hardware and trim profiles, every surface is specified, sampled, and signed off by you. We build twenty-three distinct floor plans across Fort Wayne - none of them feel templated.",
     image: "public/images/facebook/fb-0049.jpg",
     imageAlt: "Custom craftsmanship by AriaLux Homes",
     videoFile: "public/videos/video-1.mp4",
@@ -225,9 +225,18 @@ async function uploadAsset(type, relativePath) {
     throw new Error(`Missing asset: ${relativePath}`);
   }
 
-  const asset = await client.assets.upload(type, createReadStream(absolutePath), {
-    filename: path.basename(relativePath),
-  });
+  let asset;
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      asset = await client.assets.upload(type, createReadStream(absolutePath), {
+        filename: path.basename(relativePath),
+      });
+      break;
+    } catch (error) {
+      if (attempt === 3) throw error;
+      await new Promise((resolve) => setTimeout(resolve, attempt * 1500));
+    }
+  }
 
   return {
     _type: "reference",

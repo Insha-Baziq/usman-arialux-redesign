@@ -128,7 +128,7 @@ export const ARIA_SOCIAL: AriaSocialLink[] = [
 ];
 
 // ---------------------------------------------------------------------------
-// Floor plans (16 total)
+// Floor plans (23 total)
 // Specs and bed/bath counts verified per `research/arialux-plans-detail.md`.
 // Slugs use kebab-case ASCII; livePath mirrors AriaLux's actual URL pattern.
 // ---------------------------------------------------------------------------
@@ -636,6 +636,144 @@ export const ARIA_PLANS: AriaPlan[] = [
       "IMG_5408.jpeg",
     ].map((filename) => planImg("villa-zoe", filename)),
   },
+  {
+    slug: "villa-lumion",
+    livePath: "/villa-lumion",
+    name: "Villa Lumion",
+    displayName: "Villa Lumion",
+    tagline: "A modern four-bedroom plan with refined curb appeal and warm interior detailing.",
+    shortBlurb:
+      "Four bedrooms, two-and-a-half baths, and 1,803 SQFT of living space with a 383 SQFT garage.",
+    specs: { living: 1803, garage: 383, porch: 137, total: 2399, bedrooms: 4, bathrooms: 2.5 },
+    hero: planImg("villa-lumion", "villa-lumion-01.jpg"),
+    gallery: [
+      "villa-lumion-01.jpg",
+      "villa-lumion-02.jpg",
+      "villa-lumion-03.jpg",
+      "villa-lumion-04.jpg",
+      "villa-lumion-05.jpg",
+      "villa-lumion-06.jpg",
+      "villa-lumion-07.jpg",
+      "villa-lumion-08.jpg",
+      "villa-lumion-09.jpg",
+      "villa-lumion-10.jpg",
+    ].map((filename) => planImg("villa-lumion", filename)),
+    featuredOnListing: true,
+  },
+  {
+    slug: "villa-adeline",
+    livePath: "/villa-adeline",
+    name: "Villa Adeline",
+    displayName: "Villa Adeline",
+    tagline: "A large seven-bedroom home designed for generous family living.",
+    shortBlurb:
+      "Seven bedrooms, three baths, and 3,550 SQFT of living space across a 4,110 SQFT total footprint.",
+    specs: { living: 3550, garage: 455, porch: 105, total: 4110, bedrooms: 7, bathrooms: 3 },
+    hero: planImg("villa-adeline", "villa-adeline-01.jpg"),
+    gallery: [
+      "villa-adeline-01.jpg",
+      "villa-adeline-02.jpg",
+      "villa-adeline-03.jpg",
+      "villa-adeline-04.jpg",
+      "villa-adeline-05.jpg",
+      "villa-adeline-06.jpg",
+    ].map((filename) => planImg("villa-adeline", filename)),
+    featuredOnListing: true,
+  },
+  {
+    slug: "alena-heights-ii",
+    livePath: "/alena-heights-ii",
+    name: "Aléna Heights II",
+    displayName: "Aléna Heights II",
+    tagline: "A refined estate-scale sequel with six bedrooms and expansive gathering space.",
+    shortBlurb:
+      "Six bedrooms, four-and-a-half baths, and 4,750 SQFT of living area across a 5,282 SQFT total footprint.",
+    specs: { living: 4750, garage: 455, porch: 79, total: 5282, bedrooms: 6, bathrooms: 4.5 },
+    hero: planImg("alena-heights-ii", "alena-heights-ii-01.jpg"),
+    gallery: [
+      "alena-heights-ii-01.jpg",
+      "alena-heights-ii-02.jpg",
+      "alena-heights-ii-03.jpg",
+      "alena-heights-ii-04.jpg",
+      "alena-heights-ii-05.jpg",
+    ].map((filename) => planImg("alena-heights-ii", filename)),
+    featuredOnListing: true,
+  },
+  {
+    slug: "brookstone",
+    livePath: "/brookstone",
+    name: "Brookstone",
+    displayName: "Brookstone",
+    tagline: "A balanced four-bedroom plan with patio living and a substantial garage.",
+    shortBlurb:
+      "Four bedrooms, two-and-a-half baths, and 2,251 SQFT of living space with a 528 SQFT garage.",
+    specs: { living: 2251, garage: 528, porch: 95, total: 3116, bedrooms: 4, bathrooms: 2.5 },
+    hero: planImg("brookstone", "brookstone-01.jpg"),
+    gallery: [
+      "brookstone-01.jpg",
+      "brookstone-02.jpg",
+      "brookstone-03.jpg",
+      "brookstone-04.jpg",
+      "brookstone-05.jpg",
+    ].map((filename) => planImg("brookstone", filename)),
+    featuredOnListing: true,
+  },
+  {
+    slug: "avieria",
+    livePath: "/avieria",
+    name: "Avieria",
+    displayName: "Avieria",
+    tagline: "A six-bedroom statement plan with strong modern lines and generous scale.",
+    shortBlurb:
+      "Six bedrooms, three-and-a-half baths, and 3,200 SQFT of living area across a 3,676 SQFT total footprint.",
+    specs: { living: 3200, garage: 425, porch: 51, total: 3676, bedrooms: 6, bathrooms: 3.5 },
+    hero: planImg("avieria", "avieria-01.jpg"),
+    gallery: [
+      "avieria-01.jpg",
+      "avieria-02.jpg",
+      "avieria-03.jpg",
+      "avieria-04.jpg",
+      "avieria-05.jpg",
+    ].map((filename) => planImg("avieria", filename)),
+    featuredOnListing: true,
+  },
+  {
+    slug: "villa-vienna",
+    livePath: "/villa-vienna",
+    name: "Villa Vienna",
+    displayName: "Villa Vienna",
+    tagline: "A semi-contemporary four-bedroom home with efficient family-scaled planning.",
+    shortBlurb:
+      "Four bedrooms, two-and-a-half baths, and 2,088 SQFT of living space across a 2,591 SQFT total footprint.",
+    specs: { living: 2088, garage: 415, porch: 88, total: 2591, bedrooms: 4, bathrooms: 2.5 },
+    hero: planImg("villa-vienna", "villa-vienna-01.jpg"),
+    gallery: [
+      "villa-vienna-01.jpg",
+      "villa-vienna-02.jpg",
+      "villa-vienna-03.jpg",
+      "villa-vienna-04.jpg",
+      "villa-vienna-05.jpg",
+    ].map((filename) => planImg("villa-vienna", filename)),
+    featuredOnListing: true,
+  },
+  {
+    slug: "lunara-heights",
+    livePath: "/lunara-heights",
+    name: "Lunara Heights",
+    displayName: "Lunara Heights",
+    tagline: "A ten-bedroom estate plan built for extended family living and large gatherings.",
+    shortBlurb:
+      "Ten bedrooms, four-and-a-half baths, and 4,070 SQFT of living area across a 4,648 SQFT total footprint.",
+    specs: { living: 4070, garage: 527, porch: 51, total: 4648, bedrooms: 10, bathrooms: 4.5 },
+    hero: planImg("lunara-heights", "lunara-heights-01.jpg"),
+    gallery: [
+      "lunara-heights-01.jpg",
+      "lunara-heights-02.jpg",
+      "lunara-heights-03.jpg",
+      "lunara-heights-04.jpg",
+    ].map((filename) => planImg("lunara-heights", filename)),
+    featuredOnListing: true,
+  },
 ];
 
 export const getPlanBySlug = (slug: string): AriaPlan | undefined =>
@@ -929,7 +1067,7 @@ export const LISTING_PLANS = ARIA_PLANS.filter((p) => p.featuredOnListing);
 // Tab grouping for FLOOR PLANS:
 //   - "Estates" (4+ BR, ≥ 3,500 SQFT total)
 //   - "Residences" (≤ 3 BR or < 3,500 SQFT total)
-// All 16 plans are listed; each carries its own hover image (the plan hero).
+// All 23 plans are listed; each carries its own hover image (the plan hero).
 // ==========================================================================
 
 export type AriaHeaderItem = {

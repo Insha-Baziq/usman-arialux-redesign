@@ -164,7 +164,7 @@ export function PlanGalleryDialog({
                   </span>
                 </div>
                 {hasAddressTabs ? (
-                  <div className="mt-5 flex gap-2 overflow-x-auto [scrollbar-color:#b58942_#2b2722] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#b58942] [&::-webkit-scrollbar-track]:bg-[#2b2722]">
+                  <div className="mt-5 flex gap-2 overflow-x-auto [scrollbar-color:rgba(181,137,66,0.38)_rgba(245,239,223,0.16)] [scrollbar-width:thin] hover:[scrollbar-color:rgba(143,100,43,0.86)_rgba(245,239,223,0.22)] [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#f5efdf]/15 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border [&::-webkit-scrollbar-thumb]:border-[#f5efdf]/15 [&::-webkit-scrollbar-thumb]:bg-[#b58942]/40 hover:[&::-webkit-scrollbar-thumb]:border-[#f5efdf]/25 hover:[&::-webkit-scrollbar-thumb]:bg-[#8f642b]/85">
                     <button
                       type="button"
                       onClick={() => {
@@ -242,7 +242,7 @@ export function PlanGalleryDialog({
               </div>
             </div>
 
-            <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 [scrollbar-color:#b58942_#2b2722] sm:px-8 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#b58942] [&::-webkit-scrollbar-track]:bg-[#2b2722]">
+            <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 [scrollbar-color:rgba(181,137,66,0.38)_rgba(245,239,223,0.16)] [scrollbar-width:thin] hover:[scrollbar-color:rgba(143,100,43,0.86)_rgba(245,239,223,0.22)] sm:px-8 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#f5efdf]/15 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border [&::-webkit-scrollbar-thumb]:border-[#f5efdf]/15 [&::-webkit-scrollbar-thumb]:bg-[#b58942]/40 hover:[&::-webkit-scrollbar-thumb]:border-[#f5efdf]/25 hover:[&::-webkit-scrollbar-thumb]:bg-[#8f642b]/85">
               {filteredImages.length > 0 ? (
                 <div className="columns-1 gap-3 sm:columns-2 lg:columns-3 xl:columns-4">
                   {filteredImages.map((image, index) => (
@@ -320,10 +320,10 @@ export function PlanGalleryDialog({
               <button
                 type="button"
                 onClick={() => setFocusedIndex(null)}
-                className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full border border-white/18 bg-[#1d1b18]/78 text-white/78 backdrop-blur-md transition hover:border-[#b58942] hover:text-white"
+                className="absolute right-5 top-5 z-10 grid h-9 w-9 place-items-center rounded-full border border-white/18 bg-[#f5efdf]/12 text-white/82 shadow-[0_14px_34px_-22px_rgba(0,0,0,0.9)] backdrop-blur-md transition hover:border-[#b58942]/80 hover:bg-[#b58942]/18 hover:text-white sm:right-8 sm:top-8 sm:h-10 sm:w-10"
                 aria-label="Close focused image"
               >
-                <X className="h-5 w-5" strokeWidth={1.5} />
+                <X className="h-4 w-4" strokeWidth={1.8} />
               </button>
               {showImageNavigation ? (
                 <>
@@ -331,19 +331,19 @@ export function PlanGalleryDialog({
                     type="button"
                     onClick={focusPreviousImage}
                     disabled={!canFocusPrevious}
-                    className="absolute left-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-white/18 bg-[#1d1b18]/78 text-white backdrop-blur-md transition hover:border-[#b58942] disabled:pointer-events-none disabled:opacity-25 sm:left-8 sm:h-12 sm:w-12"
+                    className="absolute left-5 top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/18 bg-[#f5efdf]/12 text-white/82 shadow-[0_14px_34px_-22px_rgba(0,0,0,0.9)] backdrop-blur-md transition hover:border-[#b58942]/80 hover:bg-[#b58942]/18 hover:text-white disabled:pointer-events-none disabled:opacity-25 sm:left-8 sm:h-10 sm:w-10"
                     aria-label="Previous image"
                   >
-                    <ArrowLeft className="h-5 w-5" strokeWidth={1.7} />
+                    <ArrowLeft className="h-4 w-4" strokeWidth={1.9} />
                   </button>
                   <button
                     type="button"
                     onClick={focusNextImage}
                     disabled={!canFocusNext}
-                    className="absolute right-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-white/18 bg-[#1d1b18]/78 text-white backdrop-blur-md transition hover:border-[#b58942] disabled:pointer-events-none disabled:opacity-25 sm:right-8 sm:h-12 sm:w-12"
+                    className="absolute right-5 top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/18 bg-[#f5efdf]/12 text-white/82 shadow-[0_14px_34px_-22px_rgba(0,0,0,0.9)] backdrop-blur-md transition hover:border-[#b58942]/80 hover:bg-[#b58942]/18 hover:text-white disabled:pointer-events-none disabled:opacity-25 sm:right-8 sm:h-10 sm:w-10"
                     aria-label="Next image"
                   >
-                    <ArrowRight className="h-5 w-5" strokeWidth={1.7} />
+                    <ArrowRight className="h-4 w-4" strokeWidth={1.9} />
                   </button>
                 </>
               ) : null}
