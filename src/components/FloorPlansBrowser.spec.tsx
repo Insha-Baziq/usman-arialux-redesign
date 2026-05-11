@@ -15,9 +15,9 @@ describe("FloorPlansBrowser", () => {
     expect(gallery).toHaveClass("md:grid-cols-2");
     expect(gallery).toHaveClass("xl:grid-cols-3");
     expect(screen.getByRole("link", { name: /view aria heights floor plan/i })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Aria Heights" })).toBeInTheDocument();
+    expect(screen.getAllByRole("heading", { name: "Aria Heights" }).length).toBe(2);
     expect(screen.getAllByText("View Plan").length).toBeGreaterThan(1);
-    expect(screen.getByLabelText("Sort floor plans")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /featured/i })).toBeInTheDocument();
     expect(screen.getByText("Filter Plans")).toBeInTheDocument();
     expect(screen.getByText("Let’s create a floor plan that's uniquely yours.")).toBeInTheDocument();
   });

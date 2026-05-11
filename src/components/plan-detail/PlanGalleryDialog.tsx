@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { ArrowLeft, ArrowRight, ImageIcon, X } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export type PlanGalleryImage = {
   src: string;
@@ -59,6 +59,7 @@ export function PlanGalleryDialog({
   const [activeCategory, setActiveCategory] =
     useState<PlanGalleryImage["category"] | "all">("all");
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+  const touchStartX = useRef<number | null>(null);
 
   const activeGroup =
     groups.find((group) => group.address === activeAddress) ?? groups[0];
@@ -105,6 +106,29 @@ export function PlanGalleryDialog({
       return Math.min(index + 1, filteredImages.length - 1);
     });
   }, [filteredImages.length]);
+
+  const handleFocusedTouchStart = useCallback((event: React.TouchEvent) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+  }, []);
+
+  const handleFocusedTouchEnd = useCallback(
+    (event: React.TouchEvent) => {
+      const startX = touchStartX.current;
+      touchStartX.current = null;
+      const endX = event.changedTouches[0]?.clientX;
+      if (startX === null || endX === undefined || !showImageNavigation) return;
+
+      const deltaX = endX - startX;
+      if (Math.abs(deltaX) < 44) return;
+
+      if (deltaX < 0) {
+        focusNextImage();
+      } else {
+        focusPreviousImage();
+      }
+    },
+    [focusNextImage, focusPreviousImage, showImageNavigation],
+  );
 
   useEffect(() => {
     if (!isOpen) return;
@@ -279,7 +303,7 @@ export function PlanGalleryDialog({
                   : `${focusedIndex + 1} / ${filteredImages.length}`}
               </span>
               {showFooterNavigation ? (
-                <div className="flex items-center gap-3">
+                <div className="hidden items-center gap-3 sm:flex">
                   <button
                     type="button"
                     onClick={focusPreviousImage}
@@ -310,6 +334,8 @@ export function PlanGalleryDialog({
               role="dialog"
               aria-modal="true"
               aria-label={`${planName} focused gallery image`}
+              onTouchStart={handleFocusedTouchStart}
+              onTouchEnd={handleFocusedTouchEnd}
             >
               <button
                 type="button"
@@ -331,7 +357,7 @@ export function PlanGalleryDialog({
                     type="button"
                     onClick={focusPreviousImage}
                     disabled={!canFocusPrevious}
-                    className="absolute left-5 top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/18 bg-[#f5efdf]/12 text-white/82 shadow-[0_14px_34px_-22px_rgba(0,0,0,0.9)] backdrop-blur-md transition hover:border-[#b58942]/80 hover:bg-[#b58942]/18 hover:text-white disabled:pointer-events-none disabled:opacity-25 sm:left-8 sm:h-10 sm:w-10"
+                    className="absolute left-5 top-1/2 z-10 hidden h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/18 bg-[#f5efdf]/12 text-white/82 shadow-[0_14px_34px_-22px_rgba(0,0,0,0.9)] backdrop-blur-md transition hover:border-[#b58942]/80 hover:bg-[#b58942]/18 hover:text-white disabled:pointer-events-none disabled:opacity-25 sm:left-8 sm:grid sm:h-10 sm:w-10"
                     aria-label="Previous image"
                   >
                     <ArrowLeft className="h-4 w-4" strokeWidth={1.9} />
@@ -340,7 +366,7 @@ export function PlanGalleryDialog({
                     type="button"
                     onClick={focusNextImage}
                     disabled={!canFocusNext}
-                    className="absolute right-5 top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/18 bg-[#f5efdf]/12 text-white/82 shadow-[0_14px_34px_-22px_rgba(0,0,0,0.9)] backdrop-blur-md transition hover:border-[#b58942]/80 hover:bg-[#b58942]/18 hover:text-white disabled:pointer-events-none disabled:opacity-25 sm:right-8 sm:h-10 sm:w-10"
+                    className="absolute right-5 top-1/2 z-10 hidden h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/18 bg-[#f5efdf]/12 text-white/82 shadow-[0_14px_34px_-22px_rgba(0,0,0,0.9)] backdrop-blur-md transition hover:border-[#b58942]/80 hover:bg-[#b58942]/18 hover:text-white disabled:pointer-events-none disabled:opacity-25 sm:right-8 sm:grid sm:h-10 sm:w-10"
                     aria-label="Next image"
                   >
                     <ArrowRight className="h-4 w-4" strokeWidth={1.9} />
@@ -356,6 +382,11 @@ export function PlanGalleryDialog({
                 <figcaption className="rounded-full bg-[#1d1b18]/78 px-4 py-2 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-white/72 backdrop-blur-md">
                   {focusedIndex + 1} / {filteredImages.length}
                 </figcaption>
+                {showImageNavigation ? (
+                  <span className="text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-white/42 sm:hidden">
+                    Swipe to view more
+                  </span>
+                ) : null}
               </figure>
             </div>
           ) : null}
