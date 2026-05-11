@@ -675,8 +675,6 @@ export const ARIA_PLANS: AriaPlan[] = [
       "villa-adeline-02.jpg",
       "villa-adeline-03.jpg",
       "villa-adeline-04.jpg",
-      "villa-adeline-05.jpg",
-      "villa-adeline-06.jpg",
     ].map((filename) => planImg("villa-adeline", filename)),
     featuredOnListing: true,
   },
@@ -735,6 +733,24 @@ export const ARIA_PLANS: AriaPlan[] = [
       "avieria-04.jpg",
       "avieria-05.jpg",
     ].map((filename) => planImg("avieria", filename)),
+    featuredOnListing: true,
+  },
+  {
+    slug: "ville-fizara",
+    livePath: "/ville-fizara",
+    name: "Ville Fizara",
+    displayName: "Ville Fizara",
+    tagline: "A five-bedroom modern home with an efficient family-focused layout.",
+    shortBlurb:
+      "Five bedrooms, two-and-a-half baths, and 2,222 SQFT of living area across a 2,743 SQFT total footprint.",
+    specs: { living: 2222, garage: 415, porch: 106, total: 2743, bedrooms: 5, bathrooms: 2.5 },
+    hero: planImg("ville-fizara", "ville-fizara-01.jpg"),
+    gallery: [
+      "ville-fizara-01.jpg",
+      "ville-fizara-02.jpg",
+      "ville-fizara-03.jpg",
+      "ville-fizara-04.jpg",
+    ].map((filename) => planImg("ville-fizara", filename)),
     featuredOnListing: true,
   },
   {
@@ -1104,6 +1120,15 @@ const planItem = (p: AriaPlan): AriaHeaderItem => ({
   hoverImage: p.hero,
 });
 
+const planNameCollator = new Intl.Collator("en", {
+  numeric: true,
+  sensitivity: "base",
+});
+
+const NAV_FLOOR_PLANS = [...ARIA_PLANS].sort((a, b) =>
+  planNameCollator.compare(a.displayName, b.displayName),
+);
+
 // Real arialuxhomes.com nav (8 items, mostly direct anchors). Only FLOOR PLANS
 // keeps a panel because it actually has children on the live site.
 export const ARIA_HEADER_MENU: AriaHeaderMenu[] = [
@@ -1115,7 +1140,7 @@ export const ARIA_HEADER_MENU: AriaHeaderMenu[] = [
     defaultImage: ARIA_PLANS[0]?.hero,
     items: [
       { label: "ALL FLOOR PLANS", href: "/all-floor-plans" },
-      ...ARIA_PLANS.map(planItem),
+      ...NAV_FLOOR_PLANS.map(planItem),
     ],
   },
   { label: "CONTACT", href: "/contact", kind: "simple" },

@@ -1976,10 +1976,13 @@ body {
   }
 
   .homepage-hero-banner-heading {
-    font-size: clamp(2.35rem, 11.5vw, 3.35rem) !important;
-    line-height: 1.08 !important;
-    letter-spacing: 0.02em !important;
+    max-width: min(21rem, calc(100vw - 2rem));
+    min-height: 5.35rem !important;
+    font-size: clamp(1.75rem, 8.6vw, 2.35rem) !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.015em !important;
     text-wrap: balance;
+    margin-inline: auto;
   }
 
   .homepage-hero-banner-subheading {

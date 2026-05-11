@@ -110,7 +110,7 @@ export function HeroBanner({ slides, fullHeight = true, autoplayDelayMs = 4500 }
               <div className="explore-more-arrow absolute inset-0 sobha-hero-overlay" aria-hidden="true" />
               <div className="absolute inset-0 flex items-end justify-center pb-24 sm:pb-28">
                 <div className="w-full max-w-4xl space-y-4 px-6 text-center sm:space-y-5">
-                  <h2 className="homepage-hero-banner-heading flex min-h-[6.325rem] items-end justify-center font-heading text-[2.75rem] font-light leading-[1.15] tracking-[0.08em] text-white sm:min-h-[7.475rem] sm:text-[3.25rem] lg:min-h-[8.625rem] lg:text-[3.75rem]">
+                  <h2 className="homepage-hero-banner-heading flex min-h-[5.35rem] items-end justify-center font-heading text-[2rem] font-light leading-[1.12] tracking-[0.04em] text-white sm:min-h-[7.475rem] sm:text-[3.25rem] sm:tracking-[0.08em] lg:min-h-[8.625rem] lg:text-[3.75rem]">
                     {slide.title}
                   </h2>
                   <p className="homepage-hero-banner-subheading font-sans text-sm font-normal tracking-[0.22em] text-white/85 sm:text-base">
