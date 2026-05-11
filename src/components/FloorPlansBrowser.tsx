@@ -81,12 +81,12 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
   return (
     <section className="bg-[#f7f3ec] px-6 pb-16 lg:px-10 lg:pb-24">
       <div className="mx-auto w-full max-w-[81rem]">
-        <div className="grid gap-7 border-b border-[#d8d0c4] py-7 sm:py-8 lg:flex lg:flex-nowrap lg:items-start lg:gap-10">
-          <div className="space-y-2 lg:shrink-0">
-            <p className="text-[0.64rem] font-semibold uppercase tracking-[0.32em] text-[#171410]">
+        <div className="grid gap-6 border-b border-[#d8d0c4] py-7 sm:py-8 lg:flex lg:flex-nowrap lg:items-start lg:gap-7 xl:gap-9">
+          <div className="space-y-3 lg:shrink-0">
+            <p className="flex h-4 items-center text-[0.6rem] font-semibold uppercase leading-none tracking-[0.32em] text-[#171410]">
               Filter Plans
             </p>
-            <p className="font-serif text-base whitespace-nowrap text-[#4f473f]">
+            <p className="flex h-10 items-center whitespace-nowrap font-serif text-base leading-none text-[#4f473f] xl:h-11">
               {filtered.length} plans match
             </p>
           </div>
@@ -122,7 +122,7 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
           </FilterGroup>
 
           <div className="space-y-3 lg:ml-auto lg:shrink-0" ref={sortRef}>
-            <p className="text-[0.58rem] font-semibold uppercase tracking-[0.32em] text-[#171410]">
+            <p className="flex h-4 items-center text-[0.58rem] font-semibold uppercase leading-none tracking-[0.32em] text-[#171410]">
               Sort By
             </p>
             <div className="relative">
@@ -131,7 +131,7 @@ export function FloorPlansBrowser({ plans }: FloorPlansBrowserProps) {
                 aria-haspopup="listbox"
                 aria-expanded={sortOpen}
                 onClick={() => setSortOpen((o) => !o)}
-                className="flex h-11 w-full items-center rounded-[0.45rem] border border-[#cfc3b5] bg-[#fbf8f2] pl-4 pr-3 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#332c25] shadow-[0_18px_44px_-34px_rgba(23,20,16,0.5)] transition hover:border-[#b58942] focus:outline-none sm:w-auto sm:min-w-[10rem]"
+                className="flex h-10 w-full items-center rounded-[0.45rem] border border-[#cfc3b5] bg-[#fbf8f2] pl-4 pr-3 text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-[#332c25] shadow-[0_18px_44px_-34px_rgba(23,20,16,0.5)] transition hover:border-[#b58942] focus:outline-none sm:w-auto sm:min-w-[9rem] xl:h-11 xl:min-w-[10rem] xl:text-[0.62rem] xl:tracking-[0.14em]"
               >
                 <span className="flex-1 text-left">{sort}</span>
                 <span className="mx-2 h-5 w-px bg-[#d8c9b8]" aria-hidden="true" />
@@ -231,11 +231,13 @@ type FilterGroupProps = {
 
 function FilterGroup({ label, children }: FilterGroupProps) {
   return (
-    <div className="space-y-3">
-      <p className="text-[0.58rem] font-semibold uppercase tracking-[0.32em] text-[#171410]">
+    <div className="min-w-0 space-y-3 lg:shrink-0">
+      <p className="flex h-4 items-center text-[0.58rem] font-semibold uppercase leading-none tracking-[0.32em] text-[#171410]">
         {label}
       </p>
-      <div className="flex flex-wrap gap-2">{children}</div>
+      <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] lg:overflow-visible [&::-webkit-scrollbar]:hidden">
+        {children}
+      </div>
     </div>
   );
 }
@@ -255,8 +257,8 @@ function FilterChip({ label, hint, active, onClick }: FilterChipProps) {
       aria-pressed={active}
       className={
         active
-          ? "inline-flex min-h-11 items-center gap-2 rounded-full border border-[#b58942] bg-[#b58942] px-4 py-2 text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_12px_30px_-24px_rgba(181,137,66,0.8)] transition sm:min-h-12 sm:px-5 sm:text-[0.62rem]"
-          : "inline-flex min-h-11 items-center gap-2 rounded-full border border-[#d9d0c4] bg-[#fbf8f2] px-4 py-2 text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-[#3f372f] transition hover:border-[#b58942] hover:text-[#171410] sm:min-h-12 sm:px-5 sm:text-[0.62rem]"
+          ? "inline-flex min-h-10 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#b58942] bg-[#b58942] px-3.5 py-2 text-[0.56rem] font-semibold uppercase tracking-[0.11em] text-white shadow-[0_12px_30px_-24px_rgba(181,137,66,0.8)] transition xl:min-h-11 xl:gap-2 xl:px-4 xl:text-[0.6rem] xl:tracking-[0.13em]"
+          : "inline-flex min-h-10 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#d9d0c4] bg-[#fbf8f2] px-3.5 py-2 text-[0.56rem] font-semibold uppercase tracking-[0.11em] text-[#3f372f] transition hover:border-[#b58942] hover:text-[#171410] xl:min-h-11 xl:gap-2 xl:px-4 xl:text-[0.6rem] xl:tracking-[0.13em]"
       }
     >
       <span>{label}</span>
@@ -264,8 +266,8 @@ function FilterChip({ label, hint, active, onClick }: FilterChipProps) {
         <span
           className={
             active
-              ? "text-[0.56rem] font-light tracking-[0.12em] text-white/70"
-              : "text-[0.56rem] font-light tracking-[0.12em] text-[#7a7066]"
+              ? "text-[0.52rem] font-light tracking-[0.09em] text-white/70 xl:text-[0.55rem] xl:tracking-[0.1em]"
+              : "text-[0.52rem] font-light tracking-[0.09em] text-[#7a7066] xl:text-[0.55rem] xl:tracking-[0.1em]"
           }
         >
           {hint}
