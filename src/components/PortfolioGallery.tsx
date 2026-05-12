@@ -1,7 +1,17 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
+
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import Image from "next/image";
-import { useState, type CSSProperties } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type TouchEvent,
+} from "react";
 
 import type { AriaGalleryItem } from "./arialux-data";
 import { ScrollReveal } from "./ScrollReveal";
@@ -52,8 +62,77 @@ function captionFor(index: number) {
 
 export function PortfolioGallery({ images }: PortfolioGalleryProps) {
   const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+  const touchStartX = useRef<number | null>(null);
   const visibleImages = images.slice(0, visibleCount);
   const hasMore = visibleCount < images.length;
+  const focusedImage =
+    focusedIndex === null ? null : visibleImages[focusedIndex] ?? null;
+  const showImageNavigation = visibleImages.length > 1;
+  const canFocusPrevious = focusedIndex !== null && focusedIndex > 0;
+  const canFocusNext =
+    focusedIndex !== null && focusedIndex < visibleImages.length - 1;
+
+  const focusPreviousImage = useCallback(() => {
+    setFocusedIndex((index) => {
+      if (index === null) return visibleImages.length > 0 ? 0 : null;
+      return Math.max(index - 1, 0);
+    });
+  }, [visibleImages.length]);
+
+  const focusNextImage = useCallback(() => {
+    setFocusedIndex((index) => {
+      if (index === null) return visibleImages.length > 0 ? 0 : null;
+      return Math.min(index + 1, visibleImages.length - 1);
+    });
+  }, [visibleImages.length]);
+
+  const handleFocusedTouchStart = useCallback((event: TouchEvent) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+  }, []);
+
+  const handleFocusedTouchEnd = useCallback(
+    (event: TouchEvent) => {
+      const startX = touchStartX.current;
+      touchStartX.current = null;
+      const endX = event.changedTouches[0]?.clientX;
+      if (startX === null || endX === undefined || !showImageNavigation) return;
+
+      const deltaX = endX - startX;
+      if (Math.abs(deltaX) < 44) return;
+
+      if (deltaX < 0) {
+        focusNextImage();
+      } else {
+        focusPreviousImage();
+      }
+    },
+    [focusNextImage, focusPreviousImage, showImageNavigation],
+  );
+
+  useEffect(() => {
+    if (focusedIndex === null) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setFocusedIndex(null);
+      }
+      if (event.key === "ArrowRight") {
+        focusNextImage();
+      }
+      if (event.key === "ArrowLeft") {
+        focusPreviousImage();
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [focusNextImage, focusPreviousImage, focusedIndex]);
 
   return (
     <section className="relative overflow-hidden px-6 py-16 lg:px-10 lg:py-24">
@@ -84,9 +163,12 @@ export function PortfolioGallery({ images }: PortfolioGalleryProps) {
 
         <div className="grid auto-rows-auto grid-cols-1 gap-4 sm:grid-cols-2 md:auto-rows-[15rem] md:grid-cols-4 lg:auto-rows-[17.5rem] lg:gap-5">
           {visibleImages.map((item, index) => (
-            <div
+            <button
+              type="button"
               key={`${item.src}-${index}`}
+              onClick={() => setFocusedIndex(index)}
               className={`group relative overflow-hidden rounded-[0.35rem] border border-[#d6cbbc]/80 bg-[#e8dfd3] shadow-[0_18px_48px_-34px_rgba(23,20,16,0.48)] transition duration-500 hover:-translate-y-1 hover:border-[#b58942]/55 hover:shadow-[0_28px_68px_-38px_rgba(23,20,16,0.62)] ${tileClass(index)}`}
+              aria-label={`Open ${item.alt}`}
             >
               <ScrollReveal
                 variant="scaleUp"
@@ -131,7 +213,7 @@ export function PortfolioGallery({ images }: PortfolioGalleryProps) {
                   </figcaption>
                 </figure>
               </ScrollReveal>
-            </div>
+            </button>
           ))}
         </div>
 
@@ -144,6 +226,69 @@ export function PortfolioGallery({ images }: PortfolioGalleryProps) {
           }
         />
       </div>
+
+      {focusedImage && focusedIndex !== null ? (
+        <div
+          className="fixed inset-0 z-[101] grid place-items-center bg-[#15120f]/88 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Focused portfolio image"
+          onTouchStart={handleFocusedTouchStart}
+          onTouchEnd={handleFocusedTouchEnd}
+        >
+          <button
+            type="button"
+            className="absolute inset-0 cursor-zoom-out"
+            onClick={() => setFocusedIndex(null)}
+            aria-label="Close focused image"
+          />
+          <button
+            type="button"
+            onClick={() => setFocusedIndex(null)}
+            className="absolute right-5 top-5 z-10 grid h-9 w-9 place-items-center rounded-full border border-white/18 bg-[#f5efdf]/12 text-white/82 shadow-[0_14px_34px_-22px_rgba(0,0,0,0.9)] backdrop-blur-md transition hover:border-[#b58942]/80 hover:bg-[#b58942]/18 hover:text-white sm:right-8 sm:top-8 sm:h-10 sm:w-10"
+            aria-label="Close focused image"
+          >
+            <X className="h-4 w-4" strokeWidth={1.8} />
+          </button>
+          {showImageNavigation ? (
+            <>
+              <button
+                type="button"
+                onClick={focusPreviousImage}
+                disabled={!canFocusPrevious}
+                className="absolute left-5 top-1/2 z-10 hidden h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/18 bg-[#f5efdf]/12 text-white/82 shadow-[0_14px_34px_-22px_rgba(0,0,0,0.9)] backdrop-blur-md transition hover:border-[#b58942]/80 hover:bg-[#b58942]/18 hover:text-white disabled:pointer-events-none disabled:opacity-25 sm:left-8 sm:grid sm:h-10 sm:w-10"
+                aria-label="Previous image"
+              >
+                <ArrowLeft className="h-4 w-4" strokeWidth={1.9} />
+              </button>
+              <button
+                type="button"
+                onClick={focusNextImage}
+                disabled={!canFocusNext}
+                className="absolute right-5 top-1/2 z-10 hidden h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/18 bg-[#f5efdf]/12 text-white/82 shadow-[0_14px_34px_-22px_rgba(0,0,0,0.9)] backdrop-blur-md transition hover:border-[#b58942]/80 hover:bg-[#b58942]/18 hover:text-white disabled:pointer-events-none disabled:opacity-25 sm:right-8 sm:grid sm:h-10 sm:w-10"
+                aria-label="Next image"
+              >
+                <ArrowRight className="h-4 w-4" strokeWidth={1.9} />
+              </button>
+            </>
+          ) : null}
+          <figure className="relative z-[1] flex max-h-[90vh] max-w-[92vw] flex-col items-center gap-3">
+            <img
+              src={focusedImage.src}
+              alt={focusedImage.alt}
+              className="max-h-[84vh] max-w-[92vw] object-contain shadow-[0_26px_80px_-34px_rgba(0,0,0,0.9)]"
+            />
+            <figcaption className="rounded-full bg-[#1d1b18]/78 px-4 py-2 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-white/72 backdrop-blur-md">
+              {focusedIndex + 1} / {visibleImages.length}
+            </figcaption>
+            {showImageNavigation ? (
+              <span className="text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-white/42 sm:hidden">
+                Swipe to view more
+              </span>
+            ) : null}
+          </figure>
+        </div>
+      ) : null}
     </section>
   );
 }

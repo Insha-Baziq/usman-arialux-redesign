@@ -105,7 +105,7 @@ const heroSlides = [
     subtitle: "Custom Builds. Quiet Confidence.",
     ctaLabel: "DISCOVER",
     ctaHref: "/portfolio",
-    image: "public/images/facebook/hero-09.JPG",
+    image: "public/images/facebook/hero-03-highquality.jpg",
     imageAlt: "AriaLux Homes - grand white-stone estate with reflecting pool",
     order: 30,
   },
