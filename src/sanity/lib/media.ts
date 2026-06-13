@@ -2,11 +2,13 @@ import type { HeroBannerSlide } from "@/components/sobha-sections";
 import type { AriaVideoItem } from "@/components/arialux-data";
 import type { SobhaPillar } from "@/components/sobha-homepage-data";
 
+import { createDataAttribute } from "next-sanity";
 import { cache } from "react";
 
-import { sanityClient } from "./client";
+import { sanityFetch } from "./fetch";
 
 type SanityHeroSlide = Partial<HeroBannerSlide> & {
+  _key?: string;
   order?: number;
 };
 
@@ -37,6 +39,7 @@ type HomepagePageSectionResult = {
 
 const mediaSettingsQuery = `*[_type == "mediaSettings" && _id == "mediaSettings"][0]{
   "homepageHeroSlides": homepageHeroSlides[]|order(order asc){
+    _key,
     "id": coalesce(id, _key),
     title,
     subtitle,
@@ -49,6 +52,7 @@ const mediaSettingsQuery = `*[_type == "mediaSettings" && _id == "mediaSettings"
     order
   },
   "homepagePillars": homepagePillars[]|order(order asc){
+    _key,
     title,
     description,
     "imageUrl": image.image.asset->url,
@@ -90,11 +94,11 @@ const videosQuery = `*[_type == "video"]|order(order asc, title asc){
 }`;
 
 const getMediaSettings = cache(async () => {
-  return sanityClient.fetch<MediaSettingsResult | null>(mediaSettingsQuery);
+  return sanityFetch<MediaSettingsResult | null>(mediaSettingsQuery);
 });
 
 const getHomePageSections = cache(async () => {
-  return sanityClient.fetch<HomepagePageSectionResult | null>(homePageSectionsQuery);
+  return sanityFetch<HomepagePageSectionResult | null>(homePageSectionsQuery);
 });
 
 function isHeroSlide(slide: SanityHeroSlide): slide is HeroBannerSlide {
@@ -114,13 +118,34 @@ function isPillar(pillar: SanityPillar): pillar is SobhaPillar {
   return Boolean(pillar.title && pillar.description && pillar.imageUrl);
 }
 
+function createMediaSettingsDataAttribute(path: string) {
+  return createDataAttribute({
+    baseUrl: "/studio",
+    id: "mediaSettings",
+    path,
+    type: "mediaSettings",
+    workspace: "arialux-homes",
+  }).toString();
+}
+
+function withHeroEditTargets(slides: SanityHeroSlide[]): SanityHeroSlide[] {
+  return slides.map((slide) => ({
+    ...slide,
+    sanityEditTarget: slide._key
+      ? createMediaSettingsDataAttribute(`homepageHeroSlides[_key=="${slide._key}"]`)
+      : slide.sanityEditTarget,
+  }));
+}
+
 export const getHomepageMedia = cache(async (): Promise<HomepageMedia | null> => {
   const [mediaSettings, homePageSections] = await Promise.all([
     getMediaSettings(),
     getHomePageSections(),
   ]);
 
-  const fallbackHeroSlides = (mediaSettings?.homepageHeroSlides ?? []).filter(isHeroSlide);
+  const fallbackHeroSlides = withHeroEditTargets(mediaSettings?.homepageHeroSlides ?? []).filter(
+    isHeroSlide,
+  );
   const fallbackPillars = (mediaSettings?.homepagePillars ?? []).filter(isPillar);
 
   const pageHeroSlides = (homePageSections?.heroSlides ?? [])
@@ -174,7 +199,7 @@ export const getArchitectureMedia = cache(async (): Promise<ArchitectureMedia | 
 });
 
 export const getVideoGallery = cache(async (): Promise<AriaVideoItem[] | null> => {
-  const videos = await sanityClient.fetch<Partial<AriaVideoItem>[]>(videosQuery);
+  const videos = await sanityFetch<Partial<AriaVideoItem>[]>(videosQuery);
   const validVideos = videos.filter(
     (video): video is AriaVideoItem => Boolean(video.title && video.vimeoId && video.vimeoHash),
   );

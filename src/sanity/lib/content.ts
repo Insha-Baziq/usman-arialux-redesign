@@ -7,7 +7,7 @@ import type {
 
 import { cache } from "react";
 
-import { sanityClient } from "./client";
+import { sanityFetch } from "./fetch";
 
 type SanityPlan = {
   slug?: string;
@@ -158,8 +158,10 @@ function getArticleCategory(category: SanityArticle["category"]): AriaArticle["c
   }
 }
 
-export const getCmsFloorPlans = cache(async (): Promise<AriaPlan[] | null> => {
-  const plans = await sanityClient.fetch<SanityPlan[]>(floorPlansQuery);
+async function fetchCmsFloorPlans(
+  fetchOptions?: Parameters<typeof sanityFetch<SanityPlan[]>>[1],
+): Promise<AriaPlan[] | null> {
+  const plans = await sanityFetch<SanityPlan[]>(floorPlansQuery, fetchOptions);
   const validPlans = plans
     .map((plan): SanityPlan & { gallery: string[]; specs: AriaPlan["specs"] } => {
       const gallery = [
@@ -188,10 +190,18 @@ export const getCmsFloorPlans = cache(async (): Promise<AriaPlan[] | null> => {
     .filter(isPlan);
 
   return validPlans.length > 0 ? validPlans : null;
+}
+
+export const getCmsFloorPlans = cache(async (): Promise<AriaPlan[] | null> => {
+  return fetchCmsFloorPlans();
+});
+
+export const getPublishedCmsFloorPlans = cache(async (): Promise<AriaPlan[] | null> => {
+  return fetchCmsFloorPlans({ perspective: "published", stega: false });
 });
 
 export const getCmsPortfolioImages = cache(async (): Promise<AriaGalleryItem[] | null> => {
-  const images = await sanityClient.fetch<Partial<AriaGalleryItem>[]>(portfolioQuery);
+  const images = await sanityFetch<Partial<AriaGalleryItem>[]>(portfolioQuery);
   const validImages = images.filter(isGalleryItem);
   return validImages.length > 0 ? validImages : null;
 });
@@ -199,15 +209,15 @@ export const getCmsPortfolioImages = cache(async (): Promise<AriaGalleryItem[] |
 export const getCmsGalleryItems = cache(async (
   gallery: "portfolio" | "interior-finishes",
 ): Promise<AriaGalleryItem[] | null> => {
-  const images = await sanityClient.fetch<Partial<AriaGalleryItem>[]>(galleryItemsQuery, {
-    gallery,
+  const images = await sanityFetch<Partial<AriaGalleryItem>[]>(galleryItemsQuery, {
+    params: { gallery },
   });
   const validImages = images.filter(isGalleryItem);
   return validImages.length > 0 ? validImages : null;
 });
 
 export const getCmsArticles = cache(async (): Promise<AriaArticle[] | null> => {
-  const articles = await sanityClient.fetch<SanityArticle[]>(articlesQuery);
+  const articles = await sanityFetch<SanityArticle[]>(articlesQuery);
   const validArticles = articles
     .map((article): SanityArticle => ({
       ...article,
@@ -227,7 +237,7 @@ export const getCmsArticles = cache(async (): Promise<AriaArticle[] | null> => {
 });
 
 export const getCmsVideos = cache(async (): Promise<AriaVideoItem[] | null> => {
-  const videos = await sanityClient.fetch<Partial<AriaVideoItem>[]>(videosQuery);
+  const videos = await sanityFetch<Partial<AriaVideoItem>[]>(videosQuery);
   const validVideos = videos.filter(isVideo);
   return validVideos.length > 0 ? validVideos : null;
 });

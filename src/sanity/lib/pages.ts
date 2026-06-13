@@ -6,7 +6,7 @@ import type {
 
 import { cache } from "react";
 
-import { sanityClient } from "./client";
+import { sanityFetch } from "./fetch";
 
 type RichTextBlock = {
   children?: { text?: string }[];
@@ -218,7 +218,7 @@ function getCta(cta: CtaResult | undefined, fallbackLabel: string, fallbackHref:
 export const getContactPageContent = cache(async (
   fallback: typeof ARIA_CONTACT,
 ): Promise<ContactPageContent> => {
-  const result = await sanityClient.fetch<{ contact?: ContactSectionResult } | null>(contactPageQuery);
+  const result = await sanityFetch<{ contact?: ContactSectionResult } | null>(contactPageQuery);
   const contact = result?.contact;
 
   return {
@@ -239,7 +239,7 @@ export const getWhoWeArePageContent = cache(async (
   fallback: typeof ARIA_WHO_WE_ARE,
   fallbackCtaBackground?: string,
 ): Promise<WhoWeArePageContent> => {
-  const result = await sanityClient.fetch<{
+  const result = await sanityFetch<{
     mission?: TextImageSectionResult;
     cta?: CtaBandSectionResult;
   } | null>(whoWeArePageQuery);
@@ -267,7 +267,7 @@ export const getWhoWeArePageContent = cache(async (
 export const getArchitecturePageContent = cache(async (
   fallback: typeof ARIA_ARCHITECTURAL,
 ): Promise<ArchitecturePageContent> => {
-  const result = await sanityClient.fetch<{
+  const result = await sanityFetch<{
     hero?: HeroSectionResult;
     services?: CardGridSectionResult;
     included?: FeatureListSectionResult;

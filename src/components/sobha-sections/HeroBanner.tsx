@@ -15,6 +15,7 @@ export type HeroBannerSlide = {
   mobileImage: string;
   imageAlt: string;
   videoSrc?: string;
+  sanityEditTarget?: string;
 };
 
 export type HeroBannerProps = {
@@ -92,6 +93,7 @@ export function HeroBanner({ slides, fullHeight = true, autoplayDelayMs = 4500 }
         {slides.map((slide, i) => (
           <section
             key={slide.id}
+            data-sanity={slide.sanityEditTarget}
             className={`absolute inset-0 h-full w-full overflow-hidden transition-opacity duration-700 ${
               i === visibleIndex ? "z-10 opacity-100" : "z-0 opacity-0"
             }`}

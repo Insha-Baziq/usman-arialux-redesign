@@ -18,7 +18,7 @@ import {
 } from "@/components/plan-detail/PlanGalleryDialog";
 import { getSanityGalleryGroup } from "@/components/plan-detail/galleryGroups";
 import { SobhaHeader } from "@/components/SobhaChrome";
-import { getCmsFloorPlans } from "@/sanity/lib/content";
+import { getCmsFloorPlans, getPublishedCmsFloorPlans } from "@/sanity/lib/content";
 
 export const revalidate = 60;
 
@@ -68,7 +68,7 @@ async function getPlan(slug: string) {
 }
 
 export async function generateStaticParams() {
-  const plans = await getPlans();
+  const plans = (await getPublishedCmsFloorPlans()) ?? ARIA_PLANS;
   return plans.map((p) => ({ slug: p.slug }));
 }
 
