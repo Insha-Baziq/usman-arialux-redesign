@@ -52,6 +52,8 @@ function PillarMedia({ pillar }: { pillar: PillarItem }) {
       <img
         src={pillar.imageUrl}
         alt={pillar.title}
+        decoding="async"
+        fetchPriority="low"
         className="sobha-pillar-image h-full w-full object-cover"
       />
       {pillar.videoUrl && shouldLoadVideo ? (

@@ -167,8 +167,9 @@ export function StoryGrid({
                     src={story.imageUrl}
                     alt={story.title}
                     fill
+                    loading="eager"
                     className="object-cover"
-                    sizes="(max-width: 640px) 88vw, (max-width: 1024px) 72vw, 773px"
+                    sizes="(max-width: 640px) 88vw, (max-width: 1024px) 72vw, 640px"
                   />
                 </div>
                 <div className="s-stories-slide-content grid grid-cols-12 items-start gap-4 px-6 py-5 lg:px-8 lg:py-6">

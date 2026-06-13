@@ -131,7 +131,7 @@ export function CardCarousel({
           pagination={{ clickable: true, el: `.${pagClass}` }}
           className="sobha-luxury-swiper"
         >
-          {cards.map((card) => (
+          {cards.map((card, index) => (
             <SwiperSlide key={card.title} className="sobha-luxury-slide">
               <div className="latest-launch-slide-box">
                 <div className="new-launch-banner">
@@ -141,6 +141,9 @@ export function CardCarousel({
                       <img
                         src={card.imageUrl}
                         alt={card.title}
+                        loading={index < 2 ? "eager" : "lazy"}
+                        decoding="async"
+                        fetchPriority={index === 0 ? "high" : "low"}
                         className="sobha-luxury-image block aspect-[16/9] w-full object-cover sm:aspect-[21/9] lg:aspect-[5/2]"
                       />
                     </picture>
