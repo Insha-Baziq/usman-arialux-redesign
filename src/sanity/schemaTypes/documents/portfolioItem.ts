@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 export const portfolioItem = defineType({
   name: "portfolioItem",
-  title: "Portfolio item",
+  title: "Portfolio image",
   type: "document",
   groups: [
     { name: "content", title: "Content", default: true },
@@ -22,6 +22,7 @@ export const portfolioItem = defineType({
       title: "Slug",
       type: "slug",
       group: "settings",
+      hidden: true,
       options: {
         source: "title",
         maxLength: 96,
@@ -45,16 +46,18 @@ export const portfolioItem = defineType({
     }),
     defineField({
       name: "image",
-      title: "Image",
+      title: "Uploaded image",
       type: "imageWithAlt",
       group: "content",
+      description: "Optional replacement for the current imported image URL below.",
     }),
     defineField({
       name: "imageUrl",
-      title: "Image URL",
+      title: "Current image URL",
       type: "string",
       group: "content",
-      description: "Starter/fallback image URL. Uploading an image overrides this.",
+      description:
+        "Imported image currently used by the website. Uploading an image above overrides this.",
     }),
     defineField({
       name: "caption",
@@ -65,9 +68,11 @@ export const portfolioItem = defineType({
     }),
     defineField({
       name: "featured",
-      title: "Featured",
+      title: "Show in homepage Recent Builds",
       type: "boolean",
       group: "settings",
+      description:
+        "Turn this on for images that should appear in the Recent Builds carousel on the homepage. The portfolio page still shows every portfolio image.",
       initialValue: false,
     }),
     defineField({
@@ -82,6 +87,7 @@ export const portfolioItem = defineType({
       title: "SEO",
       type: "seo",
       group: "seo",
+      hidden: true,
     }),
   ],
   preview: {

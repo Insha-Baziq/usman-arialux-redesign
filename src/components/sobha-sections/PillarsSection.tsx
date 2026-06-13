@@ -2,15 +2,11 @@
 
 /* eslint-disable @next/next/no-img-element */
 
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { loadGsap } from "@/lib/load-gsap";
 
 export type PillarItem = {
   title: string;
@@ -102,47 +98,63 @@ export function PillarsSection({ heading, pillars, className }: PillarsSectionPr
     const cards = Array.from(track.querySelectorAll<HTMLElement>(".sobha-pillar-card"));
     if (cards.length === 0) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      gsap.set([headingEl, ...cards], { clearProps: "all" });
-      return;
-    }
+    let cleanup: (() => void) | undefined;
+    let cancelled = false;
 
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
-    gsap.set([headingEl, ...cards], { opacity: 0, y: 56, willChange: "transform,opacity" });
+    void loadGsap().then(({ gsap, ScrollTrigger }) => {
+      if (cancelled) return;
 
-    const triggerId = `sobha-pillars-${Math.random().toString(36).slice(2)}`;
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        id: triggerId,
-        trigger: headingEl,
-        start: "top 86%",
-        end: "top 46%",
-        scrub: isMobile ? false : 0.7,
-        toggleActions: "play none none none",
-      },
-    });
-    tl.to(headingEl, {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: "none",
-      clearProps: "willChange",
-    }).to(
-      cards,
-      {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set([headingEl, ...cards], { clearProps: "all" });
+        return;
+      }
+
+      const isMobile = window.matchMedia("(max-width: 767px)").matches;
+      gsap.set([headingEl, ...cards], {
+        opacity: 0,
+        y: 56,
+        willChange: "transform,opacity",
+      });
+
+      const triggerId = `sobha-pillars-${Math.random().toString(36).slice(2)}`;
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          id: triggerId,
+          trigger: headingEl,
+          start: "top 86%",
+          end: "top 46%",
+          scrub: isMobile ? false : 0.7,
+          toggleActions: "play none none none",
+        },
+      });
+      tl.to(headingEl, {
         opacity: 1,
         y: 0,
         duration: 1,
-        stagger: 0.12,
         ease: "none",
         clearProps: "willChange",
-      },
-      0.16,
-    );
+      }).to(
+        cards,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          stagger: 0.12,
+          ease: "none",
+          clearProps: "willChange",
+        },
+        0.16,
+      );
+
+      cleanup = () => {
+        ScrollTrigger.getById(triggerId)?.kill();
+        tl.kill();
+      };
+    });
 
     return () => {
-      ScrollTrigger.getById(triggerId)?.kill();
-      tl.kill();
+      cancelled = true;
+      cleanup?.();
     };
   }, []);
 

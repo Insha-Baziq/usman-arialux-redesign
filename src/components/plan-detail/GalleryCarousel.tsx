@@ -5,11 +5,6 @@ import { useId } from "react";
 import { Autoplay, EffectCoverflow, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-
 type GalleryCarouselProps = {
   images: string[];
   alt: string;

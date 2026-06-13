@@ -35,6 +35,7 @@ export type AriaPlan = {
   displayName: string;
   tagline: string;
   shortBlurb: string;
+  description?: string;
   specs: AriaPlanSpecs;
   vimeoId?: string;
   vimeoHash?: string;
@@ -50,6 +51,7 @@ export type AriaPlan = {
 export type AriaGalleryItem = {
   src: string;
   alt: string;
+  featured?: boolean;
 };
 
 export type AriaVideoItem = {

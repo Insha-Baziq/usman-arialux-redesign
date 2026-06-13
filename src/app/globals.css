@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "swiper/css";
-@import "swiper/css/autoplay";
+@import "swiper/css/effect-coverflow";
 @import "swiper/css/navigation";
 @import "swiper/css/pagination";
 
@@ -119,14 +119,6 @@
 
 .swiper-pagination-bullet-active {
   background: rgba(0, 0, 0, 0.85);
-}
-
-.sobha-hero-swiper .swiper-pagination-bullet {
-  background: rgba(255, 255, 255, 0.5);
-}
-
-.sobha-hero-swiper .swiper-pagination-bullet-active {
-  background: rgba(255, 255, 255, 1);
 }
 
 @font-face {

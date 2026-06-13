@@ -7,15 +7,14 @@ describe("SobhaHomepage", () => {
   it("renders the AriaLux rotating hero banner slides", () => {
     render(<SobhaHomepage />);
 
-    expect(screen.getAllByRole("heading", { name: "ARIA HEIGHTS" }).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByRole("heading", { name: "CURATED FLOOR PLANS" }).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByRole("heading", { name: "BUILDING HOMES THAT ARE FOR NOW & EVER" }).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByRole("heading", { name: "ARIALUX HOMES" }).length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByRole("heading", { name: "SIXTEEN FLOOR PLANS" }).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("Spaces Where Life Unfolds").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText("Custom Builds. Quiet Confidence.")).toBeInTheDocument();
     expect(screen.getByText("Designed for the Way You Live")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "EXPLORE" })).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: "EXPLORE" }).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByRole("link", { name: "DISCOVER" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "VIEW PLANS" })).toBeInTheDocument();
   });
 
   it("renders the merged new-launch section (pillars + properties)", () => {

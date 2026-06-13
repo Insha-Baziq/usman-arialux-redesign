@@ -1,20 +1,13 @@
 "use client";
+
 import Image from "next/image";
-
-
-
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useId, useRef } from "react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import { loadGsap } from "@/lib/load-gsap";
 import { SobhaPillLink } from "./SobhaPillLink";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 export type StoryItem = {
   title: string;
@@ -29,16 +22,11 @@ export type StoryGridProps = {
   stories: StoryItem[];
   ctaLabel?: string;
   ctaHref?: string;
-  /** Date label rendered before the date (e.g. "Published on"). Defaults to "Published on ". */
+  /** Date label rendered before the date. Defaults to "Published on ". */
   dateLabel?: string;
   className?: string;
 };
 
-/**
- * Sobha "press releases" peek-slider — center-slide focus with adjacent slides
- * peeking on either side. GSAP fade-in on the heading and cards when the
- * heading enters the viewport.
- */
 export function StoryGrid({
   heading,
   stories,
@@ -61,58 +49,89 @@ export function StoryGrid({
     const track = trackRef.current;
     if (!headingEl || !track) return;
 
-    const cards = Array.from(track.querySelectorAll<HTMLElement>(".sobha-press-card"));
+    const cards = Array.from(
+      track.querySelectorAll<HTMLElement>(".sobha-press-card"),
+    );
+    let cleanup: (() => void) | undefined;
+    let cancelled = false;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      gsap.set([headingEl, ...cards], { clearProps: "all" });
-      return;
-    }
+    void loadGsap().then(({ gsap, ScrollTrigger }) => {
+      if (cancelled) return;
 
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
-    gsap.set(headingEl, { opacity: 0, y: 42, willChange: "transform,opacity" });
-    if (cards.length) gsap.set(cards, { opacity: 0, y: 56, willChange: "transform,opacity" });
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set([headingEl, ...cards], { clearProps: "all" });
+        return;
+      }
 
-    const triggerId = `sobha-press-${Math.random().toString(36).slice(2)}`;
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        id: triggerId,
-        trigger: headingEl,
-        start: "top 84%",
-        end: "top 62%",
-        scrub: isMobile ? false : 0.25,
-        toggleActions: "play none none none",
-      },
-    });
-    tl.to(headingEl, {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: "none",
-      clearProps: "willChange",
-    });
-    if (cards.length) {
-      tl.to(
-        cards,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          stagger: 0.07,
-          ease: "none",
-          clearProps: "opacity,transform,willChange",
+      const isMobile = window.matchMedia("(max-width: 767px)").matches;
+      gsap.set(headingEl, {
+        opacity: 0,
+        y: 42,
+        willChange: "transform,opacity",
+      });
+
+      if (cards.length) {
+        gsap.set(cards, {
+          opacity: 0,
+          y: 56,
+          willChange: "transform,opacity",
+        });
+      }
+
+      const triggerId = `sobha-press-${Math.random().toString(36).slice(2)}`;
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          id: triggerId,
+          trigger: headingEl,
+          start: "top 84%",
+          end: "top 62%",
+          scrub: isMobile ? false : 0.25,
+          toggleActions: "play none none none",
         },
-        0.16,
-      );
-    }
+      });
+
+      tl.to(headingEl, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "none",
+        clearProps: "willChange",
+      });
+
+      if (cards.length) {
+        tl.to(
+          cards,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            stagger: 0.07,
+            ease: "none",
+            clearProps: "opacity,transform,willChange",
+          },
+          0.16,
+        );
+      }
+
+      cleanup = () => {
+        ScrollTrigger.getById(triggerId)?.kill();
+        tl.kill();
+      };
+    });
 
     return () => {
-      ScrollTrigger.getById(triggerId)?.kill();
-      tl.kill();
+      cancelled = true;
+      cleanup?.();
     };
   }, []);
 
   return (
-    <section className={className ?? "sobha-stories-sec bg-[#f7f3ec] pb-12 pt-10 text-black lg:pb-16 lg:pt-12"}>
+    <section
+      className={
+        className ??
+        "sobha-stories-sec bg-[#f7f3ec] pb-12 pt-10 text-black lg:pb-16 lg:pt-12"
+      }
+    >
       <div className="mx-auto max-w-[81rem] px-6 lg:px-10">
         <h2
           ref={headingRef}
@@ -121,6 +140,7 @@ export function StoryGrid({
           {heading}
         </h2>
       </div>
+
       <div ref={trackRef} className="relative mt-6 lg:mt-8">
         <Swiper
           modules={[Autoplay, Navigation, Pagination]}
@@ -142,14 +162,15 @@ export function StoryGrid({
                 href={story.href}
                 className="sobha-press-card s-stories-slide-box block overflow-hidden bg-[#fbf7ef] text-black"
               >
-                <Image
-                  src={story.imageUrl}
-                  alt={story.title}
-                  width={800}
-                  height={500}
-                  className="block h-auto w-full"
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                />
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#e8dfd2]">
+                  <Image
+                    src={story.imageUrl}
+                    alt={story.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 88vw, (max-width: 1024px) 72vw, 773px"
+                  />
+                </div>
                 <div className="s-stories-slide-content grid grid-cols-12 items-start gap-4 px-6 py-5 lg:px-8 lg:py-6">
                   <div className="story-title col-span-8">
                     <h4 className="font-heading text-[1.05rem] font-light leading-snug text-black lg:text-[1.15rem]">

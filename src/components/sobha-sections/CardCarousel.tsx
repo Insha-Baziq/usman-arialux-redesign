@@ -2,18 +2,13 @@
 
 /* eslint-disable @next/next/no-img-element */
 
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useId, useRef } from "react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import { loadGsap } from "@/lib/load-gsap";
 import { SobhaPillLink } from "./SobhaPillLink";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 export type CarouselAmenity = {
   icon: string;
@@ -67,33 +62,50 @@ export function CardCarousel({
     const el = launchRef.current;
     if (!el) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      gsap.set(el, { clearProps: "all" });
-      return;
-    }
+    let cleanup: (() => void) | undefined;
+    let cancelled = false;
 
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
-    const triggerId = `sobha-launch-${Math.random().toString(36).slice(2)}`;
-    gsap.set(el, { opacity: 0.35, y: isMobile ? 48 : 96, scale: isMobile ? 0.9 : 0.78, willChange: "transform,opacity" });
+    void loadGsap().then(({ gsap, ScrollTrigger }) => {
+      if (cancelled) return;
 
-    const tween = gsap.to(el, {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      ease: "none",
-      scrollTrigger: {
-        id: triggerId,
-        trigger: el,
-        start: "top 96%",
-        end: "top 34%",
-        scrub: isMobile ? false : 0.9,
-        toggleActions: "play none none none",
-      },
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set(el, { clearProps: "all" });
+        return;
+      }
+
+      const isMobile = window.matchMedia("(max-width: 767px)").matches;
+      const triggerId = `sobha-launch-${Math.random().toString(36).slice(2)}`;
+      gsap.set(el, {
+        opacity: 0.35,
+        y: isMobile ? 48 : 96,
+        scale: isMobile ? 0.9 : 0.78,
+        willChange: "transform,opacity",
+      });
+
+      const tween = gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        ease: "none",
+        scrollTrigger: {
+          id: triggerId,
+          trigger: el,
+          start: "top 96%",
+          end: "top 34%",
+          scrub: isMobile ? false : 0.9,
+          toggleActions: "play none none none",
+        },
+      });
+
+      cleanup = () => {
+        ScrollTrigger.getById(triggerId)?.kill();
+        tween.kill();
+      };
     });
 
     return () => {
-      ScrollTrigger.getById(triggerId)?.kill();
-      tween.kill();
+      cancelled = true;
+      cleanup?.();
     };
   }, []);
 

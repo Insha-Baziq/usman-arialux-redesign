@@ -16,7 +16,7 @@ const pageSectionMembers = [
 
 export const page = defineType({
   name: "page",
-  title: "Page",
+  title: "Website page",
   type: "document",
   groups: [
     { name: "content", title: "Content", default: true },
@@ -36,6 +36,7 @@ export const page = defineType({
       title: "Slug",
       type: "slug",
       group: "settings",
+      hidden: true,
       options: {
         source: "title",
         maxLength: 96,
@@ -47,6 +48,7 @@ export const page = defineType({
       title: "Publishing status",
       type: "string",
       group: "settings",
+      hidden: true,
       initialValue: "draft",
       options: {
         layout: "radio",
@@ -63,6 +65,7 @@ export const page = defineType({
       title: "Page template",
       type: "string",
       group: "settings",
+      hidden: true,
       initialValue: "builder",
       options: {
         list: [
@@ -81,12 +84,15 @@ export const page = defineType({
       type: "boolean",
       group: "settings",
       initialValue: true,
+      hidden: true,
     }),
     defineField({
       name: "sections",
-      title: "Page sections",
+      title: "Editable page content",
       type: "array",
       group: "content",
+      description:
+        "Open the existing section and edit its fields. Do not add new section types unless the website has been updated for them.",
       of: pageSectionMembers,
       validation: (Rule) => Rule.min(1),
     }),
@@ -95,6 +101,7 @@ export const page = defineType({
       title: "SEO",
       type: "seo",
       group: "seo",
+      hidden: true,
     }),
   ],
   preview: {

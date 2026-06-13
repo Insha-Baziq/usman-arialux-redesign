@@ -1,4 +1,13 @@
 import "@testing-library/jest-dom/vitest";
+import { cleanup } from "@testing-library/react";
+import { afterEach } from "vitest";
+
+process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ??= "test-project";
+process.env.NEXT_PUBLIC_SANITY_DATASET ??= "production";
+
+afterEach(() => {
+  cleanup();
+});
 
 Object.defineProperty(window, "matchMedia", {
   writable: true,

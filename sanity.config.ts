@@ -1,9 +1,8 @@
-import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
 
-import { apiVersion, dataset, projectId } from "./src/sanity/env";
+import { dataset, projectId } from "./src/sanity/env";
 import { resolve } from "./src/sanity/presentation/resolve";
 import { schemaTypes } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
@@ -34,11 +33,35 @@ export default defineConfig({
       },
       allowOrigins: ["http://localhost:*", previewOrigin],
     }),
-    visionTool({
-      defaultApiVersion: apiVersion,
-    }),
   ],
   schema: {
     types: schemaTypes,
+    templates: (prev) => [
+      ...prev,
+      {
+        id: "galleryItem-interior-finishes",
+        title: "Interior finishes image",
+        schemaType: "galleryItem",
+        value: {
+          gallery: "interior-finishes",
+        },
+      },
+      {
+        id: "galleryItem-portfolio",
+        title: "Portfolio gallery image",
+        schemaType: "galleryItem",
+        value: {
+          gallery: "portfolio",
+        },
+      },
+      {
+        id: "portfolioItem-recent-build",
+        title: "Recent build image",
+        schemaType: "portfolioItem",
+        value: {
+          featured: true,
+        },
+      },
+    ],
   },
 });

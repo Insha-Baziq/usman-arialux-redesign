@@ -1,11 +1,25 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import ContactPage from "./page";
 
+vi.mock("@/sanity/lib/pages", () => ({
+  getContactPageContent: vi.fn(async () => ({
+    eyebrow: "Let's Connect",
+    heading: "Contact Us",
+    formLead: "Tell us about your custom home plans.",
+    notice: "This site is protected by reCAPTCHA.",
+    image: "/images/who-we-are-hero-v1.webp",
+    imageAlt: "AriaLux Homes - featured custom build",
+    detailHeading: "Better yet, come see us in person to get a tour of our builds!",
+    detailBody:
+      "We love our customers, so feel free to reach out for a free consultation.",
+  })),
+}));
+
 describe("ContactPage", () => {
-  it("renders contact content inside the luxury reveal stage", () => {
-    const { container } = render(<ContactPage />);
+  it("renders contact content inside the luxury reveal stage", async () => {
+    const { container } = render(await ContactPage());
 
     const revealStage = container.querySelector(".contact-reveal-stage");
     const headingMask = container.querySelector(".contact-heading-mask");
@@ -17,6 +31,6 @@ describe("ContactPage", () => {
     expect(bodyReveal).toBeInTheDocument();
     expect(imageReveal).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Contact Us" })).toBeInTheDocument();
-    expect(screen.getByAltText("AriaLux Homes — featured custom build")).toBeInTheDocument();
+    expect(screen.getByAltText("AriaLux Homes - featured custom build")).toBeInTheDocument();
   });
 });

@@ -1,11 +1,28 @@
 import { render, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import WhoWeArePage from "./page";
 
+vi.mock("@/sanity/lib/pages", () => ({
+  getWhoWeArePageContent: vi.fn(async () => ({
+    eyebrow: "AriaLux Homes",
+    heading: "Our Mission",
+    mission:
+      "At AriaLux Homes, we are more than just a builder. We design and build custom homes with clarity, care, and lasting detail.",
+    hero: "/images/who-we-are-hero-v1.webp",
+    heroAlt: "AriaLux Homes",
+    ctaEyebrow: "Ready to begin?",
+    ctaHeadline: "Build with AriaLux",
+    ctaSubline: "Schedule a free consultation.",
+    ctaLabel: "Start the Conversation",
+    ctaHref: "/contact",
+    ctaBackgroundImage: "/images/who-we-are-hero-v1.webp",
+  })),
+}));
+
 describe("WhoWeArePage", () => {
-  it("renders the hero image and mission copy inside one responsive mission section", () => {
-    const { container } = render(<WhoWeArePage />);
+  it("renders the hero image and mission copy inside one responsive mission section", async () => {
+    const { container } = render(await WhoWeArePage());
 
     const missionSection = container.querySelector("#mission");
 
@@ -21,8 +38,8 @@ describe("WhoWeArePage", () => {
     expect(mission.firstElementChild).toHaveClass("mx-auto", "grid", "lg:grid-cols-2");
   });
 
-  it("uses a bounded rounded image panel and Framer Motion reveal hooks", () => {
-    const { container } = render(<WhoWeArePage />);
+  it("uses a bounded rounded image panel and Framer Motion reveal hooks", async () => {
+    const { container } = render(await WhoWeArePage());
 
     const missionSection = container.querySelector("#mission");
     expect(missionSection).not.toBeNull();

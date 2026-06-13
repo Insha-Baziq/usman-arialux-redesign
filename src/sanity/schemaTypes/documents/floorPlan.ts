@@ -37,6 +37,8 @@ export const floorPlan = defineType({
       type: "string",
       group: "settings",
       description: "Optional legacy URL path from the old site. The Next.js page still uses the slug.",
+      readOnly: true,
+      hidden: ({ value }) => value === undefined,
     }),
     defineField({
       name: "status",
@@ -107,20 +109,23 @@ export const floorPlan = defineType({
       title: "Amenities",
       type: "array",
       group: "specs",
+      hidden: true,
       of: [defineArrayMember({ type: "planAmenityGroup" })],
     }),
     defineField({
       name: "heroImage",
-      title: "Hero image",
+      title: "Uploaded hero image",
       type: "imageWithAlt",
       group: "media",
+      description: "Optional replacement for the current imported hero image below.",
     }),
     defineField({
       name: "heroImageUrl",
-      title: "Hero image URL",
+      title: "Current hero image URL",
       type: "string",
       group: "media",
-      description: "Starter/fallback image URL. Uploading a hero image overrides this.",
+      description:
+        "Imported image currently used by the website. Uploading a hero image above overrides this.",
     }),
     defineField({
       name: "cardImage",
@@ -128,6 +133,7 @@ export const floorPlan = defineType({
       type: "imageWithAlt",
       group: "media",
       description: "Optional. Uses hero image when left empty.",
+      hidden: true,
     }),
     defineField({
       name: "cardImageUrl",
@@ -135,20 +141,24 @@ export const floorPlan = defineType({
       type: "string",
       group: "media",
       description: "Starter/fallback card image URL. Uploading a card image overrides this.",
+      hidden: true,
     }),
     defineField({
       name: "gallery",
-      title: "Gallery",
+      title: "Uploaded gallery images",
       type: "array",
       group: "media",
+      description:
+        "New uploads appear before the imported gallery URLs below. Use this for replacing or adding gallery images.",
       of: [defineArrayMember({ type: "imageWithAlt" })],
     }),
     defineField({
       name: "galleryUrls",
-      title: "Gallery URLs",
+      title: "Current gallery image URLs",
       type: "array",
       group: "media",
-      description: "Starter/fallback gallery URLs. Uploaded gallery images are preferred.",
+      description:
+        "Imported images currently shown by the website. You can remove or edit these while migrating to uploaded gallery images.",
       of: [
         defineArrayMember({
           type: "object",
@@ -164,6 +174,7 @@ export const floorPlan = defineType({
       title: "Floor maps",
       type: "array",
       group: "media",
+      hidden: true,
       of: [defineArrayMember({ type: "floorMap" })],
     }),
     defineField({
@@ -171,6 +182,7 @@ export const floorPlan = defineType({
       title: "Vimeo video",
       type: "object",
       group: "media",
+      hidden: true,
       fields: [
         defineField({ name: "vimeoId", title: "Vimeo ID", type: "string" }),
         defineField({ name: "vimeoHash", title: "Vimeo privacy hash", type: "string" }),
@@ -182,6 +194,7 @@ export const floorPlan = defineType({
       title: "Available at",
       type: "array",
       group: "availability",
+      hidden: true,
       of: [defineArrayMember({ type: "addressGroup" })],
     }),
     defineField({
@@ -195,6 +208,7 @@ export const floorPlan = defineType({
       title: "Related plans",
       type: "array",
       group: "content",
+      hidden: true,
       of: [
         defineArrayMember({
           type: "reference",
@@ -210,6 +224,7 @@ export const floorPlan = defineType({
       title: "SEO",
       type: "seo",
       group: "seo",
+      hidden: true,
     }),
   ],
   preview: {

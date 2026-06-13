@@ -22,6 +22,7 @@ export const video = defineType({
       title: "Slug",
       type: "slug",
       group: "settings",
+      hidden: true,
       options: {
         source: "title",
         maxLength: 96,
@@ -39,18 +40,21 @@ export const video = defineType({
       title: "Vimeo privacy hash",
       type: "string",
       group: "content",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "thumbnail",
       title: "Thumbnail",
       type: "imageWithAlt",
       group: "content",
+      hidden: true,
     }),
     defineField({
       name: "description",
       title: "Description",
       type: "richText",
       group: "content",
+      hidden: true,
     }),
     defineField({
       name: "featured",
@@ -58,6 +62,7 @@ export const video = defineType({
       type: "boolean",
       group: "settings",
       initialValue: false,
+      hidden: true,
     }),
     defineField({
       name: "order",
@@ -71,6 +76,7 @@ export const video = defineType({
       title: "SEO",
       type: "seo",
       group: "seo",
+      hidden: true,
     }),
   ],
   preview: {

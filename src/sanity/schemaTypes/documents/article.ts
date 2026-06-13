@@ -33,6 +33,15 @@ export const article = defineType({
       title: "Category",
       type: "string",
       group: "content",
+      options: {
+        list: [
+          { title: "Buying", value: "Buying" },
+          { title: "Design", value: "Design" },
+          { title: "Construction", value: "Construction" },
+          { title: "Floor Plans", value: "Floor Plans" },
+        ],
+      },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "summary",
@@ -43,23 +52,34 @@ export const article = defineType({
     }),
     defineField({
       name: "heroImage",
-      title: "Hero image",
+      title: "Uploaded hero image",
       type: "imageWithAlt",
       group: "content",
+      description: "Main article image. Uploading this overrides the current imported hero URL below.",
     }),
     defineField({
       name: "heroImageUrl",
-      title: "Hero image URL",
+      title: "Current hero image URL",
       type: "string",
       group: "content",
-      description: "Starter/fallback hero image URL. Uploading a hero image overrides this.",
+      description:
+        "Imported image currently used by the website. Uploading a hero image above overrides this.",
+    }),
+    defineField({
+      name: "articleImages",
+      title: "Uploaded article images",
+      type: "array",
+      group: "content",
+      description: "Images shown inside the article popup.",
+      of: [defineArrayMember({ type: "imageWithAlt" })],
     }),
     defineField({
       name: "imageUrls",
-      title: "Article image URLs",
+      title: "Current article image URLs",
       type: "array",
       group: "content",
-      description: "Starter/fallback article image URLs.",
+      description:
+        "Imported article images currently used by the website. Uploaded article images above override these.",
       of: [
         defineArrayMember({
           type: "object",
@@ -88,7 +108,7 @@ export const article = defineType({
       title: "Article body",
       type: "richText",
       group: "content",
-      validation: (Rule) => Rule.required(),
+      hidden: true,
     }),
     defineField({
       name: "featured",
@@ -102,6 +122,7 @@ export const article = defineType({
       title: "SEO",
       type: "seo",
       group: "seo",
+      hidden: true,
     }),
   ],
   preview: {

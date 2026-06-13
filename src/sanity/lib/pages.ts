@@ -4,6 +4,8 @@ import type {
   ARIA_WHO_WE_ARE,
 } from "@/components/arialux-data";
 
+import { cache } from "react";
+
 import { sanityClient } from "./client";
 
 type RichTextBlock = {
@@ -213,9 +215,9 @@ function getCta(cta: CtaResult | undefined, fallbackLabel: string, fallbackHref:
   };
 }
 
-export async function getContactPageContent(
+export const getContactPageContent = cache(async (
   fallback: typeof ARIA_CONTACT,
-): Promise<ContactPageContent> {
+): Promise<ContactPageContent> => {
   const result = await sanityClient.fetch<{ contact?: ContactSectionResult } | null>(contactPageQuery);
   const contact = result?.contact;
 
@@ -231,12 +233,12 @@ export async function getContactPageContent(
     detailBody:
       contact?.detailBody || "We love our customers, so feel free to reach out for a free consultation.",
   };
-}
+});
 
-export async function getWhoWeArePageContent(
+export const getWhoWeArePageContent = cache(async (
   fallback: typeof ARIA_WHO_WE_ARE,
   fallbackCtaBackground?: string,
-): Promise<WhoWeArePageContent> {
+): Promise<WhoWeArePageContent> => {
   const result = await sanityClient.fetch<{
     mission?: TextImageSectionResult;
     cta?: CtaBandSectionResult;
@@ -260,11 +262,11 @@ export async function getWhoWeArePageContent(
     ctaHref: cta.href,
     ctaBackgroundImage: result?.cta?.backgroundImage || fallbackCtaBackground,
   };
-}
+});
 
-export async function getArchitecturePageContent(
+export const getArchitecturePageContent = cache(async (
   fallback: typeof ARIA_ARCHITECTURAL,
-): Promise<ArchitecturePageContent> {
+): Promise<ArchitecturePageContent> => {
   const result = await sanityClient.fetch<{
     hero?: HeroSectionResult;
     services?: CardGridSectionResult;
@@ -355,4 +357,4 @@ export async function getArchitecturePageContent(
     bottomCtaLabel: bottomCta.label,
     bottomCtaHref: bottomCta.href,
   };
-}
+});

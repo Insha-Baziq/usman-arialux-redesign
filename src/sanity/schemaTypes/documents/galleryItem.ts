@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 export const galleryItem = defineType({
   name: "galleryItem",
-  title: "Gallery item",
+  title: "Gallery image",
   type: "document",
   groups: [
     { name: "content", title: "Content", default: true },
@@ -31,16 +31,18 @@ export const galleryItem = defineType({
     }),
     defineField({
       name: "image",
-      title: "Image",
+      title: "Uploaded image",
       type: "imageWithAlt",
       group: "content",
+      description: "Optional replacement for the current imported image URL below.",
     }),
     defineField({
       name: "imageUrl",
-      title: "Image URL",
+      title: "Current image URL",
       type: "string",
       group: "content",
-      description: "Starter/fallback image URL. Uploading an image overrides this.",
+      description:
+        "Imported image currently used by the website. Uploading an image above overrides this.",
     }),
     defineField({
       name: "alt",

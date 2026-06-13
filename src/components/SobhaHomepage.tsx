@@ -1,18 +1,17 @@
 "use client";
 
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 
+import { loadGsap } from "@/lib/load-gsap";
+import type { HomepageMedia } from "@/sanity/lib/media";
 import { SobhaHeader } from "./SobhaChrome";
 import { AriaLuxFooter, ariaLuxBrand } from "./arialux-brand";
+import type { AriaGalleryItem, AriaPlan } from "./arialux-data";
 import { ARIA_HEADER_MENU } from "./arialux-data";
-import {
-  CardCarousel,
-  HeroBanner,
-  PillarsSection,
-  StoryGrid,
-} from "./sobha-sections";
+import { HeroBanner } from "./sobha-sections";
+import type { HeroBannerSlide } from "./sobha-sections";
 import {
   sobhaArtDetail,
   sobhaHeroSlides,
@@ -24,13 +23,22 @@ import {
   sobhaPropertiesHeading,
   sobhaStickyWidgets,
 } from "./sobha-homepage-data";
-import Image from "next/image";
-import type { HomepageMedia } from "@/sanity/lib/media";
-import type { HeroBannerSlide } from "./sobha-sections";
+import {
+  floorPlansToCarouselCards,
+  galleryItemsToRecentBuildStories,
+} from "./homepage-cms";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+const PillarsSection = dynamic(() =>
+  import("./sobha-sections/PillarsSection").then((module) => module.PillarsSection),
+);
+
+const CardCarousel = dynamic(() =>
+  import("./sobha-sections/CardCarousel").then((module) => module.CardCarousel),
+);
+
+const StoryGrid = dynamic(() =>
+  import("./sobha-sections/StoryGrid").then((module) => module.StoryGrid),
+);
 
 /**
  * SobhaIrisStage — pins the Hero for one viewport-height of scroll while a
@@ -69,49 +77,63 @@ function SobhaIrisStage({ heroSlides }: { heroSlides: HeroBannerSlide[] }) {
       return;
     }
 
-    const triggerId = `sobha-iris-${Math.random().toString(36).slice(2)}`;
-    const reveals = content.querySelectorAll<HTMLElement>(".sobha-art-reveal");
+    let cleanup: (() => void) | undefined;
+    let cancelled = false;
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        id: triggerId,
-        trigger: stage,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 0.65,
-        pin: heroPin,
-        pinSpacing: false,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          // Mark the panel "open" once the iris is mostly expanded so its
-          // children become interactive (CTA pill, etc).
-          if (self.progress > 0.85) panel.classList.add("is-open");
-          else panel.classList.remove("is-open");
+    void loadGsap().then(({ gsap, ScrollTrigger }) => {
+      if (cancelled) return;
+
+      const triggerId = `sobha-iris-${Math.random().toString(36).slice(2)}`;
+      const reveals = content.querySelectorAll<HTMLElement>(".sobha-art-reveal");
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          id: triggerId,
+          trigger: stage,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.65,
+          pin: heroPin,
+          pinSpacing: false,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            // Mark the panel "open" once the iris is mostly expanded so its
+            // children become interactive (CTA pill, etc).
+            if (self.progress > 0.85) panel.classList.add("is-open");
+            else panel.classList.remove("is-open");
+          },
         },
-      },
-    });
+      });
 
-    tl.fromTo(
-      panel,
-      { clipPath: "circle(0% at 50% 100%)", webkitClipPath: "circle(0% at 50% 100%)" },
-      {
-        clipPath: "circle(150% at 50% 100%)",
-        webkitClipPath: "circle(150% at 50% 100%)",
-        ease: "none",
-        duration: 1,
-      },
-      0,
-    )
-      .fromTo(
+      tl.fromTo(
+        panel,
+        {
+          clipPath: "circle(0% at 50% 100%)",
+          webkitClipPath: "circle(0% at 50% 100%)",
+        },
+        {
+          clipPath: "circle(150% at 50% 100%)",
+          webkitClipPath: "circle(150% at 50% 100%)",
+          ease: "none",
+          duration: 1,
+        },
+        0,
+      ).fromTo(
         reveals,
         { y: 100, autoAlpha: 0 },
         { y: 0, autoAlpha: 1, ease: "none", duration: 1, stagger: 0.05 },
         0,
       );
 
+      cleanup = () => {
+        ScrollTrigger.getById(triggerId)?.kill();
+        tl.kill();
+      };
+    });
+
     return () => {
-      ScrollTrigger.getById(triggerId)?.kill();
-      tl.kill();
+      cancelled = true;
+      cleanup?.();
     };
   }, []);
 
@@ -212,10 +234,16 @@ function SobhaStickyWidgets() {
 
 
 type SobhaHomepageProps = {
+  floorPlans?: AriaPlan[] | null;
   homepageMedia?: HomepageMedia | null;
+  recentBuildImages?: AriaGalleryItem[] | null;
 };
 
-export function SobhaHomepage({ homepageMedia }: SobhaHomepageProps) {
+export function SobhaHomepage({
+  floorPlans,
+  homepageMedia,
+  recentBuildImages,
+}: SobhaHomepageProps) {
   const heroSlides =
     homepageMedia?.heroSlides && homepageMedia.heroSlides.length > 0
       ? homepageMedia.heroSlides
@@ -224,6 +252,14 @@ export function SobhaHomepage({ homepageMedia }: SobhaHomepageProps) {
     homepageMedia?.pillars && homepageMedia.pillars.length > 0
       ? homepageMedia.pillars
       : sobhaPillars;
+  const floorPlanCards =
+    floorPlans && floorPlans.length > 0
+      ? floorPlansToCarouselCards(floorPlans)
+      : sobhaProperties;
+  const recentBuildStories =
+    recentBuildImages && recentBuildImages.length > 0
+      ? galleryItemsToRecentBuildStories(recentBuildImages)
+      : sobhaPressReleases;
 
   return (
     <main className="bg-[#f7f3ec] text-black">
@@ -232,15 +268,16 @@ export function SobhaHomepage({ homepageMedia }: SobhaHomepageProps) {
       <PillarsSection heading={sobhaPillarsHeading} pillars={pillars} />
       <CardCarousel
         heading={sobhaPropertiesHeading}
-        cards={sobhaProperties}
+        cards={floorPlanCards}
         ctaLabel="Explore All"
         ctaHref="/all-floor-plans"
       />
       <StoryGrid
         heading={sobhaPressHeading}
-        stories={sobhaPressReleases}
+        stories={recentBuildStories}
         ctaLabel="View all"
         ctaHref="/portfolio"
+        dateLabel=""
       />
       <AriaLuxFooter />
       <SobhaStickyWidgets />

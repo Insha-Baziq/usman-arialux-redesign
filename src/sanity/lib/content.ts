@@ -5,6 +5,8 @@ import type {
   AriaVideoItem,
 } from "@/components/arialux-data";
 
+import { cache } from "react";
+
 import { sanityClient } from "./client";
 
 type SanityPlan = {
@@ -14,6 +16,8 @@ type SanityPlan = {
   displayName?: string;
   tagline?: string;
   shortBlurb?: string;
+  description?: string;
+  descriptionBlocks?: RichTextBlock[];
   specs?: Partial<AriaPlan["specs"]>;
   vimeoId?: string;
   vimeoHash?: string;
@@ -25,8 +29,13 @@ type SanityPlan = {
   featuredOnHome?: boolean;
 };
 
+type RichTextBlock = {
+  children?: { text?: string }[];
+};
+
 type SanityArticle = Omit<Partial<AriaArticle>, "category"> & {
   category?: AriaArticle["category"] | string;
+  uploadedImages?: string[];
   imageUrls?: { src?: string }[];
 };
 
@@ -37,6 +46,7 @@ const floorPlansQuery = `*[_type == "floorPlan" && status == "published"]|order(
   "displayName": title,
   tagline,
   "shortBlurb": coalesce(summary, tagline),
+  "descriptionBlocks": description,
   "specs": {
     "living": coalesce(specs.squareFeet, 0),
     "garage": coalesce(specs.garageSquareFeet, 0),
@@ -60,7 +70,8 @@ const floorPlansQuery = `*[_type == "floorPlan" && status == "published"]|order(
 
 const portfolioQuery = `*[_type == "portfolioItem"]|order(order asc, title asc){
   "src": coalesce(image.image.asset->url, imageUrl),
-  "alt": coalesce(image.alt, title, "AriaLux Homes portfolio image")
+  "alt": coalesce(image.alt, title, "AriaLux Homes portfolio image"),
+  "featured": coalesce(featured, false)
 }`;
 
 const galleryItemsQuery = `*[_type == "galleryItem" && gallery == $gallery]|order(order asc, title asc){
@@ -74,6 +85,7 @@ const articlesQuery = `*[_type == "article"]|order(publishedAt desc, title asc){
   category,
   summary,
   "image": coalesce(heroImage.image.asset->url, heroImageUrl),
+  "uploadedImages": articleImages[].image.asset->url,
   "imageUrls": imageUrls[]{src},
   "dateLabel": coalesce(category, "Article"),
   "publisher": coalesce(author, "AriaLux Homes"),
@@ -125,6 +137,15 @@ function isString(value: string | undefined): value is string {
   return Boolean(value);
 }
 
+function richTextToPlainText(blocks?: RichTextBlock[]): string | undefined {
+  const text = blocks
+    ?.map((block) => block.children?.map((child) => child.text).filter(Boolean).join("") ?? "")
+    .filter(Boolean)
+    .join("\n\n");
+
+  return text || undefined;
+}
+
 function getArticleCategory(category: SanityArticle["category"]): AriaArticle["category"] {
   switch (category) {
     case "Buying":
@@ -137,7 +158,7 @@ function getArticleCategory(category: SanityArticle["category"]): AriaArticle["c
   }
 }
 
-export async function getCmsFloorPlans(): Promise<AriaPlan[] | null> {
+export const getCmsFloorPlans = cache(async (): Promise<AriaPlan[] | null> => {
   const plans = await sanityClient.fetch<SanityPlan[]>(floorPlansQuery);
   const validPlans = plans
     .map((plan): SanityPlan & { gallery: string[]; specs: AriaPlan["specs"] } => {
@@ -148,6 +169,7 @@ export async function getCmsFloorPlans(): Promise<AriaPlan[] | null> {
 
       return {
         ...plan,
+        description: richTextToPlainText(plan.descriptionBlocks),
         livePath: plan.livePath ?? `/${plan.slug}`,
         gallery: gallery.length > 0 ? gallery : plan.hero ? [plan.hero] : [],
         addressGroups: plan.addressGroups ?? [],
@@ -166,32 +188,34 @@ export async function getCmsFloorPlans(): Promise<AriaPlan[] | null> {
     .filter(isPlan);
 
   return validPlans.length > 0 ? validPlans : null;
-}
+});
 
-export async function getCmsPortfolioImages(): Promise<AriaGalleryItem[] | null> {
+export const getCmsPortfolioImages = cache(async (): Promise<AriaGalleryItem[] | null> => {
   const images = await sanityClient.fetch<Partial<AriaGalleryItem>[]>(portfolioQuery);
   const validImages = images.filter(isGalleryItem);
   return validImages.length > 0 ? validImages : null;
-}
+});
 
-export async function getCmsGalleryItems(
+export const getCmsGalleryItems = cache(async (
   gallery: "portfolio" | "interior-finishes",
-): Promise<AriaGalleryItem[] | null> {
+): Promise<AriaGalleryItem[] | null> => {
   const images = await sanityClient.fetch<Partial<AriaGalleryItem>[]>(galleryItemsQuery, {
     gallery,
   });
   const validImages = images.filter(isGalleryItem);
   return validImages.length > 0 ? validImages : null;
-}
+});
 
-export async function getCmsArticles(): Promise<AriaArticle[] | null> {
+export const getCmsArticles = cache(async (): Promise<AriaArticle[] | null> => {
   const articles = await sanityClient.fetch<SanityArticle[]>(articlesQuery);
   const validArticles = articles
     .map((article): SanityArticle => ({
       ...article,
       category: getArticleCategory(article.category),
       images:
-        article.imageUrls && article.imageUrls.length > 0
+        article.uploadedImages && article.uploadedImages.length > 0
+          ? article.uploadedImages
+          : article.imageUrls && article.imageUrls.length > 0
           ? article.imageUrls.map((image) => image.src).filter(isString)
           : article.image
             ? [article.image]
@@ -200,10 +224,10 @@ export async function getCmsArticles(): Promise<AriaArticle[] | null> {
     .filter(isArticle);
 
   return validArticles.length > 0 ? validArticles : null;
-}
+});
 
-export async function getCmsVideos(): Promise<AriaVideoItem[] | null> {
+export const getCmsVideos = cache(async (): Promise<AriaVideoItem[] | null> => {
   const videos = await sanityClient.fetch<Partial<AriaVideoItem>[]>(videosQuery);
   const validVideos = videos.filter(isVideo);
   return validVideos.length > 0 ? validVideos : null;
-}
+});

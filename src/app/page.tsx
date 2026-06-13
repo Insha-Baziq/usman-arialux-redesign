@@ -1,10 +1,21 @@
 import { SobhaHomepage } from "@/components/SobhaHomepage";
+import { getCmsFloorPlans, getCmsPortfolioImages } from "@/sanity/lib/content";
 import { getHomepageMedia } from "@/sanity/lib/media";
 
 export const revalidate = 60;
 
 export default async function Home() {
-  const homepageMedia = await getHomepageMedia();
+  const [homepageMedia, floorPlans, recentBuildImages] = await Promise.all([
+    getHomepageMedia(),
+    getCmsFloorPlans(),
+    getCmsPortfolioImages(),
+  ]);
 
-  return <SobhaHomepage homepageMedia={homepageMedia} />;
+  return (
+    <SobhaHomepage
+      floorPlans={floorPlans}
+      homepageMedia={homepageMedia}
+      recentBuildImages={recentBuildImages}
+    />
+  );
 }

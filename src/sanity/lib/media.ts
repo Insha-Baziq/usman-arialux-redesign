@@ -2,6 +2,8 @@ import type { HeroBannerSlide } from "@/components/sobha-sections";
 import type { AriaVideoItem } from "@/components/arialux-data";
 import type { SobhaPillar } from "@/components/sobha-homepage-data";
 
+import { cache } from "react";
+
 import { sanityClient } from "./client";
 
 type SanityHeroSlide = Partial<HeroBannerSlide> & {
@@ -35,7 +37,7 @@ type HomepagePageSectionResult = {
 
 const mediaSettingsQuery = `*[_type == "mediaSettings" && _id == "mediaSettings"][0]{
   "homepageHeroSlides": homepageHeroSlides[]|order(order asc){
-    id,
+    "id": coalesce(id, _key),
     title,
     subtitle,
     ctaLabel,
@@ -87,13 +89,13 @@ const videosQuery = `*[_type == "video"]|order(order asc, title asc){
   vimeoHash
 }`;
 
-async function getMediaSettings() {
+const getMediaSettings = cache(async () => {
   return sanityClient.fetch<MediaSettingsResult | null>(mediaSettingsQuery);
-}
+});
 
-async function getHomePageSections() {
+const getHomePageSections = cache(async () => {
   return sanityClient.fetch<HomepagePageSectionResult | null>(homePageSectionsQuery);
-}
+});
 
 function isHeroSlide(slide: SanityHeroSlide): slide is HeroBannerSlide {
   return Boolean(
@@ -112,7 +114,7 @@ function isPillar(pillar: SanityPillar): pillar is SobhaPillar {
   return Boolean(pillar.title && pillar.description && pillar.imageUrl);
 }
 
-export async function getHomepageMedia(): Promise<HomepageMedia | null> {
+export const getHomepageMedia = cache(async (): Promise<HomepageMedia | null> => {
   const [mediaSettings, homePageSections] = await Promise.all([
     getMediaSettings(),
     getHomePageSections(),
@@ -147,8 +149,8 @@ export async function getHomepageMedia(): Promise<HomepageMedia | null> {
     }))
     .filter(isPillar);
 
-  const heroSlides = pageHeroSlides.length > 0 ? pageHeroSlides : fallbackHeroSlides;
-  const pillars = pagePillars.length > 0 ? pagePillars : fallbackPillars;
+  const heroSlides = fallbackHeroSlides.length > 0 ? fallbackHeroSlides : pageHeroSlides;
+  const pillars = fallbackPillars.length > 0 ? fallbackPillars : pagePillars;
 
   if (heroSlides.length === 0 && pillars.length === 0) return null;
 
@@ -156,9 +158,9 @@ export async function getHomepageMedia(): Promise<HomepageMedia | null> {
     heroSlides,
     pillars,
   };
-}
+});
 
-export async function getArchitectureMedia(): Promise<ArchitectureMedia | null> {
+export const getArchitectureMedia = cache(async (): Promise<ArchitectureMedia | null> => {
   const mediaSettings = await getMediaSettings();
   if (!mediaSettings?.architectureVideo) return null;
 
@@ -169,13 +171,13 @@ export async function getArchitectureMedia(): Promise<ArchitectureMedia | null> 
     posterImage,
     videoSrc,
   };
-}
+});
 
-export async function getVideoGallery(): Promise<AriaVideoItem[] | null> {
+export const getVideoGallery = cache(async (): Promise<AriaVideoItem[] | null> => {
   const videos = await sanityClient.fetch<Partial<AriaVideoItem>[]>(videosQuery);
   const validVideos = videos.filter(
     (video): video is AriaVideoItem => Boolean(video.title && video.vimeoId && video.vimeoHash),
   );
 
   return validVideos.length > 0 ? validVideos : null;
-}
+});

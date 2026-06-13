@@ -16,6 +16,7 @@ import {
   type PlanGalleryGroup,
   type PlanGalleryImage,
 } from "@/components/plan-detail/PlanGalleryDialog";
+import { getSanityGalleryGroup } from "@/components/plan-detail/galleryGroups";
 import { SobhaHeader } from "@/components/SobhaChrome";
 import { getCmsFloorPlans } from "@/sanity/lib/content";
 
@@ -94,7 +95,7 @@ export async function generateMetadata(
 }
 
 function getPlanDescription(plan: AriaPlan): string {
-  return LIVE_PLAN_DESCRIPTIONS[plan.slug] ?? plan.shortBlurb;
+  return plan.description ?? LIVE_PLAN_DESCRIPTIONS[plan.slug] ?? plan.shortBlurb;
 }
 
 function formatSqft(value: number): string {
@@ -183,6 +184,9 @@ function getBuiltExampleFolders(slug: string): string[] {
 }
 
 function getGalleryGroups(plan: AriaPlan): PlanGalleryGroup[] {
+  const sanityGalleryGroup = getSanityGalleryGroup(plan);
+  if (sanityGalleryGroup) return [sanityGalleryGroup];
+
   const folderGroups = getBuiltExampleFolders(plan.slug)
     .map((address) => {
       const images = [
