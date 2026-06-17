@@ -35,7 +35,7 @@ export const mediaSettings = defineType({
       type: "array",
       group: "hero",
       description:
-        "Add, remove, reorder, or replace homepage hero image/video slides.",
+        "The rotating banners at the top of the homepage. Drag a slide to change its order. Only a title and a background image are required — everything else is optional.",
       of: [
         defineArrayMember({
           type: "object",
@@ -52,42 +52,43 @@ export const mediaSettings = defineType({
               name: "title",
               title: "Title",
               type: "string",
+              description: "The large headline shown on the slide.",
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: "subtitle",
-              title: "Subtitle",
+              title: "Subtitle (optional)",
               type: "string",
+              description: "Smaller line under the title. Leave blank to hide it.",
             }),
             defineField({
               name: "ctaLabel",
-              title: "Button label",
+              title: "Button text (optional)",
               type: "string",
+              description:
+                'e.g. "Explore Floor Plans". Leave both button fields blank to hide the button.',
             }),
             defineField({
               name: "ctaHref",
-              title: "Button URL",
+              title: "Button link (optional)",
               type: "string",
+              description: "Where the button goes, e.g. /all-floor-plans",
             }),
             defineField({
               name: "desktopImage",
-              title: "Desktop image / video poster",
+              title: "Background image",
               type: "imageWithAlt",
+              description:
+                "Shown behind the text. Also used as the still preview if you add a video below.",
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: "mobileImage",
-              title: "Mobile image / video poster",
+              title: "Mobile image (optional)",
               type: "imageWithAlt",
-              description: "Optional. Uses the desktop image when empty.",
+              description: "Uses the background image when empty.",
             }),
             ...videoFields,
-            defineField({
-              name: "order",
-              title: "Display order",
-              type: "number",
-              initialValue: 100,
-            }),
           ],
           preview: {
             select: {

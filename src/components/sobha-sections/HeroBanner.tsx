@@ -8,9 +8,9 @@ import { SobhaPillLink } from "./SobhaPillLink";
 export type HeroBannerSlide = {
   id: string;
   title: string;
-  subtitle: string;
-  ctaLabel: string;
-  ctaHref: string;
+  subtitle?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
   desktopImage: string;
   mobileImage: string;
   imageAlt: string;
@@ -115,12 +115,16 @@ export function HeroBanner({ slides, fullHeight = true, autoplayDelayMs = 4500 }
                 <h2 className="homepage-hero-banner-heading flex min-h-[5.35rem] items-end justify-center font-heading text-[2rem] font-light leading-[1.12] tracking-[0.04em] text-white sm:min-h-[7.475rem] sm:text-[3.25rem] sm:tracking-[0.08em] lg:min-h-[8.625rem] lg:text-[3.75rem]">
                   {slide.title}
                 </h2>
-                <p className="homepage-hero-banner-subheading font-sans text-sm font-normal tracking-[0.22em] text-white/85 sm:text-base">
-                  {slide.subtitle}
-                </p>
-                <div className="pt-4">
-                  <SobhaPillLink href={slide.ctaHref} label={slide.ctaLabel} dark />
-                </div>
+                {slide.subtitle ? (
+                  <p className="homepage-hero-banner-subheading font-sans text-sm font-normal tracking-[0.22em] text-white/85 sm:text-base">
+                    {slide.subtitle}
+                  </p>
+                ) : null}
+                {slide.ctaLabel && slide.ctaHref ? (
+                  <div className="pt-4">
+                    <SobhaPillLink href={slide.ctaHref} label={slide.ctaLabel} dark />
+                  </div>
+                ) : null}
               </div>
             </div>
           </section>

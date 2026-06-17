@@ -38,7 +38,7 @@ type HomepagePageSectionResult = {
 };
 
 const mediaSettingsQuery = `*[_type == "mediaSettings" && _id == "mediaSettings"][0]{
-  "homepageHeroSlides": homepageHeroSlides[]|order(order asc){
+  "homepageHeroSlides": homepageHeroSlides[]{
     _key,
     "id": coalesce(id, _key),
     title,
@@ -48,8 +48,7 @@ const mediaSettingsQuery = `*[_type == "mediaSettings" && _id == "mediaSettings"
     "desktopImage": desktopImage.image.asset->url,
     "mobileImage": coalesce(mobileImage.image.asset->url, desktopImage.image.asset->url),
     "imageAlt": coalesce(desktopImage.alt, mobileImage.alt, title),
-    "videoSrc": coalesce(videoFile.asset->url, videoUrl),
-    order
+    "videoSrc": coalesce(videoFile.asset->url, videoUrl)
   },
   "homepagePillars": homepagePillars[]|order(order asc){
     _key,
@@ -102,15 +101,10 @@ const getHomePageSections = cache(async () => {
 });
 
 function isHeroSlide(slide: SanityHeroSlide): slide is HeroBannerSlide {
+  // A slide only needs a title and a background image to render. Subtitle and
+  // the button (label + link) are optional — HeroBanner hides them when blank.
   return Boolean(
-    slide.id &&
-      slide.title &&
-      slide.subtitle &&
-      slide.ctaLabel &&
-      slide.ctaHref &&
-      slide.desktopImage &&
-      slide.mobileImage &&
-      slide.imageAlt,
+    slide.id && slide.title && slide.desktopImage && slide.mobileImage && slide.imageAlt,
   );
 }
 
