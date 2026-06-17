@@ -34,7 +34,16 @@ export const galleryItem = defineType({
       title: "Uploaded image",
       type: "imageWithAlt",
       group: "content",
-      description: "Optional replacement for the current imported image URL below.",
+      description:
+        "The gallery image. An imported URL below also counts. Without an image this entry will not appear on the website.",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const hasImportedUrl = Boolean(
+            (context.document as { imageUrl?: string } | undefined)?.imageUrl,
+          );
+          if (value || hasImportedUrl) return true;
+          return "Add an image — without one this gallery entry won't appear on the website.";
+        }),
     }),
     defineField({
       name: "imageUrl",

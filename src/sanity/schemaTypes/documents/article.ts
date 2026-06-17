@@ -49,13 +49,24 @@ export const article = defineType({
       type: "text",
       rows: 3,
       group: "content",
+      description: "Short blurb shown on the article card.",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "heroImage",
       title: "Uploaded hero image",
       type: "imageWithAlt",
       group: "content",
-      description: "Main article image. Uploading this overrides the current imported hero URL below.",
+      description:
+        "Main article image. An imported URL below also counts. Without an image the article will not appear on the website.",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const hasImportedUrl = Boolean(
+            (context.document as { heroImageUrl?: string } | undefined)?.heroImageUrl,
+          );
+          if (value || hasImportedUrl) return true;
+          return "Add a hero image — without one this article won't appear on the website.";
+        }),
     }),
     defineField({
       name: "heroImageUrl",

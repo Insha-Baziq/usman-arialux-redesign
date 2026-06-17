@@ -84,6 +84,8 @@ export const floorPlan = defineType({
       title: "Tagline",
       type: "string",
       group: "content",
+      description: "Short one-line blurb shown on the floor-plan card.",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "summary",
@@ -117,7 +119,16 @@ export const floorPlan = defineType({
       title: "Uploaded hero image",
       type: "imageWithAlt",
       group: "media",
-      description: "Optional replacement for the current imported hero image below.",
+      description:
+        "Main image for this plan. An imported URL below also counts. Without an image the plan will not appear on the website.",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const hasImportedUrl = Boolean(
+            (context.document as { heroImageUrl?: string } | undefined)?.heroImageUrl,
+          );
+          if (value || hasImportedUrl) return true;
+          return "Add a hero image — without one this floor plan won't appear on the website.";
+        }),
     }),
     defineField({
       name: "heroImageUrl",
