@@ -61,18 +61,17 @@ export const structure: StructureResolver = (S) =>
       singleton(S, "mediaSettings", "mediaSettings", "Homepage media"),
       singleton(S, "page", "page-contact", "Contact page"),
       singleton(S, "page", "page-who-we-are", "Who We Are page"),
-      singleton(
-        S,
-        "page",
-        "page-architectural-services",
-        "Architectural services page",
-      ),
-      singleton(
-        S,
-        "architectureMedia",
-        "architectureMedia",
-        "Architectural services video",
-      ),
+      S.listItem()
+        .title("Architectural services")
+        .id("architectural-services")
+        .child(
+          S.list()
+            .title("Architectural services")
+            .items([
+              singleton(S, "page", "page-architectural-services", "Page content"),
+              singleton(S, "architectureMedia", "architectureMedia", "Service video"),
+            ]),
+        ),
 
       S.divider(),
 
