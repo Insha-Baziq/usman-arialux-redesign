@@ -26,7 +26,6 @@ export const mediaSettings = defineType({
   groups: [
     { name: "hero", title: "Hero slides", default: true },
     { name: "services", title: "Service cards" },
-    { name: "architecture", title: "Architecture video" },
   ],
   fields: [
     defineField({
@@ -146,32 +145,6 @@ export const mediaSettings = defineType({
           },
         }),
       ],
-    }),
-    defineField({
-      name: "architectureVideo",
-      title: "Architecture service video",
-      type: "object",
-      group: "architecture",
-      description: "The video shown on the Architectural Services page.",
-      fields: [
-        defineField({
-          name: "posterImage",
-          title: "Video poster image",
-          type: "imageWithAlt",
-        }),
-        ...videoFields,
-      ],
-      preview: {
-        select: {
-          media: "posterImage.image",
-        },
-        prepare({ media }) {
-          return {
-            title: "Architecture video",
-            media,
-          };
-        },
-      },
     }),
   ],
   preview: {

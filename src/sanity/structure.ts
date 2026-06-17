@@ -67,6 +67,12 @@ export const structure: StructureResolver = (S) =>
         "page-architectural-services",
         "Architectural services page",
       ),
+      singleton(
+        S,
+        "architectureMedia",
+        "architectureMedia",
+        "Architectural services video",
+      ),
 
       S.divider(),
 

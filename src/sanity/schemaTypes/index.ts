@@ -1,3 +1,4 @@
+import { architectureMedia } from "./documents/architectureMedia";
 import { article } from "./documents/article";
 import { floorPlan } from "./documents/floorPlan";
 import { galleryItem } from "./documents/galleryItem";
@@ -37,6 +38,7 @@ import { seo } from "./objects/seo";
 export const schemaTypes = [
   siteSettings,
   mediaSettings,
+  architectureMedia,
   page,
   floorPlan,
   galleryItem,

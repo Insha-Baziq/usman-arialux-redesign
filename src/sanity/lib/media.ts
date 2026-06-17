@@ -63,6 +63,11 @@ const mediaSettingsQuery = `*[_type == "mediaSettings" && _id == "mediaSettings"
   }
 }`;
 
+const architectureMediaQuery = `*[_type == "architectureMedia" && _id == "architectureMedia"][0]{
+  "posterImage": posterImage.image.asset->url,
+  "videoSrc": coalesce(videoFile.asset->url, videoUrl)
+}`;
+
 const homePageSectionsQuery = `*[_type == "page" && slug.current == "home"][0]{
   "pillars": sections[_type == "cardGridSection" && _key == "home-pillars"][0].cards[]{
     title,
@@ -151,10 +156,16 @@ export const getHomepageMedia = cache(async (): Promise<HomepageMedia | null> =>
 });
 
 export const getArchitectureMedia = cache(async (): Promise<ArchitectureMedia | null> => {
-  const mediaSettings = await getMediaSettings();
-  if (!mediaSettings?.architectureVideo) return null;
+  // Primary source: the dedicated "Architectural services video" document.
+  // Falls back to the legacy mediaSettings.architectureVideo so the live video
+  // keeps working before/during migration.
+  const [dedicated, mediaSettings] = await Promise.all([
+    sanityFetch<ArchitectureMedia | null>(architectureMediaQuery),
+    getMediaSettings(),
+  ]);
 
-  const { posterImage, videoSrc } = mediaSettings.architectureVideo;
+  const posterImage = dedicated?.posterImage ?? mediaSettings?.architectureVideo?.posterImage;
+  const videoSrc = dedicated?.videoSrc ?? mediaSettings?.architectureVideo?.videoSrc;
   if (!posterImage && !videoSrc) return null;
 
   return {
