@@ -70,6 +70,8 @@ export const floorPlan = defineType({
       type: "boolean",
       group: "settings",
       initialValue: true,
+      // Not wired up — the listing shows all plans. Hidden to avoid misleading editors.
+      hidden: true,
     }),
     defineField({
       name: "listingOrder",
