@@ -52,6 +52,8 @@ export const galleryItem = defineType({
       group: "content",
       description:
         "Imported image currently used by the website. Uploading an image above overrides this.",
+      // Only show for old imported items that still use a URL; hidden for new uploads.
+      hidden: ({ value }) => !value,
     }),
     defineField({
       name: "alt",
@@ -65,6 +67,8 @@ export const galleryItem = defineType({
       type: "text",
       rows: 3,
       group: "content",
+      // Not displayed on the site — kept hidden to avoid cluttering the form.
+      hidden: true,
     }),
     defineField({
       name: "order",
