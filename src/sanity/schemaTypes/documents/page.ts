@@ -1,7 +1,6 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 const pageSectionMembers = [
-  defineArrayMember({ type: "heroCarouselSection" }),
   defineArrayMember({ type: "heroSection" }),
   defineArrayMember({ type: "textImageSection" }),
   defineArrayMember({ type: "imageGallerySection" }),

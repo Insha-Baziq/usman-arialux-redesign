@@ -33,7 +33,6 @@ type MediaSettingsResult = {
 };
 
 type HomepagePageSectionResult = {
-  heroSlides?: SanityHeroSlide[];
   pillars?: SanityPillar[];
 };
 
@@ -65,18 +64,6 @@ const mediaSettingsQuery = `*[_type == "mediaSettings" && _id == "mediaSettings"
 }`;
 
 const homePageSectionsQuery = `*[_type == "page" && slug.current == "home"][0]{
-  "heroSlides": sections[_type == "heroCarouselSection"][0].slides[]|order(order asc){
-    "id": coalesce(id, _key),
-    title,
-    subtitle,
-    "ctaLabel": coalesce(ctaLabel, cta.label, cta.link.label),
-    "ctaHref": coalesce(ctaHref, cta.href, cta.link.path),
-    "desktopImage": coalesce(desktopImage.image.asset->url, image.image.asset->url),
-    "mobileImage": coalesce(mobileImage.image.asset->url, desktopImage.image.asset->url, image.image.asset->url),
-    "imageAlt": coalesce(desktopImage.alt, mobileImage.alt, image.alt, title),
-    "videoSrc": coalesce(videoFile.asset->url, video.file.asset->url, video.url, videoUrl),
-    order
-  },
   "pillars": sections[_type == "cardGridSection" && _key == "home-pillars"][0].cards[]{
     title,
     description,
@@ -142,23 +129,6 @@ export const getHomepageMedia = cache(async (): Promise<HomepageMedia | null> =>
   );
   const fallbackPillars = (mediaSettings?.homepagePillars ?? []).filter(isPillar);
 
-  const pageHeroSlides = (homePageSections?.heroSlides ?? [])
-    .map((slide, index) => ({
-      ...fallbackHeroSlides[index],
-      ...slide,
-      desktopImage: slide.desktopImage ?? fallbackHeroSlides[index]?.desktopImage,
-      mobileImage:
-        slide.mobileImage ??
-        slide.desktopImage ??
-        fallbackHeroSlides[index]?.mobileImage ??
-        fallbackHeroSlides[index]?.desktopImage,
-      imageAlt: slide.imageAlt ?? fallbackHeroSlides[index]?.imageAlt,
-      ctaLabel: slide.ctaLabel ?? fallbackHeroSlides[index]?.ctaLabel,
-      ctaHref: slide.ctaHref ?? fallbackHeroSlides[index]?.ctaHref,
-      videoSrc: slide.videoSrc ?? fallbackHeroSlides[index]?.videoSrc,
-    }))
-    .filter(isHeroSlide);
-
   const pagePillars = (homePageSections?.pillars ?? [])
     .map((pillar, index) => ({
       ...fallbackPillars[index],
@@ -168,7 +138,8 @@ export const getHomepageMedia = cache(async (): Promise<HomepageMedia | null> =>
     }))
     .filter(isPillar);
 
-  const heroSlides = fallbackHeroSlides.length > 0 ? fallbackHeroSlides : pageHeroSlides;
+  // Hero slides come exclusively from Homepage media (single source of truth).
+  const heroSlides = fallbackHeroSlides;
   const pillars = fallbackPillars.length > 0 ? fallbackPillars : pagePillars;
 
   if (heroSlides.length === 0 && pillars.length === 0) return null;
