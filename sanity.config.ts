@@ -12,6 +12,17 @@ const previewOrigin =
   process.env.SANITY_STUDIO_PREVIEW_URL ||
   "http://localhost:3000";
 
+// Presentation must trust both the apex and www origins; otherwise the
+// apex→www redirect trips its "origin mismatch" guard.
+const allowOrigins = Array.from(
+  new Set([
+    "http://localhost:*",
+    "https://arialuxhomes.com",
+    "https://www.arialuxhomes.com",
+    previewOrigin,
+  ]),
+);
+
 export default defineConfig({
   name: "arialux-homes",
   title: "AriaLux Homes CMS",
@@ -31,7 +42,7 @@ export default defineConfig({
           disable: "/api/draft-mode/disable",
         },
       },
-      allowOrigins: ["http://localhost:*", previewOrigin],
+      allowOrigins,
     }),
   ],
   schema: {
