@@ -137,6 +137,8 @@ export const floorPlan = defineType({
       group: "media",
       description:
         "Imported image currently used by the website. Uploading a hero image above overrides this.",
+      // Only show for old imported plans that still use a URL; hidden for new uploads.
+      hidden: ({ value }) => !value,
     }),
     defineField({
       name: "cardImage",
@@ -170,6 +172,8 @@ export const floorPlan = defineType({
       group: "media",
       description:
         "Imported images currently shown by the website. You can remove or edit these while migrating to uploaded gallery images.",
+      // Only show for old imported plans that still use URLs; hidden once empty.
+      hidden: ({ value }) => !(Array.isArray(value) && value.length > 0),
       of: [
         defineArrayMember({
           type: "object",
