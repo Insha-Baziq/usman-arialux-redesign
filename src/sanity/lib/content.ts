@@ -95,7 +95,9 @@ const articlesQuery = `*[_type == "article"]|order(publishedAt desc, title asc){
 const videosQuery = `*[_type == "video"]|order(order asc, title asc){
   title,
   vimeoId,
-  vimeoHash
+  vimeoHash,
+  "videoSrc": videoFile.asset->url,
+  "poster": thumbnail.image.asset->url
 }`;
 
 function isPlan(plan: SanityPlan): plan is AriaPlan {
@@ -130,7 +132,8 @@ function isArticle(article: SanityArticle): article is AriaArticle {
 }
 
 function isVideo(video: Partial<AriaVideoItem>): video is AriaVideoItem {
-  return Boolean(video.title && video.vimeoId && video.vimeoHash);
+  // Valid if it has a title and either an uploaded file or a Vimeo ID.
+  return Boolean(video.title && (video.videoSrc || video.vimeoId));
 }
 
 function isString(value: string | undefined): value is string {

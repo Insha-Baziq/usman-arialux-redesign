@@ -55,9 +55,11 @@ export type AriaGalleryItem = {
 };
 
 export type AriaVideoItem = {
-  vimeoId: string;
-  vimeoHash: string;
   title: string;
+  vimeoId?: string;
+  vimeoHash?: string;
+  videoSrc?: string;
+  poster?: string;
 };
 
 export type AriaArticle = {

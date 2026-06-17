@@ -81,7 +81,9 @@ const homePageSectionsQuery = `*[_type == "page" && slug.current == "home"][0]{
 const videosQuery = `*[_type == "video"]|order(order asc, title asc){
   title,
   vimeoId,
-  vimeoHash
+  vimeoHash,
+  "videoSrc": videoFile.asset->url,
+  "poster": thumbnail.image.asset->url
 }`;
 
 const getMediaSettings = cache(async () => {
@@ -177,7 +179,7 @@ export const getArchitectureMedia = cache(async (): Promise<ArchitectureMedia | 
 export const getVideoGallery = cache(async (): Promise<AriaVideoItem[] | null> => {
   const videos = await sanityFetch<Partial<AriaVideoItem>[]>(videosQuery);
   const validVideos = videos.filter(
-    (video): video is AriaVideoItem => Boolean(video.title && video.vimeoId && video.vimeoHash),
+    (video): video is AriaVideoItem => Boolean(video.title && (video.videoSrc || video.vimeoId)),
   );
 
   return validVideos.length > 0 ? validVideos : null;

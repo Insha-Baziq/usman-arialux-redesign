@@ -14,9 +14,22 @@ type Props = {
   videos: readonly AriaVideoItem[];
 };
 
+function UploadedVideo({ video }: { video: AriaVideoItem }) {
+  return (
+    <video
+      controls
+      preload="metadata"
+      poster={video.poster}
+      src={video.videoSrc}
+      className="aspect-video w-full overflow-hidden rounded-sm bg-black"
+    />
+  );
+}
+
 function VimeoFacade({ video }: { video: AriaVideoItem }) {
   const [active, setActive] = useState(false);
-  const baseSrc = `https://player.vimeo.com/video/${video.vimeoId}?h=${video.vimeoHash}&title=0&byline=0&portrait=0`;
+  const hashParam = video.vimeoHash ? `h=${video.vimeoHash}&` : "";
+  const baseSrc = `https://player.vimeo.com/video/${video.vimeoId}?${hashParam}title=0&byline=0&portrait=0`;
   const previewSrc = `${baseSrc}&background=1&autoplay=1&muted=1&loop=1&controls=0&autopause=0`;
   const playerSrc = `${baseSrc}&autoplay=1&muted=0`;
 
@@ -65,7 +78,7 @@ export function VideoGrid({ videos }: Props) {
       <div className="mx-auto grid max-w-[70rem] grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10">
         {visibleVideos.map((video, idx) => (
           <ScrollReveal
-            key={video.vimeoId}
+            key={video.vimeoId ?? video.videoSrc ?? `${video.title}-${idx}`}
             as="figure"
             variant="fadeUp"
             index={idx % PAGE_SIZE}
@@ -73,7 +86,11 @@ export function VideoGrid({ videos }: Props) {
             duration={0.9}
             className="group flex flex-col gap-3"
           >
-            <VimeoFacade video={video} />
+            {video.videoSrc ? (
+              <UploadedVideo video={video} />
+            ) : (
+              <VimeoFacade video={video} />
+            )}
             <figcaption className="flex items-baseline justify-between gap-4">
               <h2 className="font-heading text-base font-light leading-snug text-black sm:text-lg">
                 {video.title}
