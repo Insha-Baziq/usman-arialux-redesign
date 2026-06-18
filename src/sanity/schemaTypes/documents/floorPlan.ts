@@ -80,6 +80,8 @@ export const floorPlan = defineType({
       group: "settings",
       description: "Lower numbers appear first.",
       initialValue: 100,
+      // Hidden for a minimal Settings tab — plans sort alphabetically by title.
+      hidden: true,
     }),
     defineField({
       name: "tagline",
