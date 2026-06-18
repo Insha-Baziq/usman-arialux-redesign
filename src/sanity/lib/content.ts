@@ -1,9 +1,11 @@
 import type {
   AriaArticle,
   AriaGalleryItem,
+  AriaHeaderMenu,
   AriaPlan,
   AriaVideoItem,
 } from "@/components/arialux-data";
+import { ARIA_PLANS, buildHeaderMenu } from "@/components/arialux-data";
 
 import { cache } from "react";
 
@@ -201,6 +203,13 @@ export const getCmsFloorPlans = cache(async (): Promise<AriaPlan[] | null> => {
 
 export const getPublishedCmsFloorPlans = cache(async (): Promise<AriaPlan[] | null> => {
   return fetchCmsFloorPlans({ perspective: "published", stega: false });
+});
+
+// Header nav with the floor-plans dropdown populated from the CMS (falls back to
+// the built-in plans). Cached, so it dedupes with other floor-plan fetches.
+export const getHeaderMenu = cache(async (): Promise<AriaHeaderMenu[]> => {
+  const plans = (await getCmsFloorPlans()) ?? ARIA_PLANS;
+  return buildHeaderMenu(plans);
 });
 
 export const getCmsPortfolioImages = cache(async (): Promise<AriaGalleryItem[] | null> => {

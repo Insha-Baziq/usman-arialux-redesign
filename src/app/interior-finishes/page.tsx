@@ -1,16 +1,13 @@
 import { AriaLuxFooter, ariaLuxBrand } from "@/components/arialux-brand";
 import { SobhaHeader } from "@/components/SobhaChrome";
-import {
-  ARIA_HEADER_MENU,
-  ARIA_INTERIOR_FINISHES,
-} from "@/components/arialux-data";
+import { ARIA_INTERIOR_FINISHES } from "@/components/arialux-data";
 import { InteriorFinishesGallery } from "@/components/InteriorFinishesGallery";
 import { MaskReveal, ScrollReveal } from "@/components/ScrollReveal";
 import {
   DarkCtaBand,
   PageHero,
 } from "@/components/sobha-sections";
-import { getCmsGalleryItems } from "@/sanity/lib/content";
+import { getCmsGalleryItems, getHeaderMenu } from "@/sanity/lib/content";
 
 export const metadata = {
   title: "Interior Finishes — AriaLux Homes",
@@ -28,7 +25,7 @@ export default async function InteriorFinishesPage() {
     <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader
         brand={ariaLuxBrand}
-        menus={ARIA_HEADER_MENU}
+        menus={await getHeaderMenu()}
         hideLanguageSwitcher
       />
 

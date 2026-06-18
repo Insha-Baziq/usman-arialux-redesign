@@ -3,6 +3,10 @@ import { describe, expect, it, vi } from "vitest";
 
 import WhoWeArePage from "./page";
 
+vi.mock("@/sanity/lib/content", () => ({
+  getHeaderMenu: vi.fn(async () => []),
+}));
+
 vi.mock("@/sanity/lib/pages", () => ({
   getWhoWeArePageContent: vi.fn(async () => ({
     eyebrow: "AriaLux Homes",

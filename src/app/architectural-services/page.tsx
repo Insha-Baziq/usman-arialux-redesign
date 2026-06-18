@@ -2,12 +2,10 @@
 import { ArchitectVideo } from "@/components/ArchitectVideo";
 import { AriaLuxFooter, ariaLuxBrand } from "@/components/arialux-brand";
 import { SobhaHeader } from "@/components/SobhaChrome";
-import {
-  ARIA_ARCHITECTURAL,
-  ARIA_HEADER_MENU,
-} from "@/components/arialux-data";
+import { ARIA_ARCHITECTURAL } from "@/components/arialux-data";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { PageHero } from "@/components/sobha-sections";
+import { getHeaderMenu } from "@/sanity/lib/content";
 import { getArchitectureMedia } from "@/sanity/lib/media";
 import { getArchitecturePageContent } from "@/sanity/lib/pages";
 
@@ -122,7 +120,7 @@ export default async function ArchitecturalServicesPage() {
     <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader
         brand={ariaLuxBrand}
-        menus={ARIA_HEADER_MENU}
+        menus={await getHeaderMenu()}
         hideLanguageSwitcher
       />
 

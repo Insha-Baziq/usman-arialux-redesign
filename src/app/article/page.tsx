@@ -2,13 +2,10 @@ import type { Metadata } from "next";
 
 import { ArticleBrowser } from "@/components/ArticleBrowser";
 import { AriaLuxFooter, ariaLuxBrand } from "@/components/arialux-brand";
-import {
-  ARIA_ARTICLES,
-  ARIA_HEADER_MENU,
-} from "@/components/arialux-data";
+import { ARIA_ARTICLES } from "@/components/arialux-data";
 import { SobhaHeader } from "@/components/SobhaChrome";
 import { PageHero } from "@/components/sobha-sections";
-import { getCmsArticles } from "@/sanity/lib/content";
+import { getCmsArticles, getHeaderMenu } from "@/sanity/lib/content";
 
 export const metadata: Metadata = {
   title: "Article | AriaLux Homes — Custom Home Insights",
@@ -27,7 +24,7 @@ export default async function ArticlePage() {
     <main className="bg-[#f7f3ec] text-[#171410]">
       <SobhaHeader
         brand={ariaLuxBrand}
-        menus={ARIA_HEADER_MENU}
+        menus={await getHeaderMenu()}
         hideLanguageSwitcher
       />
 

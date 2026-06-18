@@ -1129,32 +1129,37 @@ const planNameCollator = new Intl.Collator("en", {
   sensitivity: "base",
 });
 
-const NAV_FLOOR_PLANS = [...ARIA_PLANS].sort((a, b) =>
-  planNameCollator.compare(a.displayName, b.displayName),
-);
+// Build the site header menu with the FLOOR PLANS dropdown populated from the
+// given plans (sorted alphabetically by name). Pass CMS plans so newly added
+// plans appear in the nav automatically; defaults to the built-in plans.
+export function buildHeaderMenu(plans: readonly AriaPlan[] = ARIA_PLANS): AriaHeaderMenu[] {
+  const sortedPlans = [...plans].sort((a, b) =>
+    planNameCollator.compare(a.displayName, b.displayName),
+  );
+  return [
+    { label: "INTERIOR FINISHES", href: "/interior-finishes", kind: "simple" },
+    {
+      label: "FLOOR PLANS",
+      href: "/all-floor-plans",
+      kind: "list",
+      defaultImage: sortedPlans[0]?.hero,
+      items: [
+        { label: "ALL FLOOR PLANS", href: "/all-floor-plans" },
+        ...sortedPlans.map(planItem),
+      ],
+    },
+    { label: "CONTACT", href: "/contact", kind: "simple" },
+    { label: "ARTICLES", href: "/article", kind: "simple" },
+    { label: "PORTFOLIO", href: "/portfolio", kind: "simple" },
+    { label: "VIDEO", href: "/video", kind: "simple" },
+    {
+      label: "ARCHITECTURAL SERVICES",
+      href: "/architectural-services",
+      kind: "simple",
+    },
+    { label: "WHO WE ARE", href: "/who-we-are", kind: "simple" },
+  ];
+}
 
-// Real arialuxhomes.com nav (8 items, mostly direct anchors). Only FLOOR PLANS
-// keeps a panel because it actually has children on the live site.
-export const ARIA_HEADER_MENU: AriaHeaderMenu[] = [
-  { label: "INTERIOR FINISHES", href: "/interior-finishes", kind: "simple" },
-  {
-    label: "FLOOR PLANS",
-    href: "/all-floor-plans",
-    kind: "list",
-    defaultImage: ARIA_PLANS[0]?.hero,
-    items: [
-      { label: "ALL FLOOR PLANS", href: "/all-floor-plans" },
-      ...NAV_FLOOR_PLANS.map(planItem),
-    ],
-  },
-  { label: "CONTACT", href: "/contact", kind: "simple" },
-  { label: "ARTICLES", href: "/article", kind: "simple" },
-  { label: "PORTFOLIO", href: "/portfolio", kind: "simple" },
-  { label: "VIDEO", href: "/video", kind: "simple" },
-  {
-    label: "ARCHITECTURAL SERVICES",
-    href: "/architectural-services",
-    kind: "simple",
-  },
-  { label: "WHO WE ARE", href: "/who-we-are", kind: "simple" },
-];
+// Built-in default (used as a fallback and by client components).
+export const ARIA_HEADER_MENU: AriaHeaderMenu[] = buildHeaderMenu();

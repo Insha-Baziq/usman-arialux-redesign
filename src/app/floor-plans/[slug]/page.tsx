@@ -6,7 +6,6 @@ import path from "node:path";
 
 import { AriaLuxFooter, ariaLuxBrand } from "@/components/arialux-brand";
 import {
-  ARIA_HEADER_MENU,
   ARIA_PLANS,
   getPlanBySlug,
   type AriaPlan,
@@ -18,7 +17,7 @@ import {
 } from "@/components/plan-detail/PlanGalleryDialog";
 import { getSanityGalleryGroup } from "@/components/plan-detail/galleryGroups";
 import { SobhaHeader } from "@/components/SobhaChrome";
-import { getCmsFloorPlans, getPublishedCmsFloorPlans } from "@/sanity/lib/content";
+import { getCmsFloorPlans, getHeaderMenu, getPublishedCmsFloorPlans } from "@/sanity/lib/content";
 
 export const revalidate = 60;
 
@@ -365,7 +364,7 @@ export default async function PlanDetailPage(
     <main className="min-h-screen bg-[#f8f4ec] text-[#15120f]">
       <SobhaHeader
         brand={ariaLuxBrand}
-        menus={ARIA_HEADER_MENU}
+        menus={await getHeaderMenu()}
         hideLanguageSwitcher
       />
 

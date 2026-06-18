@@ -1,8 +1,5 @@
 import { AriaLuxFooter, ariaLuxBrand } from "@/components/arialux-brand";
-import {
-  ARIA_HEADER_MENU,
-  ARIA_PORTFOLIO,
-} from "@/components/arialux-data";
+import { ARIA_PORTFOLIO } from "@/components/arialux-data";
 import { PortfolioGallery } from "@/components/PortfolioGallery";
 import { SobhaHeader } from "@/components/SobhaChrome";
 import {
@@ -10,7 +7,7 @@ import {
   PageHero,
 } from "@/components/sobha-sections";
 import Image from "next/image";
-import { getCmsGalleryItems, getCmsPortfolioImages } from "@/sanity/lib/content";
+import { getCmsGalleryItems, getCmsPortfolioImages, getHeaderMenu } from "@/sanity/lib/content";
 
 export const metadata = {
   title: "Portfolio - AriaLux Homes",
@@ -29,7 +26,7 @@ export default async function PortfolioPage() {
     <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader
         brand={ariaLuxBrand}
-        menus={ARIA_HEADER_MENU}
+        menus={await getHeaderMenu()}
         hideLanguageSwitcher
       />
 

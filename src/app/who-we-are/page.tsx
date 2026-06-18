@@ -1,11 +1,11 @@
 import { AriaLuxFooter, ariaLuxBrand } from "@/components/arialux-brand";
 import { SobhaHeader } from "@/components/SobhaChrome";
 import {
-  ARIA_HEADER_MENU,
   ARIA_PLANS,
   ARIA_WHO_WE_ARE,
 } from "@/components/arialux-data";
 import { DarkCtaBand } from "@/components/sobha-sections";
+import { getHeaderMenu } from "@/sanity/lib/content";
 import { getWhoWeArePageContent } from "@/sanity/lib/pages";
 import { WhoWeAreMissionReveal } from "./WhoWeAreMissionReveal";
 
@@ -25,7 +25,7 @@ export default async function WhoWeArePage() {
     <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader
         brand={ariaLuxBrand}
-        menus={ARIA_HEADER_MENU}
+        menus={await getHeaderMenu()}
         hideLanguageSwitcher
       />
 

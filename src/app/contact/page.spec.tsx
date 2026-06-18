@@ -3,6 +3,10 @@ import { describe, expect, it, vi } from "vitest";
 
 import ContactPage from "./page";
 
+vi.mock("@/sanity/lib/content", () => ({
+  getHeaderMenu: vi.fn(async () => []),
+}));
+
 vi.mock("@/sanity/lib/pages", () => ({
   getContactPageContent: vi.fn(async () => ({
     eyebrow: "Let's Connect",

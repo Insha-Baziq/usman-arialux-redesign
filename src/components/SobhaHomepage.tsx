@@ -9,7 +9,7 @@ import type { HomepageMedia } from "@/sanity/lib/media";
 import { SobhaHeader } from "./SobhaChrome";
 import { AriaLuxFooter, ariaLuxBrand } from "./arialux-brand";
 import type { AriaGalleryItem, AriaPlan } from "./arialux-data";
-import { ARIA_HEADER_MENU } from "./arialux-data";
+import { ARIA_HEADER_MENU, buildHeaderMenu } from "./arialux-data";
 import { HeroBanner } from "./sobha-sections";
 import type { HeroBannerSlide } from "./sobha-sections";
 import {
@@ -263,7 +263,11 @@ export function SobhaHomepage({
 
   return (
     <main className="bg-[#f7f3ec] text-black">
-      <SobhaHeader brand={ariaLuxBrand} menus={ARIA_HEADER_MENU} hideLanguageSwitcher />
+      <SobhaHeader
+        brand={ariaLuxBrand}
+        menus={floorPlans && floorPlans.length > 0 ? buildHeaderMenu(floorPlans) : ARIA_HEADER_MENU}
+        hideLanguageSwitcher
+      />
       <SobhaIrisStage heroSlides={heroSlides} />
       <PillarsSection heading={sobhaPillarsHeading} pillars={pillars} />
       <CardCarousel

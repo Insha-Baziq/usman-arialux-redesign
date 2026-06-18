@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 
 import { AriaLuxFooter, ariaLuxBrand } from "@/components/arialux-brand";
 import { SobhaHeader } from "@/components/SobhaChrome";
-import { ARIA_HEADER_MENU, ARIA_PLANS } from "@/components/arialux-data";
+import { ARIA_PLANS } from "@/components/arialux-data";
 import { FloorPlansBrowser } from "@/components/FloorPlansBrowser";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { DarkCtaBand } from "@/components/sobha-sections";
-import { getCmsFloorPlans } from "@/sanity/lib/content";
+import { getCmsFloorPlans, getHeaderMenu } from "@/sanity/lib/content";
 import { AllFloorPlansHero } from "./AllFloorPlansHero";
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export default async function AllFloorPlansPage() {
     <main className="bg-[#f7f3ec] text-[#171410]">
       <SobhaHeader
         brand={ariaLuxBrand}
-        menus={ARIA_HEADER_MENU}
+        menus={await getHeaderMenu()}
         hideLanguageSwitcher
       />
 

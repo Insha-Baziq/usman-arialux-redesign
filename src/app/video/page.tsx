@@ -1,7 +1,6 @@
 import { AriaLuxFooter, ariaLuxBrand } from "@/components/arialux-brand";
 import { SobhaHeader } from "@/components/SobhaChrome";
 import {
-  ARIA_HEADER_MENU,
   ARIA_PORTFOLIO,
   ARIA_VIDEOS,
   ARIA_VIDEOS_PAGE,
@@ -11,7 +10,7 @@ import {
   DarkCtaBand,
   PageHero,
 } from "@/components/sobha-sections";
-import { getCmsVideos } from "@/sanity/lib/content";
+import { getCmsVideos, getHeaderMenu } from "@/sanity/lib/content";
 import { getVideoGallery } from "@/sanity/lib/media";
 
 export const revalidate = 60;
@@ -29,7 +28,7 @@ export default async function VideoPage() {
     <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader
         brand={ariaLuxBrand}
-        menus={ARIA_HEADER_MENU}
+        menus={await getHeaderMenu()}
         hideLanguageSwitcher
       />
 

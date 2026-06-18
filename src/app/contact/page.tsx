@@ -4,8 +4,8 @@ import { SobhaHeader } from "@/components/SobhaChrome";
 import {
   ARIA_BRAND,
   ARIA_CONTACT,
-  ARIA_HEADER_MENU,
 } from "@/components/arialux-data";
+import { getHeaderMenu } from "@/sanity/lib/content";
 import { getContactPageContent } from "@/sanity/lib/pages";
 import { ContactReveal } from "./ContactReveal";
 import Image from "next/image";
@@ -107,7 +107,7 @@ export default async function ContactPage() {
     <main className="bg-[#f7f3ec] text-black">
       <SobhaHeader
         brand={ariaLuxBrand}
-        menus={ARIA_HEADER_MENU}
+        menus={await getHeaderMenu()}
         hideLanguageSwitcher
       />
 
