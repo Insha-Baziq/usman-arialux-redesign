@@ -12,6 +12,7 @@ export type HeroBannerSlide = {
   ctaLabel?: string;
   ctaHref?: string;
   desktopImage: string;
+  desktopBlur?: string;
   mobileImage: string;
   imageAlt: string;
   videoSrc?: string;
@@ -104,6 +105,8 @@ export function HeroBanner({ slides, fullHeight = true, autoplayDelayMs = 4500 }
               fill
               priority={i === 0}
               sizes="100vw"
+              placeholder={slide.desktopBlur ? "blur" : "empty"}
+              blurDataURL={slide.desktopBlur}
               className="impression-banner homepage-banner-desk object-cover"
             />
             {slide.videoSrc && i === visibleIndex ? (

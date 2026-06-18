@@ -45,6 +45,7 @@ const mediaSettingsQuery = `*[_type == "mediaSettings" && _id == "mediaSettings"
     ctaLabel,
     ctaHref,
     "desktopImage": desktopImage.image.asset->url,
+    "desktopBlur": desktopImage.image.asset->metadata.lqip,
     "mobileImage": coalesce(mobileImage.image.asset->url, desktopImage.image.asset->url),
     "imageAlt": coalesce(desktopImage.alt, mobileImage.alt, title),
     "videoSrc": coalesce(videoFile.asset->url, videoUrl)
