@@ -41,7 +41,7 @@ type SanityArticle = Omit<Partial<AriaArticle>, "category"> & {
   imageUrls?: { src?: string }[];
 };
 
-const floorPlansQuery = `*[_type == "floorPlan" && status == "published"]|order(listingOrder asc, title asc){
+const floorPlansQuery = `*[_type == "floorPlan"]|order(listingOrder asc, title asc){
   "slug": slug.current,
   "livePath": coalesce(livePath, "/" + slug.current),
   "name": title,
