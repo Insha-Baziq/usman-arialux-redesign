@@ -245,7 +245,12 @@ function getHeroAndGalleryFromFs(
     return { hero: plan.hero, gallery: [plan.hero] };
   }
 
+  // A hero uploaded through the CMS (a Sanity asset) is the editor's explicit
+  // choice — use it directly. Imported plans fall back to the gallery-derived
+  // hero (their plan.hero is often a low-res "phonto" collage).
+  const uploadedHero = plan.hero?.includes("cdn.sanity.io") ? plan.hero : undefined;
   const hero =
+    uploadedHero ??
     gallerySrcs.find((src) => !isPhontoImage(src)) ??
     allSrcs.find((src) => !isPhontoImage(src)) ??
     allSrcs[0] ??
