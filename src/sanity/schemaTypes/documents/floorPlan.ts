@@ -217,15 +217,6 @@ export const floorPlan = defineType({
       of: [defineArrayMember({ type: "addressGroup" })],
     }),
     defineField({
-      name: "cta",
-      title: "Plan detail button",
-      type: "cta",
-      group: "content",
-      // Not used by the floor-plan pages — the detail buttons come from code.
-      // Hidden to avoid confusing editors with an unused field.
-      hidden: true,
-    }),
-    defineField({
       name: "relatedPlans",
       title: "Related plans",
       type: "array",
