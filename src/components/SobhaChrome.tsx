@@ -246,7 +246,7 @@ export function SobhaHeader({
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[5.25rem] bg-gradient-to-b from-black/55 via-black/25 to-transparent"
       />
       <div className="sobha-header-row relative mx-auto flex h-[4.375rem] w-full items-center px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="flex items-center gap-4 xl:hidden">
+        <div className="flex items-center gap-4 lg:hidden">
           <button
             type="button"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
@@ -261,7 +261,7 @@ export function SobhaHeader({
           </button>
         </div>
 
-        <nav className="sobha-nav-left hidden flex-1 items-center justify-evenly xl:flex">
+        <nav className="sobha-nav-left hidden flex-1 items-center justify-evenly lg:flex">
           {leftMenus.map((menu) => (
             <SobhaMegaMenuItem key={menu.label} menu={menu} />
           ))}
@@ -280,7 +280,7 @@ export function SobhaHeader({
           <span className="sr-only">{brand.name}</span>
         </a>
 
-        <div className="sobha-nav-right hidden flex-1 items-center justify-evenly xl:flex">
+        <div className="sobha-nav-right hidden flex-1 items-center justify-evenly lg:flex">
           {rightMenus.map((menu) => (
             <SobhaMegaMenuItem key={menu.label} menu={menu} />
           ))}
@@ -307,7 +307,7 @@ export function SobhaHeader({
           {hideLanguageSwitcher ? null : <SobhaLangSwitcher languages={langs} />}
         </div>
 
-        <div className="flex items-center gap-3 xl:hidden">
+        <div className="flex items-center gap-3 lg:hidden">
           <button
             type="button"
             aria-label="Search"
@@ -334,7 +334,7 @@ export function SobhaHeader({
 
       <div
         className={cn(
-          "sobha-mobile-panel xl:hidden",
+          "sobha-mobile-panel lg:hidden",
           mobileMenuOpen && "is-open",
         )}
         aria-hidden={!mobileMenuOpen}
@@ -362,7 +362,7 @@ export function SobhaHeader({
 
       <div
         className={cn(
-          "sobha-mobile-panel sobha-mobile-search xl:hidden",
+          "sobha-mobile-panel sobha-mobile-search lg:hidden",
           searchOpen && "is-open",
         )}
         aria-hidden={!searchOpen}

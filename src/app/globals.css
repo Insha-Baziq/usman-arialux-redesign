@@ -641,15 +641,15 @@
   line-height: 0;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1024px) {
   .sobha-header-row {
     display: grid;
-    width: min(100vw - 8rem, 104rem);
+    width: min(100vw - 2.5rem, 104rem);
     max-width: none;
     height: 46px;
     margin: 12px auto;
     padding: 0;
-    grid-template-columns: minmax(0, 1fr) clamp(11rem, 13vw, 15rem) minmax(0,
+    grid-template-columns: minmax(0, 1fr) clamp(8rem, 12vw, 15rem) minmax(0,
         1fr);
   }
 
@@ -668,14 +668,14 @@
     grid-column: 1;
     justify-content: flex-end !important;
     gap: clamp(1rem, 1.55vw, 2rem);
-    padding-right: clamp(4.5rem, 6vw, 7.5rem) !important;
+    padding-right: clamp(1.5rem, 5vw, 7.5rem) !important;
   }
 
   .sobha-nav-right {
     grid-column: 3;
     justify-content: flex-start !important;
     gap: clamp(1rem, 1.55vw, 2rem);
-    padding-left: clamp(4.5rem, 6vw, 7.5rem) !important;
+    padding-left: clamp(1.5rem, 5vw, 7.5rem) !important;
   }
 }
 
@@ -784,11 +784,11 @@
   vertical-align: -3px;
 }
 
-@media (min-width: 1280px) and (max-width: 1919px) {
+@media (min-width: 1024px) and (max-width: 1919px) {
 
   .sobha-nav-left,
   .sobha-nav-right {
-    gap: clamp(0.2rem, 0.45vw, 0.45rem);
+    gap: clamp(0.15rem, 0.45vw, 0.45rem);
   }
 
   .sobha-mega-group {
@@ -798,11 +798,11 @@
   }
 
   .sobha-nav-left {
-    padding-right: clamp(3.5rem, 4vw, 4.6rem) !important;
+    padding-right: clamp(2.75rem, 5vw, 5rem) !important;
   }
 
   .sobha-nav-right {
-    padding-left: clamp(3.5rem, 4vw, 4.6rem) !important;
+    padding-left: clamp(2.75rem, 5vw, 5rem) !important;
   }
 
   .sobha-mega-trigger {
@@ -813,8 +813,8 @@
     padding-left: 4px !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
-    font-size: clamp(11px, 0.86vw, 12px) !important;
-    letter-spacing: 0.045em !important;
+    font-size: clamp(10px, 0.9vw, 12px) !important;
+    letter-spacing: 0.04em !important;
   }
 
   .sobha-mega-trigger--icon {
