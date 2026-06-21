@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { SobhaPillLink } from "./SobhaPillLink";
 
@@ -25,7 +25,7 @@ export type HeroBannerProps = {
   autoplayDelayMs?: number;
 };
 
-function HeroVideo({ poster, src }: { poster: string; src: string }) {
+function HeroVideo({ onEnded, poster, src }: { onEnded: () => void; poster: string; src: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isReady, setIsReady] = useState(false);
 
@@ -47,12 +47,12 @@ function HeroVideo({ poster, src }: { poster: string; src: string }) {
         isReady ? "opacity-100" : "opacity-0"
       }`}
       autoPlay
-      loop
       muted
       playsInline
       preload="auto"
       poster={poster}
       aria-hidden="true"
+      onEnded={onEnded}
       onCanPlay={() => {
         setIsReady(true);
         void videoRef.current?.play().catch(() => undefined);
@@ -69,18 +69,23 @@ function HeroVideo({ poster, src }: { poster: string; src: string }) {
 export function HeroBanner({ slides, fullHeight = true, autoplayDelayMs = 4500 }: HeroBannerProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const visibleIndex = slides.length > 0 ? activeIndex % slides.length : 0;
+  const activeSlide = slides[visibleIndex];
+
+  const advanceSlide = useCallback(() => {
+    setActiveIndex((index) => (index + 1) % slides.length);
+  }, [slides.length]);
 
   useEffect(() => {
-    if (slides.length <= 1 || autoplayDelayMs <= 0) return;
+    if (slides.length <= 1 || autoplayDelayMs <= 0 || activeSlide?.videoSrc) return;
 
-    const interval = window.setInterval(() => {
-      setActiveIndex((index) => (index + 1) % slides.length);
+    const timeout = window.setTimeout(() => {
+      advanceSlide();
     }, autoplayDelayMs);
 
     return () => {
-      window.clearInterval(interval);
+      window.clearTimeout(timeout);
     };
-  }, [autoplayDelayMs, slides.length]);
+  }, [activeSlide?.videoSrc, advanceSlide, autoplayDelayMs, slides.length]);
 
   return (
     <div
@@ -110,7 +115,7 @@ export function HeroBanner({ slides, fullHeight = true, autoplayDelayMs = 4500 }
               className="impression-banner homepage-banner-desk object-cover"
             />
             {slide.videoSrc && i === visibleIndex ? (
-              <HeroVideo poster={slide.desktopImage} src={slide.videoSrc} />
+              <HeroVideo onEnded={advanceSlide} poster={slide.desktopImage} src={slide.videoSrc} />
             ) : null}
             <div className="explore-more-arrow absolute inset-0 sobha-hero-overlay" aria-hidden="true" />
             <div className="absolute inset-0 flex items-end justify-center pb-24 sm:pb-28">
